@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 import {
   reducedRevealVariants,
   revealVariants,
+  staggerContainer,
+  staggerItem,
   type RevealVariant,
 } from "@/lib/motion/variants";
 import { springPop, springSoft, tweenSmooth } from "@/lib/motion/transitions";
-
-export type { RevealVariant };
 
 function transitionFor(variant: RevealVariant, reduce: boolean) {
   if (reduce) return { duration: 0.01 };
@@ -19,36 +19,50 @@ function transitionFor(variant: RevealVariant, reduce: boolean) {
   return tweenSmooth;
 }
 
-export function Reveal({
+export function RevealStagger({
   children,
   className,
-  delay = 0,
-  variant = "rise",
 }: {
   children: React.ReactNode;
   className?: string;
-  delay?: 0 | 1 | 2 | 3 | 4 | 5;
-  variant?: RevealVariant;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.18,
-    margin: "0px 0px -6% 0px",
-  });
+  const inView = useInView(ref, { once: true, amount: 0.12, margin: "0px 0px -5% 0px" });
 
   return (
     <motion.div
       ref={ref}
       className={cn(className)}
-      variants={reduce ? reducedRevealVariants : revealVariants[variant]}
+      variants={
+        reduce
+          ? { hidden: {}, visible: {} }
+          : staggerContainer
+      }
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
-      transition={{
-        ...transitionFor(variant, !!reduce),
-        delay: reduce ? 0 : delay * 0.11,
-      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function RevealItem({
+  children,
+  className,
+  variant = "rise",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  variant?: RevealVariant;
+}) {
+  const reduce = useReducedMotion();
+
+  return (
+    <motion.div
+      className={cn(className)}
+      variants={reduce ? reducedRevealVariants : revealVariants[variant] ?? staggerItem}
+      transition={transitionFor(variant, !!reduce)}
     >
       {children}
     </motion.div>

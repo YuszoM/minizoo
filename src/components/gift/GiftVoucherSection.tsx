@@ -11,7 +11,7 @@ export function GiftVoucherSection() {
     <section className="section-y bg-paper-deep/40">
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <Reveal variant="slide-left">
+          <Reveal variant="tilt-left">
             <div className="relative overflow-hidden rounded-2xl shadow-[0_16px_48px_rgba(47,58,38,0.1)]">
               <Image
                 src="/images/illustrations/gift-voucher.jpg"
@@ -35,7 +35,7 @@ export function GiftVoucherSection() {
             </div>
           </Reveal>
 
-          <Reveal delay={1} variant="slide-right">
+          <Reveal delay={1} variant="pop">
             <SectionHeading
               className="mb-6"
               title="Prezent, który zostaje w pamięci"

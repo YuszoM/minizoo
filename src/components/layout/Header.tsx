@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CalendarDays, Menu, X } from "lucide-react";
 import { navLinks, site } from "@/data/site";
 import { cn, formatPrice } from "@/lib/utils";
@@ -13,6 +14,7 @@ const reserveLabel = `Rezerwuj · od ${formatPrice(site.startingPrice)}`;
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     setOpen(false);
@@ -63,35 +65,47 @@ export function Header() {
         </div>
       </div>
 
-      <div
-        className={cn(
-          "overflow-hidden border-t border-paper-deep bg-paper transition-all lg:hidden",
-          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0",
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-nav"
+            initial={reduce ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reduce ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: reduce ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-t border-paper-deep bg-paper lg:hidden"
+          >
+            <nav className="container-site flex flex-col gap-1 py-4" aria-label="Mobilne">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={reduce ? false : { opacity: 0, x: -24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: reduce ? 0 : i * 0.06, duration: 0.3 }}
+                >
+                  <Link
+                    href={link.href}
+                    aria-current={pathname === link.href ? "page" : undefined}
+                    className={cn(
+                      "rounded-lg px-2 py-3 text-sm font-medium",
+                      pathname === link.href
+                        ? "bg-forest/10 font-semibold text-forest ring-1 ring-gold/40"
+                        : "text-ink hover:text-forest",
+                    )}
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <Link href="/rezerwacja" className="btn-gold mt-2" onClick={() => setOpen(false)}>
+                <CalendarDays className="h-4 w-4" />
+                {reserveLabel}
+              </Link>
+            </nav>
+          </motion.div>
         )}
-      >
-        <nav className="container-site flex flex-col gap-1 py-4" aria-label="Mobilne">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={pathname === link.href ? "page" : undefined}
-              className={cn(
-                "rounded-lg px-2 py-3 text-sm font-medium",
-                pathname === link.href
-                  ? "bg-forest/10 font-semibold text-forest ring-1 ring-gold/40"
-                  : "text-ink hover:text-forest",
-              )}
-              onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/rezerwacja" className="btn-gold mt-2" onClick={() => setOpen(false)}>
-            <CalendarDays className="h-4 w-4" />
-            {reserveLabel}
-          </Link>
-        </nav>
-      </div>
+      </AnimatePresence>
     </header>
   );
 }

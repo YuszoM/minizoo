@@ -10,7 +10,7 @@ export function EducatorSection() {
   return (
     <section className="section-y">
       <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        <Reveal variant="slide-right">
+        <Reveal variant="tilt-right">
           <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl lg:mx-0">
             <Image
               src={educator.image}
@@ -23,7 +23,7 @@ export function EducatorSection() {
           </div>
         </Reveal>
 
-        <Reveal delay={1} variant="rise">
+        <Reveal delay={1} variant="blur-up">
           <SectionHeading
             className="mb-6"
             title="Poznasz edukatora, nie anonimowego przewodnika"

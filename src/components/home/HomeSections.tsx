@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, ChevronDown, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, Sparkles } from "lucide-react";
 import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
 import { BookingWizard } from "@/components/booking/BookingWizard";
+import { FaqMotionCard } from "@/components/motion/FaqMotionCard";
+import {
+  HeroBookingCard,
+  HeroMascot,
+  HeroStaggerGroup,
+} from "@/components/motion/HeroAnimated";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { animals } from "@/data/animals";
@@ -11,6 +17,11 @@ import { offers } from "@/data/offers";
 import { reviews } from "@/data/reviews";
 import { GoogleReviewsBadge } from "@/components/social/GoogleReviewsBadge";
 import { site } from "@/data/site";
+import {
+  ANIMAL_VARIANTS,
+  OFFER_VARIANTS,
+  TRUST_VARIANTS,
+} from "@/lib/motion/variants";
 import { trustStats } from "@/data/trust";
 import { getUpcomingSlots } from "@/lib/next-slots";
 import { formatPrice } from "@/lib/utils";
@@ -34,68 +45,74 @@ export function HeroSection() {
         <div className="grain absolute inset-0 opacity-50" />
         <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
         <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] hidden h-20 w-20 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:block" />
-        <div className="hero-enter-6 pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
-          <Image
-            src="/images/illustrations/mascot-lemur.jpg"
-            alt=""
-            width={512}
-            height={512}
-            className="h-auto w-full drop-shadow-lg"
-            priority
-          />
+        <div className="pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
+          <HeroMascot>
+            <Image
+              src="/images/illustrations/mascot-lemur.jpg"
+              alt=""
+              width={512}
+              height={512}
+              className="h-auto w-full drop-shadow-lg"
+              priority
+            />
+          </HeroMascot>
         </div>
         <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
       </div>
 
       <div className="container-site relative grid min-h-[min(92vh,900px)] items-end gap-10 pb-14 pt-[calc(76px+3rem)] lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-[calc(76px+4rem)]">
         <div className="max-w-xl text-paper">
-          <p className="hero-enter-1 mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 text-sm text-paper backdrop-blur-sm">
-            <Sparkles className="h-4 w-4 text-gold-bright" />
-            Mini zoo · {site.address.city}
-          </p>
-          <h1 className="hero-enter-2 display-xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
-            Poznaj świat zwierząt —{" "}
-            <span className="text-gold-bright">bez tłumów i pośpiechu</span>
-          </h1>
-          <p className="hero-enter-3 lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
-            Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
-            Wybierz termin, opłać online — gotowe w 3 minuty.
-          </p>
-          <div className="hero-enter-4 mt-8 flex flex-wrap gap-3">
-            <Link href="/rezerwacja" className="btn-gold">
-              <CalendarDays className="h-4 w-4" />
-              Zarezerwuj termin
-            </Link>
-            <Link href="/zwierzeta" className="btn-ghost">
-              Poznaj zwierzęta
-            </Link>
-          </div>
+          <HeroStaggerGroup>
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 text-sm text-paper backdrop-blur-sm">
+              <Sparkles className="h-4 w-4 text-gold-bright" />
+              Mini zoo · {site.address.city}
+            </p>
+            <h1 className="display-xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
+              Poznaj świat zwierząt —{" "}
+              <span className="text-gold-bright">bez tłumów i pośpiechu</span>
+            </h1>
+            <p className="lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
+              Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
+              Wybierz termin, opłać online — gotowe w 3 minuty.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/rezerwacja" className="btn-gold">
+                <CalendarDays className="h-4 w-4" />
+                Zarezerwuj termin
+              </Link>
+              <Link href="/zwierzeta" className="btn-ghost">
+                Poznaj zwierzęta
+              </Link>
+            </div>
+          </HeroStaggerGroup>
         </div>
 
-        <div className="hero-enter-5 surface-elevated card-hover overflow-hidden p-6 md:p-8">
-          <p className="text-sm font-semibold text-forest">Najbliższe wolne terminy</p>
-          <ul className="mt-4 space-y-3">
-            {slots.map((slot) => (
-              <li
-                key={`${slot.label}-${slot.time}`}
-                className="flex items-center justify-between border-b border-paper-deep py-2 text-sm last:border-0"
-              >
-                <span className="text-ink-soft">
-                  <span className="font-medium text-ink">{slot.label}</span>
-                  {" · "}
-                  {slot.time}
-                </span>
-                <span className="font-semibold text-gold">wolne</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-5 text-xs leading-relaxed text-ink-soft">
-            Od {formatPrice(249)} za spotkanie rodzinne · płatność kartą lub BLIK
-          </p>
-          <Link href="/rezerwacja" className="btn-primary mt-5 w-full">
-            Wybierz termin
-          </Link>
-        </div>
+        <HeroBookingCard>
+          <div className="surface-elevated card-hover overflow-hidden p-6 md:p-8">
+            <p className="text-sm font-semibold text-forest">Najbliższe wolne terminy</p>
+            <ul className="mt-4 space-y-3">
+              {slots.map((slot) => (
+                <li
+                  key={`${slot.label}-${slot.time}`}
+                  className="flex items-center justify-between border-b border-paper-deep py-2 text-sm last:border-0"
+                >
+                  <span className="text-ink-soft">
+                    <span className="font-medium text-ink">{slot.label}</span>
+                    {" · "}
+                    {slot.time}
+                  </span>
+                  <span className="font-semibold text-gold">wolne</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-xs leading-relaxed text-ink-soft">
+              Od {formatPrice(249)} za spotkanie rodzinne · płatność kartą lub BLIK
+            </p>
+            <Link href="/rezerwacja" className="btn-primary mt-5 w-full">
+              Wybierz termin
+            </Link>
+          </div>
+        </HeroBookingCard>
       </div>
     </section>
   );
@@ -106,7 +123,7 @@ export function TrustStrip() {
     <section className="border-y border-paper-deep bg-white" aria-label="Liczby zaufania">
       <div className="container-site grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {trustStats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="scale">
+          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant={TRUST_VARIANTS[i] ?? "pop"}>
             <div className="text-center lg:text-left">
               <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
               <p className="mt-1 text-sm font-medium text-forest">{stat.label}</p>
@@ -122,7 +139,7 @@ export function OfferPreviewSection() {
   return (
     <section className="section-y">
       <div className="container-site">
-        <Reveal>
+        <Reveal variant="blur-up">
           <SectionHeading
             title="Trzy sposoby na spotkanie ze zwierzętami"
             description="Prosto i bez przeładowania — wybierz to, czego potrzebujesz. Resztą zajmiemy się na miejscu."
@@ -134,7 +151,7 @@ export function OfferPreviewSection() {
             <Reveal
               key={offer.id}
               delay={index as 0 | 1 | 2}
-              variant={index % 2 === 0 ? "slide-right" : "slide-left"}
+              variant={OFFER_VARIANTS[index] ?? "tilt-right"}
             >
               <article className="card-hover group grid overflow-hidden rounded-xl bg-white shadow-[0_4px_24px_rgba(47,58,38,0.06)] md:grid-cols-[280px_1fr_auto] md:items-center">
                 <div className="relative aspect-[16/10] bg-paper md:aspect-auto md:min-h-[220px]">
@@ -225,7 +242,7 @@ export function AnimalsBentoSection() {
         </Reveal>
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
-          <Reveal className="md:col-span-7 md:row-span-2" variant="scale">
+          <Reveal className="md:col-span-7 md:row-span-2" variant="blur-up">
             <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl bg-paper">
               <Image
                 src={featured[0].illustration}
@@ -244,7 +261,11 @@ export function AnimalsBentoSection() {
           </Reveal>
 
           {featured.slice(1).map((animal, i) => (
-            <Reveal key={animal.id} className="md:col-span-5" variant="rise">
+            <Reveal
+              key={animal.id}
+              className="md:col-span-5"
+              variant={ANIMAL_VARIANTS[i + 1] ?? "tilt-left"}
+            >
               <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl bg-paper">
                 <Image
                   src={animal.illustration}
@@ -282,7 +303,7 @@ export function FaqPreviewSection() {
   return (
     <section className="section-y bg-paper-deep/40">
       <div className="container-site max-w-3xl">
-        <Reveal>
+        <Reveal variant="blur-up">
           <div className="relative">
             <SectionHeading
               title="Najczęstsze pytania"
@@ -304,14 +325,12 @@ export function FaqPreviewSection() {
 
         <div className="mt-8 space-y-3">
           {preview.map((item, i) => (
-            <Reveal key={item.question} delay={(i as 0 | 1 | 2) || 0} variant="rise">
-              <details className="group rounded-xl bg-white p-5 open:shadow-sm">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-forest marker:content-none">
-                  {item.question}
-                  <ChevronDown className="h-5 w-5 shrink-0 text-gold transition group-open:rotate-180" />
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-ink-muted">{item.answer}</p>
-              </details>
+            <Reveal
+              key={item.question}
+              delay={(i as 0 | 1 | 2) || 0}
+              variant={(["blur-up", "tilt-left", "slide-right"] as const)[i] ?? "rise"}
+            >
+              <FaqMotionCard question={item.question} answer={item.answer} />
             </Reveal>
           ))}
         </div>
@@ -330,7 +349,7 @@ export function BookingSection() {
   return (
     <section className="section-y bg-forest text-paper" id="rezerwacja">
       <div className="container-site">
-        <Reveal>
+        <Reveal variant="blur-up">
           <SectionHeading
             tone="light"
             title="Zarezerwuj i opłać wizytę online"
@@ -339,7 +358,7 @@ export function BookingSection() {
             className="mx-auto"
           />
         </Reveal>
-        <Reveal delay={1}>
+        <Reveal delay={1} variant="pop">
           <BookingWizard compact />
         </Reveal>
       </div>
@@ -362,7 +381,7 @@ export function ReviewsSection() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <Reveal variant="slide-right">
+          <Reveal variant="tilt-right">
             <blockquote className="card-hover surface-elevated relative h-full p-8">
               <div className="mb-4 flex gap-1 text-gold">
                 {Array.from({ length: featured.rating }).map((_, i) => (
@@ -381,7 +400,7 @@ export function ReviewsSection() {
             </blockquote>
           </Reveal>
 
-          <Reveal delay={1} variant="rise">
+          <Reveal delay={1} variant="tilt-left">
             <blockquote className="card-hover surface-elevated relative h-full p-8">
               <div className="mb-4 flex gap-1 text-gold">
                 {Array.from({ length: second.rating }).map((_, i) => (
@@ -414,7 +433,7 @@ export function CtaSection() {
   return (
     <section className="pb-20 md:pb-28">
       <div className="container-site">
-        <Reveal variant="rise">
+        <Reveal variant="pop">
           <div className="relative overflow-hidden rounded-2xl bg-forest px-8 py-14 text-center md:px-16 md:py-16">
             <div className="hero-glow absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
             <div className="pointer-events-none absolute -right-4 -bottom-4 w-32 opacity-40 md:w-40">
