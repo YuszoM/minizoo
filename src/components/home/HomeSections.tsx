@@ -286,13 +286,13 @@ export function FaqPreviewSection() {
               align="center"
               className="mx-auto"
             />
-            <div className="pointer-events-none absolute -top-6 right-0 hidden h-20 w-20 opacity-80 md:block">
+            <div className="pointer-events-none absolute -top-4 right-0 hidden overflow-hidden rounded-2xl border border-gold/25 bg-gradient-to-br from-[#ebe3d0] to-[#e2d4bc] p-1.5 shadow-sm md:block">
               <Image
                 src="/images/illustrations/mascot-lemur.jpg"
                 alt=""
                 width={80}
                 height={80}
-                className="h-auto w-full rotate-6"
+                className="h-16 w-16 rotate-6 rounded-xl object-cover"
               />
             </div>
           </div>

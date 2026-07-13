@@ -2,16 +2,18 @@ import Image from "next/image";
 
 export function SectionDivider() {
   return (
-    <div className="container-site py-2" aria-hidden>
-      <div className="relative mx-auto max-w-4xl opacity-90">
-        <Image
-          src="/images/illustrations/divider-branches.jpg"
-          alt=""
-          width={2048}
-          height={878}
-          className="h-auto w-full"
-          sizes="(max-width: 1180px) 90vw, 960px"
-        />
+    <div className="band-divider" aria-hidden>
+      <div className="container-site">
+        {/* Przycinamy wbudowany pusty parchment u góry pliku — zostaje sam rysunek */}
+        <div className="relative mx-auto h-[68px] max-w-4xl overflow-hidden sm:h-[84px] md:h-[96px]">
+          <Image
+            src="/images/illustrations/divider-branches.jpg"
+            alt=""
+            fill
+            className="object-cover object-bottom"
+            sizes="(max-width: 1180px) 90vw, 960px"
+          />
+        </div>
       </div>
     </div>
   );

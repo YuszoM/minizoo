@@ -135,6 +135,27 @@ body {
     @apply inline-flex min-h-11 items-center py-2 font-semibold text-gold underline-offset-2 transition hover:text-gold-bright hover:underline;
   }
 
+  /* Pasmo dekoracyjne pod ilustracje — ciepły, egzotyczny parchment zamiast surowej bieli */
+  .band-divider {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-forest) 8%, #e8dcc8),
+      color-mix(in srgb, var(--color-gold) 18%, #f0e6d2),
+      color-mix(in srgb, var(--color-forest) 8%, #e8dcc8)
+    );
+    padding-block: 0.375rem;
+  }
+
+  .surface-parchment {
+    @apply rounded-2xl border border-gold/25 shadow-[0_12px_40px_rgba(47,58,38,0.08)];
+    background: linear-gradient(
+      145deg,
+      #ebe3d0 0%,
+      #f5efe3 45%,
+      #e2d4bc 100%
+    );
+  }
+
   .link-arrow svg {
     transition: transform 0.3s var(--ease-out-expo);
   }

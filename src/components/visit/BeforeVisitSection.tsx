@@ -32,14 +32,15 @@ export function BeforeVisitSection() {
         </div>
 
         <Reveal delay={1}>
-          <div className="mt-12 grid items-center gap-8 rounded-2xl bg-white p-6 md:grid-cols-2 md:p-8">
-            <div className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-xl bg-paper shadow-sm">
+          <div className="surface-parchment mt-12 grid items-center gap-6 p-5 md:grid-cols-[minmax(0,220px)_1fr] md:gap-8 md:p-6">
+            <div className="relative mx-auto w-full max-w-[220px] overflow-hidden rounded-lg shadow-md">
               <Image
                 src="/images/illustrations/diploma-template.jpg"
                 alt="Dyplom Małego Odkrywcy — szablon"
-                fill
-                className="object-contain p-2"
-                sizes="320px"
+                width={3584}
+                height={4800}
+                className="h-auto w-full"
+                sizes="220px"
               />
             </div>
             <div>
