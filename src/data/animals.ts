@@ -5,6 +5,7 @@ export type Animal = {
   description: string;
   funFact: string;
   image: string;
+  illustration: string;
   habitat: string;
 };
 
@@ -17,6 +18,7 @@ export const animals: Animal[] = [
       "Elegancki kot dziki z charakterystycznymi czarnymi pędzelkami na uszach. U nas poznasz jego zwyczaje, sposób komunikacji i rolę w ekosystemie sawanny.",
     funFact: "Karakal potrafi wyskoczyć ponad 3 metry w górę, by złapać ptaka w locie.",
     image: "/images/animal-caracal.png",
+    illustration: "/images/illustrations/animal-karakal.jpg",
     habitat: "Afryka, Azja",
   },
   {
@@ -27,6 +29,7 @@ export const animals: Animal[] = [
       "Towarzyski ssak z Madagaskaru, rozpoznawalny po czarno-białym ogonie. Podczas spotkania zobaczysz, jak żyje w grupie i dlaczego ochrona gatunku jest tak ważna.",
     funFact: "Lemury komunikują się między sobą za pomocą ponad 20 różnych dźwięków.",
     image: "/images/animal-lemur.png",
+    illustration: "/images/illustrations/animal-lemur.jpg",
     habitat: "Madagaskar",
   },
   {
@@ -37,6 +40,7 @@ export const animals: Animal[] = [
       "Reptyl z Ameryki Południowej — bezpieczne, edukacyjne spotkanie z opiekunem. Dowiesz się o adaptacjach do życia w wodzie i na lądzie.",
     funFact: "Kajmany potrafią zanurzyć się pod wodą i pozostać niewidoczne przez ponad godzinę.",
     image: "/images/animal-crocodile.png",
+    illustration: "/images/illustrations/animal-caiman.jpg",
     habitat: "Ameryka Południowa",
   },
   {
@@ -47,6 +51,7 @@ export const animals: Animal[] = [
       "Przyjazne zwierzęta, które uwielbiają kontakt z dziećmi. Idealne na pierwsze spotkanie ze zwierzętami gospodarskimi.",
     funFact: "Kozy mają prostokątne źrenice — widzą prawie dookoła głowy.",
     image: "/images/animal-goat.png",
+    illustration: "/images/illustrations/animal-goat.jpg",
     habitat: "Cały świat",
   },
   {
@@ -57,6 +62,7 @@ export const animals: Animal[] = [
       "Miękkie, spokojne towarzyszki spotkań. Dzieci uczą się delikatnego dotyku i odpowiedzialności za mniejsze zwierzęta.",
     funFact: "Króliki mruczą, gdy są szczęśliwe — podobnie jak koty.",
     image: "/images/animal-rabbit.png",
+    illustration: "/images/illustrations/animal-rabbit.jpg",
     habitat: "Udomowiony na całym świecie",
   },
   {
@@ -67,6 +73,7 @@ export const animals: Animal[] = [
       "Łagodny wąż, który pomaga przełamać strach przed gadami. Edukator opowiada o ich roli w naturze i sposobach ochrony.",
     funFact: "Węże królewskie są odporne na jad innych węży — stąd ich nazwa.",
     image: "/images/animal-snake.png",
+    illustration: "/images/illustrations/animal-snake.jpg",
     habitat: "Ameryka Północna",
   },
 ];

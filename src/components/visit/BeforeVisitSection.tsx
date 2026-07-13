@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Clock, Footprints, ParkingCircle, Shield, Shirt } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
@@ -29,6 +30,34 @@ export function BeforeVisitSection() {
             );
           })}
         </div>
+
+        <Reveal delay={1}>
+          <div className="mt-12 grid items-center gap-8 rounded-2xl bg-white p-6 md:grid-cols-2 md:p-8">
+            <div className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-xl bg-paper shadow-sm">
+              <Image
+                src="/images/illustrations/diploma-template.jpg"
+                alt="Dyplom Małego Odkrywcy — szablon"
+                fill
+                className="object-contain p-2"
+                sizes="320px"
+              />
+            </div>
+            <div>
+              <h3 className="font-display text-2xl text-forest">Dyplom Małego Odkrywcy</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                Po wizycie każde dziecko dostaje pamiątkowy dyplom — jak po prawdziwej wyprawie
+                przyrodniczej. Rodzice chętnie wrzucają go na Facebooka — a my się z tego cieszymy.
+              </p>
+              <a
+                href="/images/illustrations/diploma-template.jpg"
+                download
+                className="btn-primary mt-6 inline-flex text-sm"
+              >
+                Pobierz podgląd dyplomu
+              </a>
+            </div>
+          </div>
+        </Reveal>
 
         <p className="mt-8 text-center text-sm text-ink-muted">
           Szczegóły dotyku zwierząt i rezygnacji — w{" "}

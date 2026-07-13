@@ -9,6 +9,9 @@ import {
   TrustStrip,
 } from "@/components/home/HomeSections";
 import { EducatorSection } from "@/components/home/EducatorSection";
+import { FunFactsStrip } from "@/components/home/FunFactsStrip";
+import { GiftVoucherSection } from "@/components/gift/GiftVoucherSection";
+import { SectionDivider } from "@/components/ui/SectionDivider";
 import { BeforeVisitSection } from "@/components/visit/BeforeVisitSection";
 
 export default function HomePage() {
@@ -16,11 +19,18 @@ export default function HomePage() {
     <>
       <HeroSection />
       <TrustStrip />
+      <SectionDivider />
+      <FunFactsStrip />
+      <SectionDivider />
       <OfferPreviewSection />
+      <SectionDivider />
       <AnimalsBentoSection />
+      <SectionDivider />
       <EducatorSection />
       <BeforeVisitSection />
+      <SectionDivider />
       <FaqPreviewSection />
+      <GiftVoucherSection />
       <BookingSection />
       <ReviewsSection />
       <CtaSection />

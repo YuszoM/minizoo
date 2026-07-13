@@ -26,16 +26,15 @@ export default function ZwierzetaPage() {
               className="grid overflow-hidden rounded-xl bg-white md:grid-cols-2"
             >
               <div
-                className={`relative min-h-[260px] ${index % 2 === 1 ? "md:order-2" : ""}`}
+                className={`relative min-h-[280px] bg-paper ${index % 2 === 1 ? "md:order-2" : ""}`}
               >
                 <Image
-                  src={animal.image}
+                  src={animal.illustration}
                   alt={animal.name}
                   fill
-                  className="object-cover"
+                  className="object-contain p-4"
                   sizes="50vw"
                 />
-                <DemoPhotoLabel />
               </div>
               <div className="flex flex-col justify-center p-8">
                 <p className="text-sm italic text-gold">{animal.latin}</p>

@@ -34,6 +34,16 @@ export function HeroSection() {
         <div className="grain absolute inset-0 opacity-50" />
         <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
         <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] hidden h-20 w-20 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:block" />
+        <div className="pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
+          <Image
+            src="/images/illustrations/mascot-lemur.jpg"
+            alt=""
+            width={512}
+            height={512}
+            className="h-auto w-full drop-shadow-lg"
+            priority
+          />
+        </div>
         <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
       </div>
 
@@ -123,18 +133,40 @@ export function OfferPreviewSection() {
           {offers.map((offer, index) => (
             <Reveal key={offer.id} delay={index as 0 | 1 | 2} variant="fade">
               <article className="card-hover group grid overflow-hidden rounded-xl bg-white shadow-[0_4px_24px_rgba(47,58,38,0.06)] md:grid-cols-[280px_1fr_auto] md:items-center">
-                <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[220px]">
+                <div className="relative aspect-[16/10] bg-paper md:aspect-auto md:min-h-[220px]">
                   <Image
                     src={offer.image}
-                    alt={offer.title}
+                    alt=""
                     fill
-                    className="object-cover"
+                    className="object-cover opacity-30"
                     sizes="(max-width: 768px) 100vw, 280px"
+                    aria-hidden
                   />
+                  {offer.icon && (
+                    <div className="absolute inset-0 flex items-center justify-center p-6">
+                      <Image
+                        src={offer.icon}
+                        alt={offer.title}
+                        width={200}
+                        height={200}
+                        className="h-auto max-h-[160px] w-auto max-w-[160px] drop-shadow-sm"
+                      />
+                    </div>
+                  )}
                   <DemoPhotoLabel />
                 </div>
                 <div className="p-6 md:px-8">
                   <div className="flex flex-wrap items-center gap-2">
+                    {offer.icon && (
+                      <Image
+                        src={offer.icon}
+                        alt=""
+                        width={40}
+                        height={40}
+                        className="hidden h-10 w-10 rounded-full md:hidden"
+                        aria-hidden
+                      />
+                    )}
                     <h3 className="font-display text-2xl text-forest">{offer.title}</h3>
                     {offer.popular && (
                       <span className="rounded-full bg-gold/25 px-2.5 py-0.5 text-[11px] font-bold text-forest uppercase">
@@ -190,16 +222,15 @@ export function AnimalsBentoSection() {
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
           <Reveal className="md:col-span-7 md:row-span-2" variant="fade">
-            <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl">
+            <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl bg-paper">
               <Image
-                src={featured[0].image}
+                src={featured[0].illustration}
                 alt={featured[0].name}
                 fill
-                className="object-cover"
+                className="object-contain p-4"
                 sizes="(max-width: 768px) 100vw, 60vw"
               />
-              <DemoPhotoLabel />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
               <div className="absolute right-0 bottom-0 left-0 p-6 text-paper">
                 <p className="text-sm italic text-gold-bright">{featured[0].latin}</p>
                 <h3 className="mt-1 font-display text-3xl">{featured[0].name}</h3>
@@ -210,16 +241,15 @@ export function AnimalsBentoSection() {
 
           {featured.slice(1).map((animal, i) => (
             <Reveal key={animal.id} className="md:col-span-5" variant="fade">
-              <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl">
+              <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl bg-paper">
                 <Image
-                  src={animal.image}
+                  src={animal.illustration}
                   alt={animal.name}
                   fill
-                  className="object-cover"
+                  className="object-contain p-3"
                   sizes="40vw"
                 />
-                <DemoPhotoLabel />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
                 <div className="absolute right-0 bottom-0 left-0 p-5 text-paper">
                   <h3 className="font-display text-xl">{animal.name}</h3>
                   <p className="mt-1 text-xs text-paper/80">{animal.habitat}</p>
@@ -249,12 +279,23 @@ export function FaqPreviewSection() {
     <section className="section-y bg-paper-deep/40">
       <div className="container-site max-w-3xl">
         <Reveal>
-          <SectionHeading
-            title="Najczęstsze pytania"
-            description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
-            align="center"
-            className="mx-auto"
-          />
+          <div className="relative">
+            <SectionHeading
+              title="Najczęstsze pytania"
+              description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
+              align="center"
+              className="mx-auto"
+            />
+            <div className="pointer-events-none absolute -top-6 right-0 hidden h-20 w-20 opacity-80 md:block">
+              <Image
+                src="/images/illustrations/mascot-lemur.jpg"
+                alt=""
+                width={80}
+                height={80}
+                className="h-auto w-full rotate-6"
+              />
+            </div>
+          </div>
         </Reveal>
 
         <div className="mt-8 space-y-3">
@@ -372,6 +413,15 @@ export function CtaSection() {
         <Reveal variant="rise">
           <div className="relative overflow-hidden rounded-2xl bg-forest px-8 py-14 text-center md:px-16 md:py-16">
             <div className="hero-glow absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
+            <div className="pointer-events-none absolute -right-4 -bottom-4 w-32 opacity-40 md:w-40">
+              <Image
+                src="/images/illustrations/corner-flourish.jpg"
+                alt=""
+                width={400}
+                height={400}
+                className="h-auto w-full"
+              />
+            </div>
             <h2 className="display-lg relative font-semibold text-white">
               Weekendy znikają szybko
             </h2>

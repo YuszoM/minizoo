@@ -9,6 +9,7 @@ export type OfferPackage = {
   highlights: string[];
   popular?: boolean;
   image: string;
+  icon?: string;
 };
 
 export const offers: OfferPackage[] = [
@@ -27,6 +28,7 @@ export const offers: OfferPackage[] = [
     ],
     popular: true,
     image: "/images/hero-encounter.png",
+    icon: "/images/illustrations/offer-family.jpg",
   },
   {
     id: "urodziny",
@@ -43,6 +45,7 @@ export const offers: OfferPackage[] = [
       "Dyplom uczestnika dla każdego dziecka",
     ],
     image: "/images/place-interior.png",
+    icon: "/images/illustrations/offer-birthday.jpg",
   },
   {
     id: "szkola",
@@ -59,5 +62,6 @@ export const offers: OfferPackage[] = [
       "Możliwość dopasowania tematu lekcji",
     ],
     image: "/images/school-lesson.png",
+    icon: "/images/illustrations/offer-school.jpg",
   },
 ];

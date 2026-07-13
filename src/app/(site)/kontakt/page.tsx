@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Car, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -140,6 +141,16 @@ export default function KontaktPage() {
 
         <section className="mt-12" aria-label="Mapa dojazdu">
           <h2 className="mb-4 font-display text-2xl text-forest">Jak do nas trafić</h2>
+          <div className="mb-6 overflow-hidden rounded-xl border border-paper-deep bg-paper">
+            <Image
+              src="/images/illustrations/map-route.jpg"
+              alt="Ilustrowana mapa dojazdu z Wrocławia do Sadkowa"
+              width={2048}
+              height={1536}
+              className="h-auto w-full"
+              sizes="(max-width: 1180px) 100vw, 960px"
+            />
+          </div>
           <div className="overflow-hidden rounded-xl border border-paper-deep bg-white">
             <iframe
               title={`Mapa — ${site.address.full}`}
