@@ -21,7 +21,7 @@ export const funFacts: FunFact[] = [
   {
     id: "educator",
     value: "1",
-    label: "stały edukator — budujesz zaufanie",
+    label: "stały edukator przy każdej wizycie",
     icon: "/images/illustrations/fact-journal.jpg",
   },
   {
