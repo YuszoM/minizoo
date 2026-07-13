@@ -47,10 +47,10 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/rezerwacja" className="btn-gold hidden text-sm sm:inline-flex">
+          <Link href="/rezerwacja" className="btn-gold inline-flex text-sm">
             <CalendarDays className="h-4 w-4" />
-            <span className="hidden md:inline">{reserveLabel}</span>
-            <span className="md:hidden">Rezerwuj</span>
+            <span className="hidden min-[400px]:inline">{reserveLabel}</span>
+            <span className="min-[400px]:hidden">Rezerwuj</span>
           </Link>
 
           <button

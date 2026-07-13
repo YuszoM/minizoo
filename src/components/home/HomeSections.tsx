@@ -32,11 +32,20 @@ export function HeroSection() {
   return (
     <section className="relative -mt-[76px] min-h-[min(92vh,900px)] overflow-hidden bg-forest">
       <div className="absolute inset-0 overflow-hidden">
+        {/* Mobile: pionowy kadr z tej samej sceny co desktop */}
+        <Image
+          src="/images/hero-encounter-mobile.jpg"
+          alt="Dzieci podczas spotkania ze zwierzętami"
+          fill
+          className="hero-ken-burns object-cover object-[center_42%] md:hidden"
+          priority
+          sizes="100vw"
+        />
         <Image
           src="/images/hero-encounter.png"
           alt="Dzieci podczas spotkania ze zwierzętami"
           fill
-          className="hero-ken-burns object-cover object-[center_30%]"
+          className="hero-ken-burns hidden object-cover object-[center_30%] md:block"
           priority
           sizes="100vw"
         />
@@ -44,8 +53,8 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-transparent to-forest/40" />
         <div className="grain absolute inset-0 opacity-50" />
         <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
-        <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] hidden h-20 w-20 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:block" />
-        <div className="pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
+        <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] h-14 w-14 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:h-20 md:w-20" />
+        <div className="pointer-events-none absolute right-2 bottom-28 w-28 opacity-90 sm:right-4 sm:bottom-32 sm:w-32 md:right-0 md:bottom-0 md:w-48 lg:w-56">
           <HeroMascot>
             <Image
               src="/images/illustrations/mascot-lemur.jpg"
@@ -60,7 +69,7 @@ export function HeroSection() {
         <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
       </div>
 
-      <div className="container-site relative grid min-h-[min(92vh,900px)] items-end gap-10 pb-14 pt-[calc(76px+3rem)] lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-[calc(76px+4rem)]">
+      <div className="container-site relative grid min-h-[min(92vh,900px)] items-center gap-10 pb-14 pt-[calc(76px+3rem)] lg:grid-cols-[1.1fr_0.9fr] lg:pb-20 lg:pt-[calc(76px+4rem)]">
         <div className="max-w-xl text-paper">
           <HeroStaggerGroup>
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 text-sm text-paper backdrop-blur-sm">
@@ -311,13 +320,13 @@ export function FaqPreviewSection() {
               align="center"
               className="mx-auto"
             />
-            <div className="pointer-events-none absolute -top-4 right-0 hidden overflow-hidden rounded-2xl border border-gold/25 bg-gradient-to-br from-[#ebe3d0] to-[#e2d4bc] p-1.5 shadow-sm md:block">
+            <div className="mx-auto mt-6 flex justify-center md:pointer-events-none md:absolute md:-top-4 md:right-0 md:mt-0 md:overflow-hidden md:rounded-2xl md:border md:border-gold/25 md:bg-gradient-to-br md:from-[#ebe3d0] md:to-[#e2d4bc] md:p-1.5 md:shadow-sm">
               <Image
                 src="/images/illustrations/mascot-lemur.jpg"
                 alt=""
                 width={80}
                 height={80}
-                className="h-16 w-16 rotate-6 rounded-xl object-cover"
+                className="h-16 w-16 rotate-6 rounded-xl object-cover md:h-16 md:w-16"
               />
             </div>
           </div>
@@ -436,7 +445,7 @@ export function CtaSection() {
         <Reveal variant="pop">
           <div className="relative overflow-hidden rounded-2xl bg-forest px-8 py-14 text-center md:px-16 md:py-16">
             <div className="hero-glow absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
-            <div className="pointer-events-none absolute -right-4 -bottom-4 w-32 opacity-40 md:w-40">
+            <div className="pointer-events-none absolute -right-2 -bottom-2 w-28 opacity-40 sm:w-32 md:-right-4 md:-bottom-4 md:w-40">
               <Image
                 src="/images/illustrations/corner-flourish.jpg"
                 alt=""

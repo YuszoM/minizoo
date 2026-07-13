@@ -16,10 +16,10 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
           priority
         />
       </div>
-      <div className="hidden min-w-0 sm:block">
+      <div className="min-w-0">
         <p
           className={cn(
-            "font-display text-[1.15rem] leading-none tracking-tight md:text-xl",
+            "font-display text-base leading-none tracking-tight sm:text-[1.15rem] md:text-xl",
             inverted ? "text-white" : "text-ink",
           )}
         >

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   reducedRevealVariants,
@@ -19,6 +19,11 @@ function transitionFor(variant: RevealVariant, reduce: boolean) {
   return tweenSmooth;
 }
 
+function isNearViewport(node: HTMLElement) {
+  const rect = node.getBoundingClientRect();
+  return rect.top < window.innerHeight * 0.94 && rect.bottom > window.innerHeight * 0.04;
+}
+
 export function Reveal({
   children,
   className,
@@ -34,9 +39,41 @@ export function Reveal({
   const reduce = useReducedMotion();
   const inView = useInView(ref, {
     once: true,
-    amount: 0.18,
-    margin: "0px 0px -6% 0px",
+    amount: 0.08,
+    margin: "0px 0px 0px 0px",
   });
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (reduce) {
+      setVisible(true);
+      return;
+    }
+    if (inView) {
+      setVisible(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node) return;
+
+    const check = () => {
+      if (isNearViewport(node)) setVisible(true);
+    };
+
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("lenis:scroll", check);
+    window.addEventListener("resize", check, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("lenis:scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [inView, reduce]);
+
+  const show = reduce || visible || inView;
 
   return (
     <motion.div
@@ -44,7 +81,7 @@ export function Reveal({
       className={cn(className)}
       variants={reduce ? reducedRevealVariants : revealVariants[variant]}
       initial="hidden"
-      animate={inView ? "visible" : "hidden"}
+      animate={show ? "visible" : "hidden"}
       transition={{
         ...transitionFor(variant, !!reduce),
         delay: reduce ? 0 : delay * 0.11,

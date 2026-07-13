@@ -9,7 +9,10 @@ const HEADER_OFFSET = 80;
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+    // Na mobile natywny scroll — Lenis psuje useInView i animacje wejścia
+    if (reduced || coarsePointer) return;
 
     const lenis = new Lenis({
       duration: 1.15,

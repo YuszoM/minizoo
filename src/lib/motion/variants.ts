@@ -33,8 +33,8 @@ export const revealVariants: Record<RevealVariant, Variants> = {
     visible: { opacity: 1, scale: 1 },
   },
   "blur-up": {
-    hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
-    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+    hidden: { opacity: 0, y: 48, scale: 0.94 },
+    visible: { opacity: 1, y: 0, scale: 1 },
   },
   "tilt-left": {
     hidden: { opacity: 0, x: 56, rotate: -5 },
@@ -78,5 +78,12 @@ export const staggerItem: Variants = {
 export const OFFER_VARIANTS: RevealVariant[] = ["tilt-right", "blur-up", "slide-left"];
 export const ANIMAL_VARIANTS: RevealVariant[] = ["scale", "tilt-left", "tilt-right"];
 export const FACT_VARIANTS: RevealVariant[] = ["pop", "tilt-left", "slide-right", "blur-up"];
-export const TIP_VARIANTS: RevealVariant[] = ["rise", "slide-left", "slide-right", "pop", "tilt-right", "blur-up"];
+export const TIP_VARIANTS: RevealVariant[] = [
+  "rise",
+  "slide-left",
+  "slide-right",
+  "pop",
+  "tilt-right",
+  "scale",
+];
 export const TRUST_VARIANTS: RevealVariant[] = ["pop", "scale", "tilt-left", "tilt-right"];
