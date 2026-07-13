@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audit:screenshots": "node scripts/audit-screenshots.mjs",
-    "generate:illustrations": "node scripts/generate-illustrations.mjs",
-    "generate:hero-mobile": "node scripts/generate-hero-mobile.mjs"
+    "audit:screenshots": "node scripts/audit-screenshots.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
