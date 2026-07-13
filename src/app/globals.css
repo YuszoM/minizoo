@@ -147,7 +147,7 @@ body {
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(36px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -167,7 +167,7 @@ body {
 @keyframes slide-left {
   from {
     opacity: 0;
-    transform: translateX(48px);
+    transform: translateX(28px);
   }
   to {
     opacity: 1;
@@ -178,7 +178,7 @@ body {
 @keyframes slide-right {
   from {
     opacity: 0;
-    transform: translateX(-48px);
+    transform: translateX(-28px);
   }
   to {
     opacity: 1;
@@ -189,7 +189,7 @@ body {
 @keyframes scale-in {
   from {
     opacity: 0;
-    transform: scale(0.94);
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
@@ -210,10 +210,10 @@ body {
 
 @keyframes hero-ken-burns {
   from {
-    transform: scale(1.04);
+    transform: scale(1);
   }
   to {
-    transform: scale(1.12);
+    transform: scale(1.06);
   }
 }
 
@@ -254,39 +254,63 @@ body {
 }
 
 .motion-rise {
-  animation: rise 0.85s var(--ease-out-expo) both;
+  animation: rise 0.55s var(--ease-out-expo) both;
 }
 
 .motion-fade {
-  animation: fade-in 0.9s var(--ease-gentle) both;
+  animation: fade-in 0.5s var(--ease-gentle) both;
 }
 
 .motion-slide-left {
-  animation: slide-left 0.9s var(--ease-out-expo) both;
+  animation: slide-left 0.55s var(--ease-out-expo) both;
 }
 
 .motion-slide-right {
-  animation: slide-right 0.9s var(--ease-out-expo) both;
+  animation: slide-right 0.55s var(--ease-out-expo) both;
 }
 
 .motion-scale {
-  animation: scale-in 0.85s var(--ease-out-expo) both;
+  animation: scale-in 0.5s var(--ease-out-expo) both;
+}
+
+.reveal-pre-rise {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.reveal-pre-fade {
+  opacity: 0;
+}
+
+.reveal-pre-slide-left {
+  opacity: 0;
+  transform: translateX(28px);
+}
+
+.reveal-pre-slide-right {
+  opacity: 0;
+  transform: translateX(-28px);
+}
+
+.reveal-pre-scale {
+  opacity: 0;
+  transform: scale(0.98);
 }
 
 .motion-delay-1 {
-  animation-delay: 0.1s;
+  animation-delay: 0.06s;
 }
 .motion-delay-2 {
-  animation-delay: 0.2s;
+  animation-delay: 0.12s;
 }
 .motion-delay-3 {
-  animation-delay: 0.3s;
+  animation-delay: 0.18s;
 }
 .motion-delay-4 {
-  animation-delay: 0.4s;
+  animation-delay: 0.24s;
 }
 .motion-delay-5 {
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
 }
 
 .hero-enter-1 {
@@ -306,7 +330,7 @@ body {
 }
 
 .hero-ken-burns {
-  animation: hero-ken-burns 22s var(--ease-gentle) forwards;
+  animation: hero-ken-burns 28s var(--ease-gentle) forwards;
 }
 
 .hero-glow {
@@ -354,6 +378,11 @@ details[open] > p {
     scroll-behavior: auto;
   }
 
+  .reveal-pre-rise,
+  .reveal-pre-fade,
+  .reveal-pre-slide-left,
+  .reveal-pre-slide-right,
+  .reveal-pre-scale,
   .reveal,
   .reveal-delay-1,
   .reveal-delay-2,

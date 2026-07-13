@@ -96,7 +96,7 @@ export function TrustStrip() {
     <section className="border-y border-paper-deep bg-white" aria-label="Liczby zaufania">
       <div className="container-site grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {trustStats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="scale">
+          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="rise">
             <div className="text-center lg:text-left">
               <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
               <p className="mt-1 text-sm font-medium text-forest">{stat.label}</p>
@@ -121,14 +121,14 @@ export function OfferPreviewSection() {
 
         <div className="space-y-6">
           {offers.map((offer, index) => (
-            <Reveal key={offer.id} delay={index as 0 | 1 | 2} variant="slide-left">
+            <Reveal key={offer.id} delay={index as 0 | 1 | 2} variant="fade">
               <article className="card-hover group grid overflow-hidden rounded-xl bg-white shadow-[0_4px_24px_rgba(47,58,38,0.06)] md:grid-cols-[280px_1fr_auto] md:items-center">
                 <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[220px]">
                   <Image
                     src={offer.image}
                     alt={offer.title}
                     fill
-                    className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                    className="object-cover"
                     sizes="(max-width: 768px) 100vw, 280px"
                   />
                   <DemoPhotoLabel />
@@ -189,13 +189,13 @@ export function AnimalsBentoSection() {
         </Reveal>
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
-          <Reveal className="md:col-span-7 md:row-span-2" variant="scale">
+          <Reveal className="md:col-span-7 md:row-span-2" variant="fade">
             <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl">
               <Image
                 src={featured[0].image}
                 alt={featured[0].name}
                 fill
-                className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, 60vw"
               />
               <DemoPhotoLabel />
@@ -209,13 +209,13 @@ export function AnimalsBentoSection() {
           </Reveal>
 
           {featured.slice(1).map((animal, i) => (
-            <Reveal key={animal.id} className="md:col-span-5" delay={(i + 1) as 1 | 2} variant="scale">
+            <Reveal key={animal.id} className="md:col-span-5" variant="fade">
               <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl">
                 <Image
                   src={animal.image}
                   alt={animal.name}
                   fill
-                  className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                  className="object-cover"
                   sizes="40vw"
                 />
                 <DemoPhotoLabel />
@@ -336,7 +336,7 @@ export function ReviewsSection() {
             </blockquote>
           </Reveal>
 
-          <Reveal delay={1} variant="slide-left">
+          <Reveal delay={1} variant="rise">
             <blockquote className="card-hover surface-elevated relative h-full p-8">
               <div className="mb-4 flex gap-1 text-gold">
                 {Array.from({ length: second.rating }).map((_, i) => (
@@ -369,7 +369,7 @@ export function CtaSection() {
   return (
     <section className="pb-20 md:pb-28">
       <div className="container-site">
-        <Reveal variant="scale">
+        <Reveal variant="rise">
           <div className="relative overflow-hidden rounded-2xl bg-forest px-8 py-14 text-center md:px-16 md:py-16">
             <div className="hero-glow absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
             <h2 className="display-lg relative font-semibold text-white">
