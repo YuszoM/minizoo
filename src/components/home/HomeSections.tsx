@@ -34,7 +34,7 @@ export function HeroSection() {
         <div className="grain absolute inset-0 opacity-50" />
         <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
         <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] hidden h-20 w-20 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:block" />
-        <div className="pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
+        <div className="hero-enter-6 pointer-events-none absolute right-0 bottom-0 hidden w-48 opacity-90 md:block lg:w-56">
           <Image
             src="/images/illustrations/mascot-lemur.jpg"
             alt=""
@@ -106,7 +106,7 @@ export function TrustStrip() {
     <section className="border-y border-paper-deep bg-white" aria-label="Liczby zaufania">
       <div className="container-site grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4">
         {trustStats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="rise">
+          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="scale">
             <div className="text-center lg:text-left">
               <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
               <p className="mt-1 text-sm font-medium text-forest">{stat.label}</p>
@@ -131,7 +131,11 @@ export function OfferPreviewSection() {
 
         <div className="space-y-6">
           {offers.map((offer, index) => (
-            <Reveal key={offer.id} delay={index as 0 | 1 | 2} variant="fade">
+            <Reveal
+              key={offer.id}
+              delay={index as 0 | 1 | 2}
+              variant={index % 2 === 0 ? "slide-right" : "slide-left"}
+            >
               <article className="card-hover group grid overflow-hidden rounded-xl bg-white shadow-[0_4px_24px_rgba(47,58,38,0.06)] md:grid-cols-[280px_1fr_auto] md:items-center">
                 <div className="relative aspect-[16/10] bg-paper md:aspect-auto md:min-h-[220px]">
                   <Image
@@ -221,7 +225,7 @@ export function AnimalsBentoSection() {
         </Reveal>
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
-          <Reveal className="md:col-span-7 md:row-span-2" variant="fade">
+          <Reveal className="md:col-span-7 md:row-span-2" variant="scale">
             <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl bg-paper">
               <Image
                 src={featured[0].illustration}
@@ -240,7 +244,7 @@ export function AnimalsBentoSection() {
           </Reveal>
 
           {featured.slice(1).map((animal, i) => (
-            <Reveal key={animal.id} className="md:col-span-5" variant="fade">
+            <Reveal key={animal.id} className="md:col-span-5" variant="rise">
               <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl bg-paper">
                 <Image
                   src={animal.illustration}
@@ -300,7 +304,7 @@ export function FaqPreviewSection() {
 
         <div className="mt-8 space-y-3">
           {preview.map((item, i) => (
-            <Reveal key={item.question} delay={(i as 0 | 1 | 2) || 0}>
+            <Reveal key={item.question} delay={(i as 0 | 1 | 2) || 0} variant="rise">
               <details className="group rounded-xl bg-white p-5 open:shadow-sm">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-forest marker:content-none">
                   {item.question}
@@ -358,7 +362,7 @@ export function ReviewsSection() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <Reveal>
+          <Reveal variant="slide-right">
             <blockquote className="card-hover surface-elevated relative h-full p-8">
               <div className="mb-4 flex gap-1 text-gold">
                 {Array.from({ length: featured.rating }).map((_, i) => (

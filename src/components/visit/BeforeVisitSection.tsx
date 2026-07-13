@@ -20,7 +20,7 @@ export function BeforeVisitSection() {
           {beforeVisitTips.map((tip, i) => {
             const Icon = tip.icon;
             return (
-              <Reveal key={tip.title} delay={(i % 3) as 0 | 1 | 2}>
+              <Reveal key={tip.title} delay={(i % 3) as 0 | 1 | 2} variant="rise">
                 <article className="h-full rounded-xl bg-white p-6">
                   <Icon className="mb-3 h-6 w-6 text-gold" />
                   <h3 className="font-display text-lg text-forest">{tip.title}</h3>
@@ -31,7 +31,7 @@ export function BeforeVisitSection() {
           })}
         </div>
 
-        <Reveal delay={1}>
+        <Reveal delay={1} variant="scale">
           <div className="surface-parchment mt-12 grid items-center gap-6 p-5 md:grid-cols-[minmax(0,220px)_1fr] md:gap-8 md:p-6">
             <div className="relative mx-auto w-full max-w-[220px] overflow-hidden rounded-lg shadow-md">
               <Image

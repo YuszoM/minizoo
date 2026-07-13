@@ -10,7 +10,7 @@ export function EducatorSection() {
   return (
     <section className="section-y">
       <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        <Reveal variant="fade">
+        <Reveal variant="slide-right">
           <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl lg:mx-0">
             <Image
               src={educator.image}

@@ -15,7 +15,7 @@ const variantClass: Record<RevealVariant, string> = {
 
 function isInViewport(node: HTMLElement) {
   const rect = node.getBoundingClientRect();
-  return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+  return rect.top < window.innerHeight * 0.88 && rect.bottom > 0;
 }
 
 export function Reveal({
@@ -48,59 +48,50 @@ export function Reveal({
     setArmed(true);
 
     let done = false;
-    const reveal = () => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let observer: IntersectionObserver | undefined;
+
+    const activate = () => {
       if (done) return;
       done = true;
-      setActive(true);
+      observer?.disconnect();
+
+      // Wymuszamy paint stanu ukrytego, dopiero potem animacja
+      void node.offsetHeight;
+      timer = setTimeout(() => setActive(true), 60);
     };
 
-    const tryReveal = () => {
-      if (!node || done) return false;
-      if (isInViewport(node)) {
-        reveal();
-        return true;
-      }
-      return false;
+    const scheduleActivate = () => {
+      if (done) return;
+      timer = setTimeout(activate, 140 + delay * 110);
     };
 
     const onScroll = () => {
-      tryReveal();
+      if (!done && isInViewport(node)) scheduleActivate();
     };
 
     if (isInViewport(node)) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(reveal);
-      });
+      scheduleActivate();
     } else {
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            reveal();
-            observer.disconnect();
-          }
+          if (entry.isIntersecting) scheduleActivate();
         },
-        { threshold: 0.05, rootMargin: "0px 0px 8% 0px" },
+        { threshold: 0.15, rootMargin: "0px 0px 8% 0px" },
       );
-
       observer.observe(node);
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("lenis:scroll", onScroll);
-
-      return () => {
-        observer.disconnect();
-        window.removeEventListener("scroll", onScroll);
-        window.removeEventListener("lenis:scroll", onScroll);
-      };
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("lenis:scroll", onScroll);
 
     return () => {
+      observer?.disconnect();
+      if (timer) clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("lenis:scroll", onScroll);
     };
-  }, []);
+  }, [delay]);
 
   return (
     <div
@@ -110,7 +101,6 @@ export function Reveal({
         variantClass[variant],
         armed && !active && "reveal-el--hidden",
         armed && active && "reveal-el--active",
-        armed && active && delay > 0 && `reveal-el-delay-${delay}`,
         className,
       )}
     >
