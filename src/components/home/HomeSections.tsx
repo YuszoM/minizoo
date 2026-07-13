@@ -33,26 +33,30 @@ export function HeroSection() {
     <section className="relative -mt-[76px] min-h-[min(92vh,900px)] overflow-hidden bg-forest">
       <div className="absolute inset-0 overflow-hidden">
         {/* Mobile: pionowy kadr z tej samej sceny co desktop */}
-        <Image
-          src="/images/hero-encounter-mobile.jpg"
-          alt="Dzieci podczas spotkania ze zwierzętami"
-          fill
-          className="hero-ken-burns object-cover object-[center_42%] md:hidden"
-          priority
-          sizes="100vw"
-        />
-        <Image
-          src="/images/hero-encounter.png"
-          alt="Dzieci podczas spotkania ze zwierzętami"
-          fill
-          className="hero-ken-burns hidden object-cover object-[center_30%] md:block"
-          priority
-          sizes="100vw"
-        />
+        <div className="hero-ken-burns absolute inset-0 md:hidden">
+          <Image
+            src="/images/hero-encounter-mobile.jpg"
+            alt="Dzieci podczas spotkania ze zwierzętami"
+            fill
+            className="object-cover object-[center_42%]"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="hero-ken-burns absolute inset-0 hidden md:block">
+          <Image
+            src="/images/hero-encounter.png"
+            alt="Dzieci podczas spotkania ze zwierzętami"
+            fill
+            className="object-cover object-[center_30%]"
+            priority
+            sizes="100vw"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-br from-forest/95 via-forest/82 to-forest/55" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-transparent to-forest/40" />
         <div className="grain absolute inset-0 opacity-50" />
-        <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
+        <div className="hero-glow pointer-events-none absolute -top-24 right-0 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
         <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] h-14 w-14 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:h-20 md:w-20" />
         <div className="pointer-events-none absolute right-2 bottom-28 w-28 opacity-90 sm:right-4 sm:bottom-32 sm:w-32 md:right-0 md:bottom-0 md:w-48 lg:w-56">
           <HeroMascot>

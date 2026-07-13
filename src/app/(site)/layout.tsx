@@ -11,7 +11,7 @@ export default function SiteLayout({
   return (
     <SmoothScroll>
       <Header />
-      <main id="main" className="pt-[76px] pb-20 sm:pb-0">
+      <main id="main" className="overflow-x-clip pt-[76px] pb-20 sm:pb-0">
         {children}
       </main>
       <Footer />

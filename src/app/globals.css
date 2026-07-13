@@ -21,6 +21,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  overflow-x: clip;
 }
 
 html.lenis,
@@ -38,6 +39,8 @@ body {
   background: var(--color-paper);
   line-height: 1.7;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 /* W @layer base — żeby klasy Tailwind (text-white itd.) mogły nadpisać kolor */
@@ -432,6 +435,8 @@ body {
 
 .hero-ken-burns {
   animation: hero-ken-burns 22s var(--ease-gentle) forwards;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .hero-glow {
