@@ -273,6 +273,77 @@ body {
   animation: scale-in 0.5s var(--ease-out-expo) both;
 }
 
+/* Scroll reveal — CSS transitions (Reveal.tsx) */
+.reveal-el {
+  transition:
+    opacity 0.65s var(--ease-out-expo),
+    transform 0.65s var(--ease-out-expo);
+}
+
+.reveal-el--hidden.reveal-v-rise {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.reveal-el--active.reveal-v-rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-el--hidden.reveal-v-fade {
+  opacity: 0;
+}
+
+.reveal-el--active.reveal-v-fade {
+  opacity: 1;
+}
+
+.reveal-el--hidden.reveal-v-slide-left {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+.reveal-el--active.reveal-v-slide-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-el--hidden.reveal-v-slide-right {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.reveal-el--active.reveal-v-slide-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-el--hidden.reveal-v-scale {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.reveal-el--active.reveal-v-scale {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-el-delay-1 {
+  transition-delay: 0.08s;
+}
+.reveal-el-delay-2 {
+  transition-delay: 0.16s;
+}
+.reveal-el-delay-3 {
+  transition-delay: 0.24s;
+}
+.reveal-el-delay-4 {
+  transition-delay: 0.32s;
+}
+.reveal-el-delay-5 {
+  transition-delay: 0.4s;
+}
+
 .reveal-pre-rise {
   opacity: 0;
   transform: translateY(20px);
@@ -383,6 +454,8 @@ details[open] > p {
   .reveal-pre-slide-left,
   .reveal-pre-slide-right,
   .reveal-pre-scale,
+  .reveal-el,
+  .reveal-el--hidden,
   .reveal,
   .reveal-delay-1,
   .reveal-delay-2,
@@ -410,5 +483,6 @@ details[open] > p {
     animation: none !important;
     transform: none !important;
     transition: none !important;
+    opacity: 1 !important;
   }
 }

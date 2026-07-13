@@ -4,23 +4,19 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type RevealVariant = "rise" | "fade" | "slide-left" | "slide-right" | "scale";
-type RevealPhase = "idle" | "pre" | "anim";
 
 const variantClass: Record<RevealVariant, string> = {
-  rise: "motion-rise",
-  fade: "motion-fade",
-  "slide-left": "motion-slide-left",
-  "slide-right": "motion-slide-right",
-  scale: "motion-scale",
+  rise: "reveal-v-rise",
+  fade: "reveal-v-fade",
+  "slide-left": "reveal-v-slide-left",
+  "slide-right": "reveal-v-slide-right",
+  scale: "reveal-v-scale",
 };
 
-const preClass: Record<RevealVariant, string> = {
-  rise: "reveal-pre-rise",
-  fade: "reveal-pre-fade",
-  "slide-left": "reveal-pre-slide-left",
-  "slide-right": "reveal-pre-slide-right",
-  scale: "reveal-pre-scale",
-};
+function isInViewport(node: HTMLElement) {
+  const rect = node.getBoundingClientRect();
+  return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+}
 
 export function Reveal({
   children,
@@ -34,52 +30,87 @@ export function Reveal({
   variant?: RevealVariant;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<RevealPhase>("idle");
+  const [armed, setArmed] = useState(false);
+  const [active, setActive] = useState(false);
 
   useLayoutEffect(() => {
     const node = ref.current;
     if (!node) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     if (reduced) {
-      setPhase("anim");
+      setArmed(true);
+      setActive(true);
       return;
     }
 
-    const activate = () => setPhase("anim");
+    setArmed(true);
 
-    const inView =
-      node.getBoundingClientRect().top < window.innerHeight * 0.92 &&
-      node.getBoundingClientRect().bottom > 0;
+    let done = false;
+    const reveal = () => {
+      if (done) return;
+      done = true;
+      setActive(true);
+    };
 
-    if (inView) {
-      activate();
-      return;
+    const tryReveal = () => {
+      if (!node || done) return false;
+      if (isInViewport(node)) {
+        reveal();
+        return true;
+      }
+      return false;
+    };
+
+    const onScroll = () => {
+      tryReveal();
+    };
+
+    if (isInViewport(node)) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(reveal);
+      });
+    } else {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            reveal();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.05, rootMargin: "0px 0px 8% 0px" },
+      );
+
+      observer.observe(node);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("lenis:scroll", onScroll);
+
+      return () => {
+        observer.disconnect();
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("lenis:scroll", onScroll);
+      };
     }
 
-    setPhase("pre");
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("lenis:scroll", onScroll);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          activate();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.01, rootMargin: "0px 0px 10% 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("lenis:scroll", onScroll);
+    };
   }, []);
 
   return (
     <div
       ref={ref}
       className={cn(
-        phase === "pre" && preClass[variant],
-        phase === "anim" && variantClass[variant],
-        phase === "anim" && delay > 0 && `motion-delay-${delay}`,
+        "reveal-el",
+        variantClass[variant],
+        armed && !active && "reveal-el--hidden",
+        armed && active && "reveal-el--active",
+        armed && active && delay > 0 && `reveal-el-delay-${delay}`,
         className,
       )}
     >

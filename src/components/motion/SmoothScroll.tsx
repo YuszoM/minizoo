@@ -25,6 +25,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     };
     frame = requestAnimationFrame(raf);
 
+    lenis.on("scroll", () => {
+      window.dispatchEvent(new Event("lenis:scroll"));
+    });
+
     const onAnchorClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       const anchor = target?.closest<HTMLAnchorElement>("a[href^='#']");
