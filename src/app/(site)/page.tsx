@@ -2,11 +2,14 @@ import {
   AnimalsBentoSection,
   BookingSection,
   CtaSection,
+  FaqPreviewSection,
   HeroSection,
   OfferPreviewSection,
   ReviewsSection,
   TrustStrip,
 } from "@/components/home/HomeSections";
+import { EducatorSection } from "@/components/home/EducatorSection";
+import { BeforeVisitSection } from "@/components/visit/BeforeVisitSection";
 
 export default function HomePage() {
   return (
@@ -15,6 +18,9 @@ export default function HomePage() {
       <TrustStrip />
       <OfferPreviewSection />
       <AnimalsBentoSection />
+      <EducatorSection />
+      <BeforeVisitSection />
+      <FaqPreviewSection />
       <BookingSection />
       <ReviewsSection />
       <CtaSection />

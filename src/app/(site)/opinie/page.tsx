@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GoogleReviewsBadge } from "@/components/social/GoogleReviewsBadge";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { site } from "@/data/site";
 import { reviews } from "@/data/reviews";
 
 export const metadata: Metadata = {
@@ -15,10 +17,14 @@ export default function OpiniePage() {
       <div className="container-site">
         <SectionHeading
           title="Goście o nas mówią najlepiej"
-          description={`Średnia ${avg.toFixed(1)}/5 · ${reviews.length} opinii`}
+          description={`Średnia ${avg.toFixed(1)}/5 · ${reviews.length} opinii na stronie`}
           align="center"
           className="mx-auto"
         />
+
+        <div className="mb-10 flex flex-wrap justify-center gap-4">
+          <GoogleReviewsBadge />
+        </div>
 
         <div className="grid gap-5 md:grid-cols-2">
           {reviews.map((review) => (
@@ -39,10 +45,18 @@ export default function OpiniePage() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Link href="/rezerwacja" className="btn-primary">
             Rezerwuj termin
           </Link>
+          <a
+            href={site.googleReviews.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-forest hover:text-gold"
+          >
+            Zobacz profil w Google Maps →
+          </a>
         </div>
       </div>
     </div>

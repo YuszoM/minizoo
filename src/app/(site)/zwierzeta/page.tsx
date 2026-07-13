@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { animals } from "@/data/animals";
 
@@ -34,6 +35,7 @@ export default function ZwierzetaPage() {
                   className="object-cover"
                   sizes="50vw"
                 />
+                <DemoPhotoLabel />
               </div>
               <div className="flex flex-col justify-center p-8">
                 <p className="text-sm italic text-gold">{animal.latin}</p>

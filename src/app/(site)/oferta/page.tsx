@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
+import { PricingTable } from "@/components/oferta/PricingTable";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { offers } from "@/data/offers";
 import { formatPrice } from "@/lib/utils";
@@ -37,10 +39,11 @@ export default function OfertaPage() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
+                <DemoPhotoLabel />
               </div>
               <div className="flex flex-col justify-center p-8">
                 {offer.popular && (
-                  <span className="mb-2 w-fit rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold-muted uppercase">
+                  <span className="mb-2 w-fit rounded-full bg-gold/25 px-3 py-1 text-xs font-bold text-forest uppercase">
                     Najczęściej wybierane
                   </span>
                 )}
@@ -78,6 +81,23 @@ export default function OfertaPage() {
             </article>
           ))}
         </div>
+
+        <section id="cennik" className="mt-20 scroll-mt-28">
+          <SectionHeading
+            title="Cennik — przejrzyście i bez niespodzianek"
+            description="Wszystkie ceny brutto. Płatność online przy rezerwacji (karta, BLIK)."
+          />
+          <div className="mt-8">
+            <PricingTable />
+          </div>
+          <p className="mt-4 text-sm text-ink-muted">
+            Dla grup szkolnych powyżej 30 uczniów lub wizyt poza standardowymi godzinami —{" "}
+            <Link href="/kontakt" className="text-gold hover:underline">
+              napisz do nas
+            </Link>
+            .
+          </p>
+        </section>
       </div>
     </div>
   );

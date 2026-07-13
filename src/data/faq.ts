@@ -25,8 +25,13 @@ export const faqItems = [
       "Tak — lekcje biologii realizujemy przez cały rok szkolny, również jesienią i wiosną. Przy większych grupach możliwy jest transport autokarem — zapytaj w formularzu kontaktowym.",
   },
   {
-    question: "Co w przypadku rezygnacji?",
+    question: "Czy alergia na sierść dyskwalifikuje z wizyty?",
     answer:
-      "Bezpłatna zmiana terminu do 48 h przed wizytą. Późniejsza rezygnacja — zwrot 50% wpłaty. Szczegóły w regulaminie rezerwacji.",
+      "Nie zawsze — część spotkań odbywa się bez kontaktu z futrzakami. Daj znać przy rezerwacji, dopasujemy program (np. więcej gadów i ptaków, mniej ssaków).",
+  },
+  {
+    question: "Jak głaskać zwierzę, żeby było bezpiecznie?",
+    answer:
+      "Zawsze zgodnie z instrukcją edukatora: spokojny ruch, bez nagłych gestów, szczotka lub dłoń tam, gdzie wskaże opiekun. Każdy gatunek ma inne zasady — o tym opowiadamy na początku spotkania.",
   },
 ];

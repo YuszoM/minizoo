@@ -46,7 +46,7 @@ export const animals: Animal[] = [
     description:
       "Przyjazne zwierzęta, które uwielbiają kontakt z dziećmi. Idealne na pierwsze spotkanie ze zwierzętami gospodarskimi.",
     funFact: "Kozy mają prostokątne źrenice — widzą prawie dookoła głowy.",
-    image: "/images/hero-encounter.png",
+    image: "/images/animal-goat.png",
     habitat: "Cały świat",
   },
   {
@@ -56,7 +56,7 @@ export const animals: Animal[] = [
     description:
       "Miękkie, spokojne towarzyszki spotkań. Dzieci uczą się delikatnego dotyku i odpowiedzialności za mniejsze zwierzęta.",
     funFact: "Króliki mruczą, gdy są szczęśliwe — podobnie jak koty.",
-    image: "/images/place-interior.png",
+    image: "/images/animal-rabbit.png",
     habitat: "Udomowiony na całym świecie",
   },
   {
@@ -66,7 +66,7 @@ export const animals: Animal[] = [
     description:
       "Łagodny wąż, który pomaga przełamać strach przed gadami. Edukator opowiada o ich roli w naturze i sposobach ochrony.",
     funFact: "Węże królewskie są odporne na jad innych węży — stąd ich nazwa.",
-    image: "/images/school-lesson.png",
+    image: "/images/animal-snake.png",
     habitat: "Ameryka Północna",
   },
 ];

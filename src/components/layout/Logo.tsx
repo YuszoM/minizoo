@@ -28,7 +28,7 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
         <p
           className={cn(
             "mt-1 text-[0.68rem] font-medium tracking-wide",
-            inverted ? "text-white/70" : "text-ink-muted",
+            inverted ? "text-white/80" : "text-ink-soft",
           )}
         >
           {site.tagline}

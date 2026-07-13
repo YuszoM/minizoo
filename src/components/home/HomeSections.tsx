@@ -1,46 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Clock, Shield, Sparkles, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, ChevronDown, Sparkles } from "lucide-react";
+import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
 import { BookingWizard } from "@/components/booking/BookingWizard";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { animals } from "@/data/animals";
+import { faqItems } from "@/data/faq";
 import { offers } from "@/data/offers";
 import { reviews } from "@/data/reviews";
+import { GoogleReviewsBadge } from "@/components/social/GoogleReviewsBadge";
 import { site } from "@/data/site";
+import { trustStats } from "@/data/trust";
+import { getUpcomingSlots } from "@/lib/next-slots";
 import { formatPrice } from "@/lib/utils";
 
 export function HeroSection() {
+  const slots = getUpcomingSlots(3);
+
   return (
-    <section className="relative min-h-[min(92vh,900px)] overflow-hidden bg-forest">
-      <div className="absolute inset-0">
+    <section className="relative -mt-[76px] min-h-[min(92vh,900px)] overflow-hidden bg-forest">
+      <div className="absolute inset-0 overflow-hidden">
         <Image
           src="/images/hero-encounter.png"
           alt="Dzieci podczas spotkania ze zwierzętami"
           fill
-          className="object-cover object-[center_30%] opacity-90"
+          className="hero-ken-burns object-cover object-[center_30%]"
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-forest/92 via-forest/72 to-forest/35" />
-        <div className="grain absolute inset-0 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-forest/95 via-forest/82 to-forest/55" />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-transparent to-forest/40" />
+        <div className="grain absolute inset-0 opacity-50" />
+        <div className="hero-glow pointer-events-none absolute -top-24 -right-20 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
+        <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] hidden h-20 w-20 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:block" />
+        <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
       </div>
 
-      <div className="container-site relative grid min-h-[min(92vh,900px)] items-end gap-10 pb-14 pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-32">
-        <div className="reveal max-w-xl text-paper">
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm text-paper/90 backdrop-blur-sm">
+      <div className="container-site relative grid min-h-[min(92vh,900px)] items-end gap-10 pb-14 pt-[calc(76px+3rem)] lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-20 lg:pt-[calc(76px+4rem)]">
+        <div className="max-w-xl text-paper">
+          <p className="hero-enter-1 mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 text-sm text-paper backdrop-blur-sm">
             <Sparkles className="h-4 w-4 text-gold-bright" />
             Mini zoo · {site.address.city}
           </p>
-          <h1 className="display-xl font-semibold text-white">
+          <h1 className="hero-enter-2 display-xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
             Poznaj świat zwierząt —{" "}
             <span className="text-gold-bright">bez tłumów i pośpiechu</span>
           </h1>
-          <p className="lead mt-6 text-paper/85">
+          <p className="hero-enter-3 lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
             Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
             Wybierz termin, opłać online — gotowe w 3 minuty.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="hero-enter-4 mt-8 flex flex-wrap gap-3">
             <Link href="/rezerwacja" className="btn-gold">
               <CalendarDays className="h-4 w-4" />
               Zarezerwuj termin
@@ -51,20 +62,24 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="reveal reveal-delay-1 surface-elevated overflow-hidden p-6 md:p-8">
+        <div className="hero-enter-5 surface-elevated card-hover overflow-hidden p-6 md:p-8">
           <p className="text-sm font-semibold text-forest">Najbliższe wolne terminy</p>
           <ul className="mt-4 space-y-3">
-            {["Sobota 10:00", "Sobota 14:00", "Niedziela 12:00"].map((slot) => (
+            {slots.map((slot) => (
               <li
-                key={slot}
+                key={`${slot.label}-${slot.time}`}
                 className="flex items-center justify-between border-b border-paper-deep py-2 text-sm last:border-0"
               >
-                <span className="text-ink-soft">{slot}</span>
+                <span className="text-ink-soft">
+                  <span className="font-medium text-ink">{slot.label}</span>
+                  {" · "}
+                  {slot.time}
+                </span>
                 <span className="font-semibold text-gold">wolne</span>
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-xs leading-relaxed text-ink-muted">
+          <p className="mt-5 text-xs leading-relaxed text-ink-soft">
             Od {formatPrice(249)} za spotkanie rodzinne · płatność kartą lub BLIK
           </p>
           <Link href="/rezerwacja" className="btn-primary mt-5 w-full">
@@ -77,22 +92,14 @@ export function HeroSection() {
 }
 
 export function TrustStrip() {
-  const items = [
-    { icon: Users, label: "Max 6 osób w grupie" },
-    { icon: Clock, label: "90 min bez pośpiechu" },
-    { icon: Shield, label: "Opieka edukatora" },
-  ];
-
   return (
-    <section className="border-y border-paper-deep bg-white">
-      <div className="container-site grid gap-6 py-8 md:grid-cols-3">
-        {items.map((item, i) => (
-          <Reveal key={item.label} delay={(i as 0 | 1 | 2) || 0}>
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-paper text-forest">
-                <item.icon className="h-5 w-5" />
-              </div>
-              <p className="font-semibold text-forest">{item.label}</p>
+    <section className="border-y border-paper-deep bg-white" aria-label="Liczby zaufania">
+      <div className="container-site grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4">
+        {trustStats.map((stat, i) => (
+          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant="scale">
+            <div className="text-center lg:text-left">
+              <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
+              <p className="mt-1 text-sm font-medium text-forest">{stat.label}</p>
             </div>
           </Reveal>
         ))}
@@ -114,8 +121,8 @@ export function OfferPreviewSection() {
 
         <div className="space-y-6">
           {offers.map((offer, index) => (
-            <Reveal key={offer.id} delay={(index as 0 | 1 | 2) || 0}>
-              <article className="group grid overflow-hidden rounded-xl bg-white md:grid-cols-[280px_1fr_auto] md:items-center">
+            <Reveal key={offer.id} delay={index as 0 | 1 | 2} variant="slide-left">
+              <article className="card-hover group grid overflow-hidden rounded-xl bg-white shadow-[0_4px_24px_rgba(47,58,38,0.06)] md:grid-cols-[280px_1fr_auto] md:items-center">
                 <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[220px]">
                   <Image
                     src={offer.image}
@@ -124,12 +131,13 @@ export function OfferPreviewSection() {
                     className="object-cover transition duration-700 group-hover:scale-[1.03]"
                     sizes="(max-width: 768px) 100vw, 280px"
                   />
+                  <DemoPhotoLabel />
                 </div>
                 <div className="p-6 md:px-8">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-display text-2xl text-forest">{offer.title}</h3>
                     {offer.popular && (
-                      <span className="rounded-full bg-gold/15 px-2.5 py-0.5 text-[11px] font-bold text-gold-muted uppercase">
+                      <span className="rounded-full bg-gold/25 px-2.5 py-0.5 text-[11px] font-bold text-forest uppercase">
                         Ulubione rodzin
                       </span>
                     )}
@@ -139,7 +147,7 @@ export function OfferPreviewSection() {
                     {offer.duration} · {offer.groupSize}
                   </p>
                 </div>
-                <div className="flex flex-col items-start gap-3 border-t border-paper-deep p-6 md:border-t-0 md:border-l md:min-w-[200px]">
+                <div className="flex flex-col items-start gap-3 border-t border-paper-deep p-6 md:min-w-[200px] md:border-t-0 md:border-l">
                   <p className="font-display text-3xl text-gold">
                     {formatPrice(offer.price)}
                     {offer.priceNote && (
@@ -156,6 +164,12 @@ export function OfferPreviewSection() {
             </Reveal>
           ))}
         </div>
+
+        <p className="mt-8 text-center">
+          <Link href="/oferta#cennik" className="link-arrow text-sm">
+            Pełny cennik <ArrowRight className="h-4 w-4" />
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -175,8 +189,8 @@ export function AnimalsBentoSection() {
         </Reveal>
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
-          <Reveal className="md:col-span-7 md:row-span-2">
-            <article className="group relative min-h-[360px] overflow-hidden rounded-xl">
+          <Reveal className="md:col-span-7 md:row-span-2" variant="scale">
+            <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl">
               <Image
                 src={featured[0].image}
                 alt={featured[0].name}
@@ -184,6 +198,7 @@ export function AnimalsBentoSection() {
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"
                 sizes="(max-width: 768px) 100vw, 60vw"
               />
+              <DemoPhotoLabel />
               <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/20 to-transparent" />
               <div className="absolute right-0 bottom-0 left-0 p-6 text-paper">
                 <p className="text-sm italic text-gold-bright">{featured[0].latin}</p>
@@ -194,8 +209,8 @@ export function AnimalsBentoSection() {
           </Reveal>
 
           {featured.slice(1).map((animal, i) => (
-            <Reveal key={animal.id} className="md:col-span-5" delay={(i + 1) as 1 | 2}>
-              <article className="group relative min-h-[220px] overflow-hidden rounded-xl">
+            <Reveal key={animal.id} className="md:col-span-5" delay={(i + 1) as 1 | 2} variant="scale">
+              <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl">
                 <Image
                   src={animal.image}
                   alt={animal.name}
@@ -203,10 +218,14 @@ export function AnimalsBentoSection() {
                   className="object-cover transition duration-700 group-hover:scale-[1.04]"
                   sizes="40vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 to-transparent" />
+                <DemoPhotoLabel />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-forest/30 to-transparent" />
                 <div className="absolute right-0 bottom-0 left-0 p-5 text-paper">
                   <h3 className="font-display text-xl">{animal.name}</h3>
-                  <p className="text-xs text-paper/75">{animal.habitat}</p>
+                  <p className="mt-1 text-xs text-paper/80">{animal.habitat}</p>
+                  <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-paper/90">
+                    {animal.funFact}
+                  </p>
                 </div>
               </article>
             </Reveal>
@@ -218,6 +237,45 @@ export function AnimalsBentoSection() {
             Wszystkie zwierzęta
           </Link>
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function FaqPreviewSection() {
+  const preview = faqItems.slice(0, 3);
+
+  return (
+    <section className="section-y bg-paper-deep/40">
+      <div className="container-site max-w-3xl">
+        <Reveal>
+          <SectionHeading
+            title="Najczęstsze pytania"
+            description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
+            align="center"
+            className="mx-auto"
+          />
+        </Reveal>
+
+        <div className="mt-8 space-y-3">
+          {preview.map((item, i) => (
+            <Reveal key={item.question} delay={(i as 0 | 1 | 2) || 0}>
+              <details className="group rounded-xl bg-white p-5 open:shadow-sm">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-forest marker:content-none">
+                  {item.question}
+                  <ChevronDown className="h-5 w-5 shrink-0 text-gold transition group-open:rotate-180" />
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-ink-muted">{item.answer}</p>
+              </details>
+            </Reveal>
+          ))}
+        </div>
+
+        <p className="mt-8 text-center">
+          <Link href="/faq" className="link-arrow text-sm">
+            Wszystkie pytania <ArrowRight className="h-4 w-4" />
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -245,44 +303,63 @@ export function BookingSection() {
 }
 
 export function ReviewsSection() {
-  const featured = reviews[0];
+  const [featured, second] = reviews;
 
   return (
     <section className="section-y">
-      <div className="container-site grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-        <Reveal>
-          <p className="font-display text-5xl leading-none text-gold md:text-6xl">4.9</p>
-          <p className="mt-2 text-sm font-semibold text-forest">średnia ocen gości</p>
-          <SectionHeading
-            className="mt-8 mb-0"
-            title="Rodziny i szkoły wracają z uśmiechem"
-            description="Nie budujemy strony na setkach sekcji — wystarczą prawdziwe historie od osób, które były u nas."
-          />
-        </Reveal>
+      <div className="container-site">
+        <div className="mb-10 flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-3 rounded-full border border-paper-deep bg-white px-4 py-2">
+            <span className="font-display text-2xl text-forest">{site.googleReviews.rating}</span>
+            <span className="text-sm text-ink-muted">· {site.googleReviews.reviewCount} opinii</span>
+          </div>
+          <GoogleReviewsBadge />
+        </div>
 
-        <Reveal delay={1}>
-          <blockquote className="surface-elevated relative p-8 md:p-10">
-            <div className="mb-4 flex gap-1 text-gold">
-              {Array.from({ length: featured.rating }).map((_, i) => (
-                <span key={i}>★</span>
-              ))}
-            </div>
-            <p className="font-display text-2xl leading-snug text-forest md:text-[1.65rem]">
-              &ldquo;{featured.text}&rdquo;
-            </p>
-            <footer className="mt-6 flex items-center justify-between gap-4 border-t border-paper-deep pt-5">
-              <div>
+        <div className="grid gap-8 lg:grid-cols-2">
+          <Reveal>
+            <blockquote className="card-hover surface-elevated relative h-full p-8">
+              <div className="mb-4 flex gap-1 text-gold">
+                {Array.from({ length: featured.rating }).map((_, i) => (
+                  <span key={i}>★</span>
+                ))}
+              </div>
+              <p className="font-display text-xl leading-snug text-forest md:text-2xl">
+                &ldquo;{featured.text}&rdquo;
+              </p>
+              <footer className="mt-6 border-t border-paper-deep pt-5">
                 <p className="font-semibold text-forest">{featured.name}</p>
                 <p className="text-sm text-ink-muted">
                   {featured.role} · {featured.date}
                 </p>
+              </footer>
+            </blockquote>
+          </Reveal>
+
+          <Reveal delay={1} variant="slide-left">
+            <blockquote className="card-hover surface-elevated relative h-full p-8">
+              <div className="mb-4 flex gap-1 text-gold">
+                {Array.from({ length: second.rating }).map((_, i) => (
+                  <span key={i}>★</span>
+                ))}
               </div>
-              <Link href="/opinie" className="link-arrow shrink-0 text-sm">
-                Więcej <ArrowRight className="h-4 w-4" />
-              </Link>
-            </footer>
-          </blockquote>
-        </Reveal>
+              <p className="font-display text-xl leading-snug text-forest md:text-2xl">
+                &ldquo;{second.text}&rdquo;
+              </p>
+              <footer className="mt-6 flex items-center justify-between gap-4 border-t border-paper-deep pt-5">
+                <div>
+                  <p className="font-semibold text-forest">{second.name}</p>
+                  <p className="text-sm text-ink-muted">
+                    {second.role} · {second.date}
+                  </p>
+                </div>
+                <Link href="/opinie" className="link-arrow shrink-0 text-sm">
+                  Więcej <ArrowRight className="h-4 w-4" />
+                </Link>
+              </footer>
+            </blockquote>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -292,9 +369,9 @@ export function CtaSection() {
   return (
     <section className="pb-20 md:pb-28">
       <div className="container-site">
-        <Reveal>
+        <Reveal variant="scale">
           <div className="relative overflow-hidden rounded-2xl bg-forest px-8 py-14 text-center md:px-16 md:py-16">
-            <div className="absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
+            <div className="hero-glow absolute -top-24 -right-16 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
             <h2 className="display-lg relative font-semibold text-white">
               Weekendy znikają szybko
             </h2>

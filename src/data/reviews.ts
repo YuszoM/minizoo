@@ -28,7 +28,7 @@ export const reviews = [
     name: "Piotr W.",
     role: "Tata, wizyta rodzinna",
     rating: 5,
-    text: "Kameralnie, profesjonalnie, bez tłumów jak w dużym zoo. Widać, że zwierzęta są zaopiekowane. Polecam każdej rodzinie z okolic Warszawy.",
+    text: "Kameralnie, profesjonalnie, bez tłumów jak w dużym zoo. Widać, że zwierzęta są zaopiekowane. Polecam każdej rodzinie z okolic Wrocławia.",
     date: "marzec 2026",
   },
 ];

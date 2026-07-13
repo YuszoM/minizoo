@@ -135,7 +135,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="font-display text-lg text-forest">Rezerwacja online</p>
-            <p className="mt-1 text-sm text-ink-muted">
+            <p className="mt-1 text-sm font-medium text-ink-soft">
               Pakiet → termin → dane → płatność
             </p>
           </div>
@@ -147,7 +147,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                   "flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-colors",
                   step >= s.id
                     ? "bg-forest text-paper"
-                    : "bg-paper-deep text-ink-muted",
+                    : "border border-paper-deep bg-white text-ink-soft",
                 )}
                 title={s.label}
               >
@@ -182,7 +182,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                         <p className="text-sm text-ink-muted">{o.subtitle}</p>
                       </div>
                       {o.popular && (
-                        <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-bold text-gold-muted uppercase">
+                        <span className="rounded-full bg-gold/25 px-2 py-0.5 text-[10px] font-bold text-forest uppercase">
                           Hit
                         </span>
                       )}

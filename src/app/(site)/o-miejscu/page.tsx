@@ -2,20 +2,22 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Shield, Sparkles, TreePine } from "lucide-react";
+import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { BeforeVisitSection } from "@/components/visit/BeforeVisitSection";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "O miejscu",
   description:
-    "Poznaj mini zoo egZOOturystyka — kameralne spotkania ze zwierzętami pod Warszawą.",
+    "Poznaj mini zoo egZOOturystyka — kameralne spotkania ze zwierzętami pod Wrocławiem.",
 };
 
 const features = [
   {
     icon: TreePine,
     title: "Blisko natury",
-    text: "Otwock — 30 minut od centrum Warszawy. Spokojne, zielone otoczenie.",
+    text: "Sadków, Kąty Wrocławskie — ok. 30 minut od centrum Wrocławia. Spokojne, zielone otoczenie.",
   },
   {
     icon: Shield,
@@ -32,7 +34,7 @@ const features = [
 export default function OMiejscuPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-forest">
+      <section className="relative -mt-[76px] overflow-hidden bg-forest">
         <div className="absolute inset-0">
           <Image
             src="/images/place-interior.png"
@@ -42,13 +44,14 @@ export default function OMiejscuPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-forest/80" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest/95 via-forest/85 to-forest/70" />
+          <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
         </div>
-        <div className="container-site relative py-24 md:py-32">
+        <div className="container-site relative px-5 py-[calc(76px+4rem)] md:px-8 md:py-[calc(76px+5rem)]">
           <h1 className="display-lg max-w-2xl font-semibold text-white">
             Mini zoo, w którym liczy się każde spotkanie
           </h1>
-          <p className="lead mt-6 max-w-xl text-paper/85">
+          <p className="lead mt-6 max-w-xl text-paper/90">
             Kameralne miejsce dla rodzin i szkół — żywe lekcje biologii bez
             hałasu wielkiego ogrodu zoologicznego.
           </p>
@@ -69,6 +72,7 @@ export default function OMiejscuPage() {
               className="object-cover"
               sizes="50vw"
             />
+            <DemoPhotoLabel />
           </div>
         </div>
       </section>
@@ -84,6 +88,8 @@ export default function OMiejscuPage() {
           ))}
         </div>
       </section>
+
+      <BeforeVisitSection />
 
       <section className="section-y">
         <div className="container-site flex flex-col items-start gap-6 rounded-xl bg-white p-8 md:flex-row md:items-center md:justify-between">
