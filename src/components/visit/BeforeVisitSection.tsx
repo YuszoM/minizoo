@@ -61,7 +61,7 @@ export function BeforeVisitSection() {
 
         <p className="mt-8 text-center text-sm text-ink-muted">
           Szczegóły dotyku zwierząt i rezygnacji — w{" "}
-          <Link href="/regulamin" className="font-medium text-forest hover:text-gold">
+          <Link href="/regulamin" className="text-link">
             regulaminie rezerwacji
           </Link>
           .

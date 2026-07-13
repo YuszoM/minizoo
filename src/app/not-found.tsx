@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "Strona nie znaleziona",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (

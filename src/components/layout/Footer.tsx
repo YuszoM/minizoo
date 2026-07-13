@@ -61,7 +61,7 @@ export function Footer() {
           <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-paper/80">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="transition hover:text-white">
+                <Link href={link.href} className="inline-flex min-h-11 items-center py-2 transition hover:text-white">
                   {link.label}
                 </Link>
               </li>
@@ -78,13 +78,16 @@ export function Footer() {
             </li>
             <li className="flex gap-3">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-white">
+              <a
+                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                className="inline-flex min-h-11 items-center py-2 hover:text-white"
+              >
                 {site.phone}
               </a>
             </li>
             <li className="flex gap-3">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-              <a href={`mailto:${site.email}`} className="hover:text-white">
+              <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center py-2 hover:text-white">
                 {site.email}
               </a>
             </li>
@@ -98,7 +101,11 @@ export function Footer() {
           <p>© {new Date().getFullYear()} {site.name}</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-paper/80">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex min-h-11 items-center py-2 hover:text-paper/80"
+              >
                 {link.label}
               </Link>
             ))}

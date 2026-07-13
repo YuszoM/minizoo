@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Karla, Spectral } from "next/font/google";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { JsonLdFaq, JsonLdOrganization } from "@/components/seo/JsonLd";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -66,6 +67,7 @@ export default function RootLayout({
         <JsonLdOrganization />
         <JsonLdFaq />
         {children}
+        <CookieConsentBanner />
       </body>
     </html>
   );

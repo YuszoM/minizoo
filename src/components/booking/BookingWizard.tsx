@@ -373,7 +373,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                 <input type="checkbox" defaultChecked className="mt-1" />
                 <span className="text-ink-muted">
                   Akceptuję{" "}
-                  <a href="/regulamin" className="font-semibold text-forest underline-offset-2 hover:underline">
+                  <a href="/regulamin" className="text-link">
                     regulamin
                   </a>{" "}
                   rezerwacji.

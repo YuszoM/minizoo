@@ -93,7 +93,7 @@ export default function OfertaPage() {
           </div>
           <p className="mt-4 text-sm text-ink-muted">
             Dla grup szkolnych powyżej 30 uczniów lub wizyt poza standardowymi godzinami —{" "}
-            <Link href="/kontakt" className="text-gold hover:underline">
+            <Link href="/kontakt" className="text-link">
               napisz do nas
             </Link>
             .

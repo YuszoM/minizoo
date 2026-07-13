@@ -167,7 +167,7 @@ export default function KontaktPage() {
               href={getMapLinkUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gold hover:underline"
+              className="text-link"
             >
               Otwórz w Google Maps
             </a>
