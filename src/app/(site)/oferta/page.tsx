@@ -19,6 +19,7 @@ export default function OfertaPage() {
     <div className="section-y">
       <div className="container-site">
         <SectionHeading
+          as="h1"
           title="Programy spotkań ze zwierzętami"
           description="Każda wizyta to indywidualnie prowadzone spotkanie — bez tłumów, z czasem na pytania."
         />

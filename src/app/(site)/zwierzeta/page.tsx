@@ -15,6 +15,7 @@ export default function ZwierzetaPage() {
     <div className="section-y">
       <div className="container-site">
         <SectionHeading
+          as="h1"
           title="Nasi podopieczni"
           description="Każde zwierzę ma swoją historię — opiekun opowiada o gatunku, środowisku i ochronie przyrody."
         />

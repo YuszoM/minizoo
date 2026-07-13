@@ -6,6 +6,8 @@ type SectionHeadingProps = {
   align?: "left" | "center";
   className?: string;
   tone?: "light" | "dark";
+  /** "h1" dla głównego nagłówka strony (jeden na stronę), domyślnie "h2". */
+  as?: "h1" | "h2";
 };
 
 export function SectionHeading({
@@ -14,6 +16,7 @@ export function SectionHeading({
   align = "left",
   className,
   tone = "dark",
+  as: Tag = "h2",
 }: SectionHeadingProps) {
   return (
     <div
@@ -23,14 +26,14 @@ export function SectionHeading({
         className,
       )}
     >
-      <h2
+      <Tag
         className={cn(
           "display-lg font-semibold",
           tone === "light" ? "text-paper" : "text-forest",
         )}
       >
         {title}
-      </h2>
+      </Tag>
       {description && (
         <p
           className={cn(

@@ -13,6 +13,7 @@ export default function RezerwacjaPage() {
     <div className="section-y">
       <div className="container-site">
         <SectionHeading
+          as="h1"
           title="Zarezerwuj wizytę w mini zoo"
           description="Wybierz pakiet, termin i opłać spotkanie — cały proces zajmuje około 3 minut."
           align="center"

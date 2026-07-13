@@ -7,6 +7,8 @@ import { reviews } from "@/data/reviews";
 
 export const metadata: Metadata = {
   title: "Opinie",
+  description:
+    "Opinie gości o mini zoo egZOOturystyka — 4,9/5 na Google. Zobacz, co mówią rodziny i szkoły po wizycie.",
 };
 
 export default function OpiniePage() {
@@ -16,6 +18,7 @@ export default function OpiniePage() {
     <div className="section-y">
       <div className="container-site">
         <SectionHeading
+          as="h1"
           title="Goście o nas mówią najlepiej"
           description={`Średnia ${avg.toFixed(1)}/5 · ${reviews.length} opinii na stronie`}
           align="center"

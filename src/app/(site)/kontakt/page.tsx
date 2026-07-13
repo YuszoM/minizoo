@@ -20,6 +20,7 @@ export default function KontaktPage() {
     <div className="section-y">
       <div className="container-site">
         <SectionHeading
+          as="h1"
           title="Porozmawiajmy o Twojej wizycie"
           description="Pytania o ofertę szkolną, dojazd lub niestandardowy termin? Odpowiadamy tego samego dnia."
         />
