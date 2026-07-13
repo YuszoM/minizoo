@@ -60,15 +60,15 @@ export default function KontaktPage() {
                 <li className="flex gap-3">
                   <Car className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
                   <span>
-                    <strong className="text-paper">Samochodem:</strong> ok. 30 min z centrum
-                    Wrocławia (A4 / droga na Kąty Wrocławskie). Parking gratis na miejscu.
+                    <strong className="text-paper">Samochodem:</strong> ok. 40 min z centrum
+                    Wrocławia (A4 / kierunek Oleśnica, gmina Dobroszyce). Parking gratis na miejscu.
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
                   <span>
                     <strong className="text-paper">Pociągiem:</strong> do Wrocławia Głównego, potem
-                    autobus lub krótki przejazd do Sadkowa (ok. 30 min łącznie).
+                    autobus lub krótki przejazd do Sadkowa (ok. 40 min łącznie).
                   </span>
                 </li>
                 <li className="flex gap-3">

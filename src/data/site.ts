@@ -2,21 +2,21 @@ export const site = {
   name: "egZOOturystyka",
   tagline: "Poznaj świat zwierząt",
   description:
-    "Mini zoo na Dolnym Śląsku — indywidualne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół, 30 minut od Wrocławia.",
+    "Mini zoo na Dolnym Śląsku — indywidualne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół, ok. 40 minut od Wrocławia.",
   email: "kontakt@egzooturystyka.pl",
   phone: "600 123 456",
   startingPrice: 249,
   photosAreDemo: true,
   address: {
-    street: "Sadków 12",
+    street: "Sadków 20B",
     city: "Sadków",
-    municipality: "Kąty Wrocławskie",
+    municipality: "Dobroszyce",
     region: "dolnośląskie",
-    postalCode: "55-080",
-    full: "Sadków, 55-080 Kąty Wrocławskie",
-    mapQuery: "Sadków, Kąty Wrocławskie, dolnośląskie",
-    lat: 51.049167,
-    lng: 16.836389,
+    postalCode: "56-410",
+    full: "Sadków 20B, 56-410 Sadków",
+    mapQuery: "Sadków 20B, 56-410 Sadków, Polska",
+    lat: 51.30747,
+    lng: 17.3146,
   },
   hours: "Wt–Nd: 10:00–18:00 (poniedziałek zamknięte)",
   googleReviews: {
@@ -46,8 +46,9 @@ export const footerLinks = [
 ] as const;
 
 export function getMapEmbedUrl() {
-  const query = encodeURIComponent(site.address.mapQuery);
-  return `https://www.google.com/maps?q=${query}&hl=pl&z=14&output=embed`;
+  const { lat, lng, mapQuery } = site.address;
+  const query = encodeURIComponent(`${lat},${lng} (${mapQuery})`);
+  return `https://www.google.com/maps?q=${query}&hl=pl&z=16&output=embed`;
 }
 
 export function getMapLinkUrl() {
