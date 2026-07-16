@@ -86,7 +86,7 @@ export default function OfertaPage() {
         <section id="cennik" className="mt-20 scroll-mt-28">
           <SectionHeading
             title="Cennik — przejrzyście i bez niespodzianek"
-            description="Wszystkie ceny brutto. Płatność online przy rezerwacji (karta, BLIK)."
+            description="Wszystkie ceny brutto. Płatność gotówką lub kartą na miejscu przy wejściu."
           />
           <div className="mt-8">
             <PricingTable />

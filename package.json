@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audit:screenshots": "node scripts/audit-screenshots.mjs"
+    "audit:screenshots": "node scripts/audit-screenshots.mjs",
+    "env:vercel": "bash scripts/push-vercel-env.sh",
+    "env:vercel:preview": "VERCEL_ENV=preview bash scripts/push-vercel-env.sh"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.6",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.42.2",
     "lenis": "^1.3.25",

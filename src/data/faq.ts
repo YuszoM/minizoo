@@ -17,7 +17,7 @@ export const faqItems = [
   {
     question: "Jak wygląda płatność?",
     answer:
-      "Po wyborze terminu opłacasz rezerwację online kartą lub BLIK-iem (Przelewy24). W wersji produkcyjnej otrzymasz potwierdzenie na e-mail. To demo pokazuje pełny proces bez realnej transakcji.",
+      "Rezerwacja online jest bezpłatna — potwierdzasz termin i dostajesz bilety mailem. Opłatę za wizytę uregulujesz na miejscu przy wejściu (gotówka lub karta).",
   },
   {
     question: "Czy organizujecie wizyty szkolne poza sezonem?",

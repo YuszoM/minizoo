@@ -86,7 +86,7 @@ export function HeroSection() {
             </h1>
             <p className="lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
               Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
-              Wybierz termin, opłać online — gotowe w 3 minuty.
+              Wybierz termin online — płatność przy wejściu, gotowe w 3 minuty.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/rezerwacja" className="btn-gold">
@@ -119,7 +119,7 @@ export function HeroSection() {
               ))}
             </ul>
             <p className="mt-5 text-xs leading-relaxed text-ink-soft">
-              Od {formatPrice(249)} za spotkanie rodzinne · płatność kartą lub BLIK
+              Od {formatPrice(249)} za spotkanie rodzinne · płatność na miejscu
             </p>
             <Link href="/rezerwacja" className="btn-primary mt-5 w-full">
               Wybierz termin
@@ -365,8 +365,8 @@ export function BookingSection() {
         <Reveal variant="blur-up">
           <SectionHeading
             tone="light"
-            title="Zarezerwuj i opłać wizytę online"
-            description="Kalendarz, wybór godziny i płatność w jednym miejscu — tak prosto, jak powinno być."
+            title="Zarezerwuj wizytę online"
+            description="Kalendarz, wybór godziny i bilety mailem — płatność przy wejściu."
             align="center"
             className="mx-auto"
           />

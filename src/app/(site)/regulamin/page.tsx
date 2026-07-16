@@ -22,7 +22,7 @@ export default function RegulaminPage() {
             },
             {
               t: "§2 Rezerwacje online",
-              b: "Rezerwacja następuje po wyborze pakietu, terminu i płatności online. Potwierdzenie wysyłane jest na e-mail.",
+              b: "Rezerwacja następuje po wyborze pakietu i terminu w formularzu online. Potwierdzenie i numery biletów wysyłane są na e-mail. Opłata za wizytę następuje na miejscu przy wejściu.",
             },
             {
               t: "§3 Bezpieczeństwo",
@@ -30,7 +30,7 @@ export default function RegulaminPage() {
             },
             {
               t: "§4 Anulowanie",
-              b: "Zmiana terminu do 48 h przed wizytą — bezpłatnie. Późniejsza rezygnacja — zwrot 50% wpłaty.",
+              b: "Zmiana terminu do 48 h przed wizytą — bezpłatnie. Późniejsza rezygnacja — według ustaleń z organizatorem (szczegóły ustalane indywidualnie).",
             },
           ].map((s) => (
             <section key={s.t}>

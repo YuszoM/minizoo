@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | egZOOturystyka",
   },
   description:
-    "Mini zoo pod Wrocławiem — kameralne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół. Rezerwacja i płatność online.",
+    "Mini zoo pod Wrocławiem — kameralne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół. Rezerwacja online, płatność na miejscu.",
   icons: {
     icon: [{ url: "/brand/logo.jpeg", type: "image/jpeg" }],
     apple: [{ url: "/brand/logo.jpeg", type: "image/jpeg" }],

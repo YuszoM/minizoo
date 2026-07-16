@@ -1,15 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
+  Banknote,
   CalendarDays,
   Check,
   ChevronLeft,
   ChevronRight,
-  CreditCard,
   Loader2,
   Users,
 } from "lucide-react";
+import { submitBookingAction } from "@/app/actions/booking";
 import { offers } from "@/data/offers";
 import { cn, formatDatePL, formatPrice } from "@/lib/utils";
 
@@ -19,7 +20,7 @@ const STEPS = [
   { id: 1, label: "Oferta" },
   { id: 2, label: "Termin" },
   { id: 3, label: "Dane" },
-  { id: 4, label: "Płatność" },
+  { id: 4, label: "Potwierdzenie" },
 ] as const;
 
 const inputClass =
@@ -40,30 +41,115 @@ function isMonday(date: Date) {
 }
 
 function isUnavailable(date: Date) {
-  if (isPast(date) || isMonday(date)) return true;
-  const seed = date.getDate() + date.getMonth();
-  return seed % 5 === 0;
+  return isPast(date) || isMonday(date);
 }
 
-export function BookingWizard({ compact = false }: { compact?: boolean }) {
+function toIsoDate(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function defaultGuests(offerId: string) {
+  if (offerId === "szkola") return 15;
+  if (offerId === "urodziny") return 8;
+  return 4;
+}
+
+function guestLimits(offerId: string) {
+  if (offerId === "szkola") return { min: 15, max: 30, label: "Liczba uczniów" };
+  if (offerId === "urodziny") return { min: 1, max: 10, label: "Liczba dzieci" };
+  return { min: 2, max: 6, label: "Liczba osób" };
+}
+
+type SlotAvailability = {
+  time: string;
+  booked: number;
+  max: number;
+  remaining: number;
+  full: boolean;
+};
+
+export function BookingWizard({
+  compact = false,
+  initialOfferId,
+}: {
+  compact?: boolean;
+  initialOfferId?: string;
+}) {
+  const validInitial =
+    initialOfferId && offers.some((o) => o.id === initialOfferId)
+      ? initialOfferId
+      : offers[0].id;
+
   const [step, setStep] = useState(1);
-  const [selectedOffer, setSelectedOffer] = useState(offers[0].id);
+  const [selectedOffer, setSelectedOffer] = useState(validInitial);
   const [viewDate, setViewDate] = useState(() => new Date());
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [guests, setGuests] = useState(4);
+  const [guests, setGuests] = useState(() => defaultGuests(validInitial));
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const [orderNumber, setOrderNumber] = useState("");
+  const [ticketCodes, setTicketCodes] = useState<string[]>([]);
+  const [slotAvailability, setSlotAvailability] = useState<SlotAvailability[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   const offer = offers.find((o) => o.id === selectedOffer) ?? offers[0];
+  const baseLimits = guestLimits(offer.id);
+
+  const selectedSlot = slotAvailability.find((s) => s.time === selectedTime);
+  const effectiveMax = selectedSlot
+    ? Math.min(baseLimits.max, selectedSlot.remaining)
+    : baseLimits.max;
+  const limits = { ...baseLimits, max: effectiveMax };
+  const slotTooSmallForOffer =
+    selectedSlot != null && selectedSlot.remaining > 0 && selectedSlot.remaining < baseLimits.min;
+
+  useEffect(() => {
+    if (!selectedDay) {
+      setSlotAvailability([]);
+      return;
+    }
+
+    let cancelled = false;
+    setLoadingSlots(true);
+
+    fetch(`/api/bookings/availability?date=${toIsoDate(selectedDay)}`)
+      .then((res) => res.json())
+      .then((data: { slots?: SlotAvailability[] }) => {
+        if (cancelled) return;
+        setSlotAvailability(data.slots ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setSlotAvailability([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSlots(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedDay]);
+
+  useEffect(() => {
+    if (selectedSlot?.full) setSelectedTime(null);
+  }, [selectedSlot?.full]);
+
+  useEffect(() => {
+    setGuests((g) => Math.min(Math.max(g, limits.min), limits.max));
+  }, [limits.min, limits.max]);
 
   const totalPrice = useMemo(() => {
-    if (offer.id === "szkola") return offer.price * Math.max(guests, 15);
+    if (offer.id === "szkola") return offer.price * Math.max(guests, limits.min);
     return offer.price;
-  }, [offer, guests]);
+  }, [offer, guests, limits.min]);
 
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -76,6 +162,11 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
     year: "numeric",
   }).format(viewDate);
 
+  function selectOffer(id: string) {
+    setSelectedOffer(id);
+    setGuests(defaultGuests(id));
+  }
+
   function nextStep() {
     setStep((s) => Math.min(s + 1, 4));
   }
@@ -84,10 +175,31 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
     setStep((s) => Math.max(s - 1, 1));
   }
 
-  async function handlePay() {
+  async function handleConfirm() {
+    if (!selectedDay || !selectedTime) return;
+
     setPaying(true);
-    await new Promise((r) => setTimeout(r, 1800));
+    setPayError(null);
+
+    const result = await submitBookingAction({
+      offerId: offer.id,
+      visitDate: toIsoDate(selectedDay),
+      visitTime: selectedTime,
+      guestCount: guests,
+      customerName: name,
+      email,
+      phone,
+    });
+
     setPaying(false);
+
+    if (!result.ok) {
+      setPayError(result.error);
+      return;
+    }
+
+    setOrderNumber(result.orderNumber);
+    setTicketCodes(result.ticketCodes);
     setConfirmed(true);
   }
 
@@ -99,10 +211,15 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
         </div>
         <h3 className="font-display text-2xl text-forest">Rezerwacja potwierdzona</h3>
         <p className="mt-3 text-ink-muted">
-          Płatność została zasymulowana. W wersji produkcyjnej otrzymasz e-mail z
-          potwierdzeniem.
+          Wysłaliśmy na <strong className="text-forest">{email}</strong> dwa e-maile: potwierdzenie
+          rezerwacji oraz numery biletów. Płatność ({formatPrice(totalPrice)}) przy wejściu na
+          miejscu.
         </p>
         <dl className="mt-6 space-y-2 rounded-lg bg-paper p-4 text-left text-sm">
+          <div className="flex justify-between gap-4">
+            <dt className="text-ink-muted">Numer zamówienia</dt>
+            <dd className="font-mono font-medium">{orderNumber}</dd>
+          </div>
           <div className="flex justify-between gap-4">
             <dt className="text-ink-muted">Pakiet</dt>
             <dd className="font-medium">{offer.title}</dd>
@@ -115,11 +232,29 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
               </dd>
             </div>
           )}
+          <div className="flex justify-between gap-4">
+            <dt className="text-ink-muted">Osoby</dt>
+            <dd className="font-medium">{guests}</dd>
+          </div>
           <div className="flex justify-between gap-4 border-t border-paper-deep pt-2">
             <dt className="text-ink-muted">Kwota</dt>
             <dd className="font-display text-xl text-gold">{formatPrice(totalPrice)}</dd>
           </div>
         </dl>
+        {ticketCodes.length > 0 && (
+          <div className="mt-4 rounded-lg border border-gold/30 bg-gold/8 p-4 text-left">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              Numery biletów
+            </p>
+            <ul className="mt-2 space-y-1 font-mono text-sm font-semibold tracking-wider text-forest">
+              {ticketCodes.map((code, i) => (
+                <li key={code}>
+                  Bilet {i + 1}: {code}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     );
   }
@@ -136,7 +271,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
           <div>
             <p className="font-display text-lg text-forest">Rezerwacja online</p>
             <p className="mt-1 text-sm font-medium text-ink-soft">
-              Pakiet → termin → dane → płatność
+              Pakiet → termin → dane → potwierdzenie
             </p>
           </div>
           <ol className="flex gap-2" aria-label="Kroki rezerwacji">
@@ -168,7 +303,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                   <button
                     key={o.id}
                     type="button"
-                    onClick={() => setSelectedOffer(o.id)}
+                    onClick={() => selectOffer(o.id)}
                     className={cn(
                       "rounded-lg border p-4 text-left transition-colors",
                       selectedOffer === o.id
@@ -265,9 +400,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                     );
                   })}
                 </div>
-                <p className="mt-3 text-xs text-ink-muted">
-                  Poniedziałki zamknięte · przekreślone dni bez wolnych miejsc
-                </p>
+                <p className="mt-3 text-xs text-ink-muted">Poniedziałki zamknięte</p>
               </div>
 
               {selectedDay && (
@@ -275,23 +408,41 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                   <p className="mb-3 text-sm font-semibold text-forest">
                     Godzina — {formatDatePL(selectedDay)}
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {TIME_SLOTS.map((time) => (
-                      <button
-                        key={time}
-                        type="button"
-                        onClick={() => setSelectedTime(time)}
-                        className={cn(
-                          "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-                          selectedTime === time
-                            ? "border-forest bg-forest text-paper"
-                            : "border-paper-deep hover:border-gold",
-                        )}
-                      >
-                        {time}
-                      </button>
-                    ))}
-                  </div>
+                  {loadingSlots ? (
+                    <p className="text-sm text-ink-muted">Sprawdzam wolne miejsca…</p>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {TIME_SLOTS.map((time) => {
+                        const slot = slotAvailability.find((s) => s.time === time);
+                        const full = slot?.full ?? false;
+                        const remaining = slot?.remaining;
+
+                        return (
+                          <button
+                            key={time}
+                            type="button"
+                            disabled={full}
+                            onClick={() => setSelectedTime(time)}
+                            className={cn(
+                              "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                              full && "cursor-not-allowed opacity-40 line-through",
+                              !full &&
+                                selectedTime === time &&
+                                "border-forest bg-forest text-paper",
+                              !full &&
+                                selectedTime !== time &&
+                                "border-paper-deep hover:border-gold",
+                            )}
+                          >
+                            {time}
+                            {remaining != null && !full && (
+                              <span className="ml-1.5 text-xs opacity-80">({remaining} miejsc)</span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -309,6 +460,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                     onChange={(e) => setName(e.target.value)}
                     className={inputClass}
                     placeholder="Anna Kowalska"
+                    autoComplete="name"
                   />
                 </label>
                 <label className="block">
@@ -319,6 +471,7 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                     onChange={(e) => setEmail(e.target.value)}
                     className={inputClass}
                     placeholder="anna@email.pl"
+                    autoComplete="email"
                   />
                 </label>
                 <label className="block">
@@ -329,45 +482,53 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                     onChange={(e) => setPhone(e.target.value)}
                     className={inputClass}
                     placeholder="600 000 000"
+                    autoComplete="tel"
                   />
                 </label>
-                {offer.id === "szkola" && (
-                  <label className="block sm:col-span-2">
-                    <span className="mb-1.5 flex items-center gap-1.5 text-sm font-medium">
-                      <Users className="h-4 w-4" />
-                      Liczba uczniów
-                    </span>
-                    <input
-                      type="number"
-                      min={15}
-                      max={30}
-                      value={guests}
-                      onChange={(e) => setGuests(Number(e.target.value))}
-                      className={inputClass}
-                    />
-                  </label>
-                )}
+                <label className="block sm:col-span-2">
+                  <span className="mb-1.5 flex items-center gap-1.5 text-sm font-medium">
+                    <Users className="h-4 w-4" />
+                    {limits.label}
+                  </span>
+                  <input
+                    type="number"
+                    min={limits.min}
+                    max={limits.max}
+                    value={guests}
+                    onChange={(e) => setGuests(Number(e.target.value))}
+                    className={inputClass}
+                  />
+                  <p className="mt-1 text-xs text-ink-muted">
+                    Od {limits.min} do {limits.max} — każda osoba otrzyma osobny numer biletu.
+                    {selectedSlot && selectedSlot.remaining < baseLimits.max && (
+                      <> W tym terminie zostało {selectedSlot.remaining} miejsc.</>
+                    )}
+                    {slotTooSmallForOffer && (
+                      <span className="block text-red-600">
+                        Ten termin ma za mało miejsc dla pakietu (min. {baseLimits.min} os.).
+                        Wybierz inną godzinę lub pakiet.
+                      </span>
+                    )}
+                  </p>
+                </label>
               </div>
             </div>
           )}
 
           {step === 4 && (
             <div className="space-y-5">
-              <h3 className="font-display text-xl text-forest">Płatność online</h3>
+              <h3 className="font-display text-xl text-forest">Potwierdzenie rezerwacji</h3>
               <div className="rounded-lg border border-gold/30 bg-gold/8 p-6">
                 <div className="flex items-center gap-3">
-                  <CreditCard className="h-8 w-8 text-gold" />
+                  <Banknote className="h-8 w-8 text-gold" />
                   <div>
-                    <p className="font-semibold text-forest">Przelewy24</p>
+                    <p className="font-semibold text-forest">Płatność na miejscu</p>
                     <p className="text-sm text-ink-muted">
-                      Karta, BLIK lub szybki przelew
+                      Rezerwacja online jest bezpłatna. Kwotę {formatPrice(totalPrice)} uregulujesz
+                      przy wejściu (gotówka lub karta). Bilety wyślemy na e-mail po potwierdzeniu.
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-ink-muted">
-                  Demo — po kliknięciu „Zapłać” symulujemy bramkę płatności bez
-                  pobierania środków.
-                </p>
               </div>
               <label className="flex items-start gap-3 text-sm">
                 <input type="checkbox" defaultChecked className="mt-1" />
@@ -379,6 +540,11 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                   rezerwacji.
                 </span>
               </label>
+              {payError && (
+                <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {payError}
+                </p>
+              )}
             </div>
           )}
 
@@ -397,8 +563,14 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                 type="button"
                 onClick={nextStep}
                 disabled={
-                  (step === 2 && (!selectedDay || !selectedTime)) ||
-                  (step === 3 && (!name || !email || !phone))
+                  (step === 2 && (!selectedDay || !selectedTime || slotTooSmallForOffer)) ||
+                  (step === 3 &&
+                    (!name ||
+                      !email ||
+                      !phone ||
+                      guests < limits.min ||
+                      guests > limits.max ||
+                      slotTooSmallForOffer))
                 }
                 className="btn-primary disabled:cursor-not-allowed disabled:opacity-50"
               >
@@ -408,17 +580,17 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
             {step === 4 && (
               <button
                 type="button"
-                onClick={handlePay}
+                onClick={handleConfirm}
                 disabled={paying}
                 className="btn-gold min-w-[160px]"
               >
                 {paying ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Przetwarzanie…
+                    Zapisywanie…
                   </>
                 ) : (
-                  <>Zapłać {formatPrice(totalPrice)}</>
+                  <>Potwierdź rezerwację</>
                 )}
               </button>
             )}
@@ -444,9 +616,14 @@ export function BookingWizard({ compact = false }: { compact?: boolean }) {
                 </span>
               </div>
             )}
+            {step >= 3 && (
+              <p className="text-ink-muted">
+                {guests} {guests === 1 ? "bilet" : guests < 5 ? "bilety" : "biletów"}
+              </p>
+            )}
             <div className="border-t border-paper-deep pt-3">
               <div className="flex justify-between font-semibold">
-                <span>Razem</span>
+                <span>Do zapłaty na miejscu</span>
                 <span className="font-display text-xl text-gold">
                   {formatPrice(totalPrice)}
                 </span>

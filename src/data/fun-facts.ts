@@ -27,7 +27,7 @@ export const funFacts: FunFact[] = [
   {
     id: "booking",
     value: "3 min",
-    label: "rezerwacja i płatność online",
+    label: "rezerwacja online · płatność na miejscu",
     icon: "/images/illustrations/fact-butterfly.jpg",
   },
 ];
