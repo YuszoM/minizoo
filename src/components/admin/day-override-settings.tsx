@@ -48,7 +48,7 @@ export function DayOverrideSettings({ dateIso, dateLabel, globalMax, override }:
               Wykreśl cały dzień
             </span>
             <span className="mt-0.5 block text-xs text-ink-muted">
-              Dzień znika z kalendarza rezerwacji (jak poniedziałek).
+              Klienci nie będą mogli wybrać tej daty w kalendarzu rezerwacji.
             </span>
           </span>
         </label>
