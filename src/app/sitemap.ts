@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/rezerwacja",
+    "/bon",
     "/oferta",
     "/o-miejscu",
     "/zwierzeta",

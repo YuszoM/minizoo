@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "audit:screenshots": "node scripts/audit-screenshots.mjs",
     "env:vercel": "bash scripts/push-vercel-env.sh",
     "env:vercel:preview": "VERCEL_ENV=preview bash scripts/push-vercel-env.sh"
   },
@@ -26,7 +25,6 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pdfkit": "^0.17.6",

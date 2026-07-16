@@ -1,4 +1,4 @@
-import { wrapResendHtml } from "@/lib/email/resend-layout";
+import { sendResendEmail } from "@/lib/email/resend-client";
 import { formatDatePL, formatPrice } from "@/lib/utils";
 
 type BookingEmailPayload = {
@@ -12,48 +12,6 @@ type BookingEmailPayload = {
   totalPrice: number;
   ticketCodes: string[];
 };
-
-function getResendConfig() {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.RESEND_FROM_EMAIL?.trim();
-  if (!apiKey || !from) return null;
-  return { apiKey, from };
-}
-
-async function sendResendEmail(opts: {
-  to: string;
-  subject: string;
-  html: string;
-}) {
-  const config = getResendConfig();
-  if (!config) {
-    console.warn("[email] Brak RESEND_API_KEY lub RESEND_FROM_EMAIL — pominięto wysyłkę.");
-    return { ok: false as const, error: "Brak konfiguracji Resend." };
-  }
-
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${config.apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: config.from,
-      to: opts.to,
-      subject: opts.subject,
-      html: opts.html,
-      reply_to: process.env.RESEND_REPLY_TO?.trim() || undefined,
-    }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    console.error("[email] Resend error:", res.status, body);
-    return { ok: false as const, error: "Nie udało się wysłać e-maila." };
-  }
-
-  return { ok: true as const };
-}
 
 export async function sendBookingConfirmationEmail(payload: BookingEmailPayload) {
   const dateLabel = formatDatePL(payload.visitDate);
@@ -74,11 +32,9 @@ export async function sendBookingConfirmationEmail(payload: BookingEmailPayload)
   return sendResendEmail({
     to: payload.to,
     subject: `Potwierdzenie rezerwacji ${payload.orderNumber} — egZOOturystyka`,
-    html: wrapResendHtml({
-      title: "Rezerwacja potwierdzona",
-      previewText: `Termin: ${dateLabel}, godz. ${payload.visitTime}`,
-      innerHtml,
-    }),
+    title: "Rezerwacja potwierdzona",
+    previewText: `Termin: ${dateLabel}, godz. ${payload.visitTime}`,
+    innerHtml,
   });
 }
 
@@ -102,11 +58,9 @@ export async function sendBookingTicketsEmail(payload: BookingEmailPayload) {
   return sendResendEmail({
     to: payload.to,
     subject: `Twoje bilety — ${dateLabel}, ${payload.visitTime}`,
-    html: wrapResendHtml({
-      title: "Bilety na wizytę",
-      previewText: `Numery biletów: ${payload.ticketCodes.join(", ")}`,
-      innerHtml,
-    }),
+    title: "Bilety na wizytę",
+    previewText: `Numery biletów: ${payload.ticketCodes.join(", ")}`,
+    innerHtml,
   });
 }
 
