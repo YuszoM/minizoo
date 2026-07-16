@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { BookingsSchedule } from "@/components/admin/bookings-schedule";
+import { DayOverrideSettings } from "@/components/admin/day-override-settings";
 import { MaxGuestsSettings } from "@/components/admin/max-guests-settings";
 import { PanelHeader } from "@/components/admin/panel-header";
 import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
 import { requireAdminHub } from "@/lib/admin/hub-auth";
-import { getSlotAvailability } from "@/lib/booking/capacity";
+import { getDayAvailability } from "@/lib/booking/capacity";
+import { getDayOverride } from "@/lib/booking/day-overrides";
 import { fetchBookingsForDate } from "@/lib/booking/service";
 import { getBookingSettings } from "@/lib/booking/settings";
 import type { BookingWithTickets } from "@/lib/booking/types";
@@ -37,10 +39,11 @@ export default async function AdminRezerwacjePage({
   await requireAdminHub();
   const params = await searchParams;
   const dateIso = parseDateParam(params.data);
-  const [bookings, settings, availability] = await Promise.all([
+  const [bookings, settings, dayAvailability, override] = await Promise.all([
     fetchBookingsForDate(dateIso) as Promise<BookingWithTickets[]>,
     getBookingSettings(),
-    getSlotAvailability(dateIso),
+    getDayAvailability(dateIso),
+    getDayOverride(dateIso),
   ]);
 
   const [y, m, d] = dateIso.split("-").map(Number);
@@ -50,7 +53,7 @@ export default async function AdminRezerwacjePage({
   const slots = BOOKING_TIME_SLOTS.map((time) => ({
     time,
     bookings: bookings.filter((b) => b.visit_time === time),
-    capacity: availability.find((a) => a.time === time),
+    capacity: dayAvailability.slots.find((a) => a.time === time),
   }));
 
   return (
@@ -66,7 +69,7 @@ export default async function AdminRezerwacjePage({
         <div>
           <h2 className="font-display text-xl text-forest">Harmonogram wizyt</h2>
           <p className="mt-1 text-sm text-ink-muted">
-            Kliknij godzinę, aby rozwinąć listę gości i numery biletów.
+            Wybierz datę, ustaw limity / wykreśl dzień, potem przeglądaj gości.
           </p>
         </div>
         <Link
@@ -77,7 +80,7 @@ export default async function AdminRezerwacjePage({
         </Link>
       </div>
 
-      <form method="get" className="mb-8 flex flex-wrap items-end gap-3">
+      <form method="get" className="mb-6 flex flex-wrap items-end gap-3">
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium text-forest">Data</span>
           <input
@@ -94,6 +97,19 @@ export default async function AdminRezerwacjePage({
           Pokaż
         </button>
       </form>
+
+      <DayOverrideSettings
+        dateIso={dateIso}
+        dateLabel={dateLabel}
+        globalMax={settings.maxGuestsPerSlot}
+        override={override}
+      />
+
+      {dayAvailability.blocked ? (
+        <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Dzień wykreślony — klienci nie mogą rezerwować tej daty.
+        </p>
+      ) : null}
 
       <BookingsSchedule dateLabel={dateLabel} slots={slots} />
     </div>

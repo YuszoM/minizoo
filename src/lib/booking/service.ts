@@ -1,11 +1,11 @@
 import { offers } from "@/data/offers";
 import { checkSlotCapacity } from "@/lib/booking/capacity";
+import { isDayBlocked } from "@/lib/booking/day-overrides";
 import { generateNumericTicketCode, generateOrderNumber } from "@/lib/booking/ticket-code";
 import type { CreateBookingInput, CreateBookingResult } from "@/lib/booking/types";
 import { sendBookingEmails } from "@/lib/email/send-booking-emails";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
-
-const TIME_SLOTS = ["10:00", "12:00", "14:00", "16:00"] as const;
+import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
 
 function isMonday(date: Date) {
   return date.getDay() === 1;
@@ -99,7 +99,12 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
     return { ok: false, error: "Wybrany termin jest niedostępny." };
   }
 
-  if (!TIME_SLOTS.includes(input.visitTime as (typeof TIME_SLOTS)[number])) {
+  const visitDateIso = toIsoDate(visitDate);
+  if (await isDayBlocked(visitDateIso)) {
+    return { ok: false, error: "Wybrany dzień jest zamknięty dla rezerwacji." };
+  }
+
+  if (!(BOOKING_TIME_SLOTS as readonly string[]).includes(input.visitTime)) {
     return { ok: false, error: "Nieprawidłowa godzina wizyty." };
   }
 
@@ -118,7 +123,6 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
     return { ok: false, error: "Podaj poprawny numer telefonu." };
   }
 
-  const visitDateIso = toIsoDate(visitDate);
   const capacityCheck = await checkSlotCapacity(visitDateIso, input.visitTime, input.guestCount);
   if (!capacityCheck.ok) {
     return { ok: false, error: capacityCheck.error };
@@ -210,4 +214,4 @@ export async function fetchBookingsForDate(dateIso: string) {
   }));
 }
 
-export { TIME_SLOTS, toIsoDate };
+export { toIsoDate };

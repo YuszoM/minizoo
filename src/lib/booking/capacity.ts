@@ -1,4 +1,5 @@
 import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
+import { getDayOverride } from "@/lib/booking/day-overrides";
 import { getBookingSettings } from "@/lib/booking/settings";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
 
@@ -8,6 +9,12 @@ export type SlotAvailability = {
   max: number;
   remaining: number;
   full: boolean;
+};
+
+export type DayAvailability = {
+  date: string;
+  blocked: boolean;
+  slots: SlotAvailability[];
 };
 
 export async function getOccupancyForDate(dateIso: string): Promise<Record<string, number>> {
@@ -36,21 +43,36 @@ export async function getOccupancyForDate(dateIso: string): Promise<Record<strin
   return occupancy;
 }
 
-export async function getSlotAvailability(dateIso: string): Promise<SlotAvailability[]> {
-  const { maxGuestsPerSlot } = await getBookingSettings();
-  const occupancy = await getOccupancyForDate(dateIso);
+export async function getDayAvailability(dateIso: string): Promise<DayAvailability> {
+  const [{ maxGuestsPerSlot }, override, occupancy] = await Promise.all([
+    getBookingSettings(),
+    getDayOverride(dateIso),
+    getOccupancyForDate(dateIso),
+  ]);
 
-  return BOOKING_TIME_SLOTS.map((time) => {
+  const blocked = Boolean(override?.blocked);
+
+  const slots = BOOKING_TIME_SLOTS.map((time) => {
     const booked = occupancy[time] ?? 0;
-    const remaining = Math.max(0, maxGuestsPerSlot - booked);
+    const max =
+      override?.slotLimits[time] != null ? override.slotLimits[time]! : maxGuestsPerSlot;
+    const remaining = blocked ? 0 : Math.max(0, max - booked);
     return {
       time,
       booked,
-      max: maxGuestsPerSlot,
+      max,
       remaining,
-      full: remaining === 0,
+      full: blocked || remaining === 0 || max === 0,
     };
   });
+
+  return { date: dateIso, blocked, slots };
+}
+
+/** @deprecated use getDayAvailability — retained for callers expecting only slots */
+export async function getSlotAvailability(dateIso: string): Promise<SlotAvailability[]> {
+  const day = await getDayAvailability(dateIso);
+  return day.slots;
 }
 
 export async function checkSlotCapacity(
@@ -58,14 +80,19 @@ export async function checkSlotCapacity(
   visitTime: string,
   guestCount: number,
 ): Promise<{ ok: true; remaining: number } | { ok: false; error: string }> {
-  const slots = await getSlotAvailability(dateIso);
-  const slot = slots.find((s) => s.time === visitTime);
+  const day = await getDayAvailability(dateIso);
+
+  if (day.blocked) {
+    return { ok: false, error: "Ten dzień jest zamknięty dla rezerwacji." };
+  }
+
+  const slot = day.slots.find((s) => s.time === visitTime);
 
   if (!slot) {
     return { ok: false, error: "Nieprawidłowa godzina wizyty." };
   }
 
-  if (slot.full) {
+  if (slot.max === 0 || slot.full) {
     return { ok: false, error: "Ten termin jest już w pełni zarezerwowany." };
   }
 

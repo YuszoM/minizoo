@@ -99,6 +99,7 @@ export function BookingWizard({
   const [ticketCodes, setTicketCodes] = useState<string[]>([]);
   const [slotAvailability, setSlotAvailability] = useState<SlotAvailability[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  const [blockedDates, setBlockedDates] = useState<Set<string>>(() => new Set());
 
   const offer = offers.find((o) => o.id === selectedOffer) ?? offers[0];
   const baseLimits = guestLimits(offer.id);
@@ -112,6 +113,26 @@ export function BookingWizard({
     selectedSlot != null && selectedSlot.remaining > 0 && selectedSlot.remaining < baseLimits.min;
 
   useEffect(() => {
+    const y = viewDate.getFullYear();
+    const m = String(viewDate.getMonth() + 1).padStart(2, "0");
+    let cancelled = false;
+
+    fetch(`/api/bookings/availability?month=${y}-${m}`)
+      .then((res) => res.json())
+      .then((data: { blockedDates?: string[] }) => {
+        if (cancelled) return;
+        setBlockedDates(new Set(data.blockedDates ?? []));
+      })
+      .catch(() => {
+        if (!cancelled) setBlockedDates(new Set());
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [viewDate]);
+
+  useEffect(() => {
     if (!selectedDay) {
       setSlotAvailability([]);
       return;
@@ -122,8 +143,13 @@ export function BookingWizard({
 
     fetch(`/api/bookings/availability?date=${toIsoDate(selectedDay)}`)
       .then((res) => res.json())
-      .then((data: { slots?: SlotAvailability[] }) => {
+      .then((data: { slots?: SlotAvailability[]; blocked?: boolean }) => {
         if (cancelled) return;
+        if (data.blocked) {
+          setSlotAvailability([]);
+          setSelectedTime(null);
+          return;
+        }
         setSlotAvailability(data.slots ?? []);
       })
       .catch(() => {
@@ -374,7 +400,9 @@ export function BookingWizard({
                   {Array.from({ length: daysInMonth }).map((_, i) => {
                     const day = i + 1;
                     const date = new Date(year, month, day);
-                    const unavailable = isUnavailable(date);
+                    const iso = toIsoDate(date);
+                    const unavailable =
+                      isUnavailable(date) || blockedDates.has(iso);
                     const selected =
                       selectedDay?.toDateString() === date.toDateString();
 
@@ -400,7 +428,9 @@ export function BookingWizard({
                     );
                   })}
                 </div>
-                <p className="mt-3 text-xs text-ink-muted">Poniedziałki zamknięte</p>
+                <p className="mt-3 text-xs text-ink-muted">
+                  Poniedziałki i dni wykreślone przez organizatora są niedostępne
+                </p>
               </div>
 
               {selectedDay && (

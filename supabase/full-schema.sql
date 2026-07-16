@@ -48,6 +48,27 @@ insert into public.booking_settings (id, max_guests_per_slot)
 values (1, 24)
 on conflict (id) do nothing;
 
+-- Nadpisania dnia: blokada + limity slotów
+create table if not exists public.booking_day_overrides (
+  visit_date date primary key,
+  blocked boolean not null default false,
+  note text,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.booking_slot_limits (
+  visit_date date not null references public.booking_day_overrides (visit_date)
+    on delete cascade,
+  visit_time text not null,
+  max_guests integer not null
+    check (max_guests between 0 and 200),
+  primary key (visit_date, visit_time)
+);
+
+create index if not exists booking_day_overrides_blocked_idx
+  on public.booking_day_overrides (visit_date)
+  where blocked = true;
+
 -- Bony usunięte z produktu — sprzątanie po starej tabeli
 drop table if exists public.vouchers;
 
@@ -69,4 +90,6 @@ create index if not exists contact_leads_email_idx on public.contact_leads (emai
 alter table public.bookings enable row level security;
 alter table public.tickets enable row level security;
 alter table public.booking_settings enable row level security;
+alter table public.booking_day_overrides enable row level security;
+alter table public.booking_slot_limits enable row level security;
 alter table public.contact_leads enable row level security;

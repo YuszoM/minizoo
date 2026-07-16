@@ -19,10 +19,10 @@ export function MaxGuestsSettings({ currentMax, updatedAt }: Props) {
 
   return (
     <section className="mb-8 rounded-xl border border-gold/30 bg-white p-5 shadow-sm">
-      <h3 className="font-display text-lg text-forest">Limit miejsc na godzinę</h3>
+      <h3 className="font-display text-lg text-forest">Domyślny limit miejsc na godzinę</h3>
       <p className="mt-1 text-sm text-ink-muted">
-        Maksymalna liczba osób, które mogą zarezerwować bilet na jedną godzinę (np. 13:00).
-        Po wyczerpaniu limitu termin znika z kalendarza rezerwacji.
+        Globalny limit dla wszystkich dni (gdy nie ustawisz limitu dla konkretnego dnia poniżej).
+        Po wyczerpaniu termin znika z kalendarza rezerwacji.
       </p>
 
       <form action={action} className="mt-4 flex flex-wrap items-end gap-3">
