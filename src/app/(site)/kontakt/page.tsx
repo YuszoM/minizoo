@@ -142,7 +142,19 @@ export default function KontaktPage() {
                 </div>
                 <label className="block">
                   <span className="mb-1.5 block text-sm font-medium">Telefon (opcjonalnie)</span>
-                  <input type="tel" name="phone" className={inputClass} />
+                  <input
+                    type="tel"
+                    name="phone"
+                    inputMode="numeric"
+                    maxLength={9}
+                    pattern="[0-9]{9}"
+                    className={inputClass}
+                    placeholder="600000000"
+                    onInput={(e) => {
+                      const t = e.currentTarget;
+                      t.value = t.value.replace(/\D/g, "").slice(0, 9);
+                    }}
+                  />
                 </label>
                 <label className="block">
                   <span className="mb-1.5 block text-sm font-medium">Temat</span>

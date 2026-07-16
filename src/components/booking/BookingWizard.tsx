@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { submitBookingAction } from "@/app/actions/booking";
 import { offers } from "@/data/offers";
+import { isValidPhone, sanitizePhoneInput } from "@/lib/phone";
 import { cn, formatDatePL, formatPrice } from "@/lib/utils";
 
 const TIME_SLOTS = ["10:00", "12:00", "14:00", "16:00"] as const;
@@ -508,10 +509,13 @@ export function BookingWizard({
                   <span className="mb-1.5 block text-sm font-medium">Telefon</span>
                   <input
                     type="tel"
+                    inputMode="numeric"
+                    maxLength={9}
+                    pattern="[0-9]{9}"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(sanitizePhoneInput(e.target.value))}
                     className={inputClass}
-                    placeholder="600 000 000"
+                    placeholder="600000000"
                     autoComplete="tel"
                   />
                 </label>
@@ -597,7 +601,7 @@ export function BookingWizard({
                   (step === 3 &&
                     (!name ||
                       !email ||
-                      !phone ||
+                      !isValidPhone(phone) ||
                       guests < limits.min ||
                       guests > limits.max ||
                       slotTooSmallForOffer))

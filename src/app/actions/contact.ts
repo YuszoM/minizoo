@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { getClientIp } from "@/lib/rate-limit/client-ip";
 import { rateLimitHit } from "@/lib/rate-limit/upstash";
 import { notifyEmail, sendResendEmail } from "@/lib/email/resend-client";
+import { isValidPhone, sanitizePhoneInput } from "@/lib/phone";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
 
 export type ContactResult =
@@ -37,13 +38,17 @@ export async function submitContactAction(input: {
 
   const name = input.name.trim();
   const email = input.email.trim().toLowerCase();
-  const phone = input.phone?.trim() || null;
+  const phoneRaw = input.phone?.trim() ? sanitizePhoneInput(input.phone) : "";
+  const phone = phoneRaw || null;
   const subject = input.subject.trim() || "Kontakt";
   const message = input.message.trim();
 
   if (name.length < 2) return { ok: false, error: "Podaj imię." };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { ok: false, error: "Podaj poprawny e-mail." };
+  }
+  if (phoneRaw && !isValidPhone(phoneRaw)) {
+    return { ok: false, error: "Telefon: podaj 9 cyfr albo zostaw puste." };
   }
   if (message.length < 10) {
     return { ok: false, error: "Wiadomość jest za krótka." };

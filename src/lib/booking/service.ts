@@ -6,6 +6,7 @@ import type { CreateBookingInput, CreateBookingResult } from "@/lib/booking/type
 import { sendBookingEmails } from "@/lib/email/send-booking-emails";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
 import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
+import { isValidPhone } from "@/lib/phone";
 
 function isMonday(date: Date) {
   return date.getDay() === 1;
@@ -119,8 +120,8 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { ok: false, error: "Podaj poprawny adres e-mail." };
   }
-  if (phone.replace(/\D/g, "").length < 9) {
-    return { ok: false, error: "Podaj poprawny numer telefonu." };
+  if (!isValidPhone(phone)) {
+    return { ok: false, error: "Podaj 9-cyfrowy numer telefonu." };
   }
 
   const capacityCheck = await checkSlotCapacity(visitDateIso, input.visitTime, input.guestCount);
