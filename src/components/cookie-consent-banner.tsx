@@ -34,6 +34,10 @@ export function CookieConsentBanner() {
   }, []);
 
   useEffect(() => {
+    if (window.location.pathname.startsWith("/admin")) {
+      setVisible(false);
+      return;
+    }
     const localValue = parseConsentState(localStorage.getItem(COOKIE_CONSENT_KEY));
     const cookieRaw = document.cookie
       .split(";")

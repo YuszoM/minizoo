@@ -64,6 +64,12 @@ export async function loginAdminPanelForm(
 
 export async function logoutAdminPanel() {
   const jar = await cookies();
-  jar.set(ADMIN_HUB_COOKIE, "", { path: "/admin", maxAge: 0 });
+  jar.set(ADMIN_HUB_COOKIE, "", {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/admin",
+    maxAge: 0,
+    secure: process.env.NODE_ENV === "production",
+  });
   redirect("/admin/panel/login");
 }
