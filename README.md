@@ -1,6 +1,6 @@
 # minizoo — egZOOturystyka
 
-Strona mini zoo z rezerwacjami, biletami, kontaktem i bonami podarunkowymi.
+Strona mini zoo z rezerwacjami, biletami i formularzem kontaktowym.
 
 **Produkcja:** https://minizoo.duodev.pl
 
@@ -8,8 +8,7 @@ Strona mini zoo z rezerwacjami, biletami, kontaktem i bonami podarunkowymi.
 
 1. **Rezerwacja** `/rezerwacja` — pakiet, termin, bilety (10 cyfr), płatność na miejscu.
 2. **Kontakt** `/kontakt` — leady w Supabase + panel `/admin/leady` (mail do admina po Resend).
-3. **Bon** `/bon` — kod + PDF (mail z PDF po Resend) + panel `/admin/bony`.
-4. **Admin** `/admin/panel/login` — rezerwacje, limit miejsc/slot, leady, bony.
+3. **Admin** `/admin/panel/login` — rezerwacje, limit miejsc/slot, leady.
 
 ## Konfiguracja
 

@@ -150,7 +150,6 @@ export default function KontaktPage() {
                     <option>Rezerwacja rodzinna</option>
                     <option>Wizyta szkolna</option>
                     <option>Urodziny</option>
-                    <option>Bon podarunkowy</option>
                     <option>Inne</option>
                   </select>
                 </label>

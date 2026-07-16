@@ -10,7 +10,6 @@ import {
 } from "@/components/home/HomeSections";
 import { EducatorSection } from "@/components/home/EducatorSection";
 import { FunFactsStrip } from "@/components/home/FunFactsStrip";
-import { GiftVoucherSection } from "@/components/gift/GiftVoucherSection";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { BeforeVisitSection } from "@/components/visit/BeforeVisitSection";
 
@@ -30,7 +29,6 @@ export default function HomePage() {
       <BeforeVisitSection />
       <SectionDivider />
       <FaqPreviewSection />
-      <GiftVoucherSection />
       <BookingSection />
       <ReviewsSection />
       <CtaSection />

@@ -1,20 +1,10 @@
 import { wrapResendHtml } from "@/lib/email/resend-layout";
 
-export type ResendAttachment = {
-  filename: string;
-  content: Buffer | string;
-  contentType?: string;
-};
-
 function getResendConfig() {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.RESEND_FROM_EMAIL?.trim();
   if (!apiKey || !from) return null;
   return { apiKey, from };
-}
-
-export function isResendConfigured() {
-  return Boolean(getResendConfig());
 }
 
 export async function sendResendEmail(opts: {
@@ -24,22 +14,12 @@ export async function sendResendEmail(opts: {
   innerHtml: string;
   previewText?: string;
   replyTo?: string;
-  attachments?: ResendAttachment[];
 }) {
   const config = getResendConfig();
   if (!config) {
     console.warn("[email] Brak RESEND_API_KEY lub RESEND_FROM_EMAIL — pominięto wysyłkę.");
     return { ok: false as const, error: "Brak konfiguracji Resend." };
   }
-
-  const attachments = opts.attachments?.map((a) => ({
-    filename: a.filename,
-    content:
-      typeof a.content === "string"
-        ? a.content
-        : a.content.toString("base64"),
-    content_type: a.contentType,
-  }));
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -57,7 +37,6 @@ export async function sendResendEmail(opts: {
         previewText: opts.previewText,
       }),
       reply_to: opts.replyTo || process.env.RESEND_REPLY_TO?.trim() || undefined,
-      attachments,
     }),
   });
 

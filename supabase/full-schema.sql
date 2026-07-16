@@ -48,27 +48,8 @@ insert into public.booking_settings (id, max_guests_per_slot)
 values (1, 24)
 on conflict (id) do nothing;
 
-create table if not exists public.vouchers (
-  id uuid primary key default gen_random_uuid(),
-  voucher_code text not null unique,
-  order_number text not null,
-  purchaser_name text not null,
-  purchaser_email text not null,
-  purchaser_phone text not null,
-  recipient_name text,
-  dedication text,
-  amount integer not null,
-  valid_until date not null,
-  status text not null default 'active'
-    check (status in ('active', 'redeemed', 'cancelled')),
-  redeemed_at timestamptz,
-  redeemed_booking_id uuid references public.bookings (id) on delete set null,
-  created_at timestamptz not null default now()
-);
-
-create index if not exists vouchers_code_idx on public.vouchers (voucher_code);
-create index if not exists vouchers_email_idx on public.vouchers (purchaser_email);
-create index if not exists vouchers_status_idx on public.vouchers (status);
+-- Bony usunięte z produktu — sprzątanie po starej tabeli
+drop table if exists public.vouchers;
 
 create table if not exists public.contact_leads (
   id uuid primary key default gen_random_uuid(),
@@ -88,5 +69,4 @@ create index if not exists contact_leads_email_idx on public.contact_leads (emai
 alter table public.bookings enable row level security;
 alter table public.tickets enable row level security;
 alter table public.booking_settings enable row level security;
-alter table public.vouchers enable row level security;
 alter table public.contact_leads enable row level security;

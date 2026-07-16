@@ -194,17 +194,6 @@ Design: decorative border of leaves, paw prints, and small animals (lemur, goat,
 Portrait orientation certificate layout.`,
   },
   {
-    id: "gift-voucher",
-    useRefs: true,
-    aspect_ratio: "16:9",
-    image_size: "2K",
-    prompt: `${STYLE_BRIEF}
-
-Elegant gift voucher background illustration, horizontal layout.
-
-Design: ornamental botanical frame border. Ring-tailed lemur peeking playfully from left edge, caracal peeking from right edge. Large empty cream center area for text overlay. Subtle gold flourishes. Premium gift card aesthetic.`,
-  },
-  {
     id: "map-route",
     useRefs: true,
     aspect_ratio: "4:3",

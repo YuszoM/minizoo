@@ -28,11 +28,6 @@ export default async function AdminPanelPage() {
           href="/admin/leady"
         />
         <DashboardCard
-          title="Bony podarunkowe"
-          description="Wygenerowane kody PDF — nabywca, kwota, status."
-          href="/admin/bony"
-        />
-        <DashboardCard
           title="Strona rezerwacji"
           description="Publiczny formularz, który widzą klienci."
           href="/rezerwacja"
