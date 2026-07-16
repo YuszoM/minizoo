@@ -1,22 +1,31 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 
 const HEADER_OFFSET = 80;
 
+/** Strony z formularzami — natywny scroll, bez inercji Lenisa */
+const NATIVE_SCROLL_PATHS = ["/rezerwacja"];
+
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const useNative = NATIVE_SCROLL_PATHS.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`),
+    );
 
-    // Na mobile natywny scroll — Lenis psuje useInView i animacje wejścia
-    if (reduced || coarsePointer) return;
+    // Mobile / reduced motion / rezerwacja — natywny scroll
+    if (reduced || coarsePointer || useNative) return;
 
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => 1 - Math.pow(1 - t, 4),
+      duration: 0.85,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       smoothWheel: true,
       touchMultiplier: 1.15,
     });
@@ -54,7 +63,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       document.removeEventListener("click", onAnchorClick);
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return children;
 }
