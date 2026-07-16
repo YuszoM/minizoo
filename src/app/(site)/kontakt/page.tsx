@@ -1,19 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Car, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Car, Clock, Mail, MapPin, Phone, Send, Loader2 } from "lucide-react";
+import { submitContactAction } from "@/app/actions/contact";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getMapEmbedUrl, getMapLinkUrl, site } from "@/data/site";
 
+const inputClass =
+  "w-full rounded-lg border border-paper-deep px-4 py-3 text-sm outline-none focus:border-gold focus:ring-2 focus:ring-gold/20";
+
 export default function KontaktPage() {
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
   const mapSrc = getMapEmbedUrl();
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    setError(null);
+    const fd = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await submitContactAction({
+        name: String(fd.get("name") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        subject: String(fd.get("subject") ?? ""),
+        message: String(fd.get("message") ?? ""),
+        website: String(fd.get("website") ?? ""),
+      });
+
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      setSent(true);
+    });
   }
 
   return (
@@ -92,48 +116,65 @@ export default function KontaktPage() {
               <div className="py-8 text-center">
                 <p className="font-display text-xl text-forest">Dziękujemy!</p>
                 <p className="mt-2 text-sm text-ink-muted">
-                  Wiadomość została wysłana (demo). W produkcji trafi na {site.email}.
+                  Wiadomość dotarła do nas. Odpowiemy na {site.email} lub telefon.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                  aria-hidden
+                />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block">
                     <span className="mb-1.5 block text-sm font-medium">Imię</span>
-                    <input
-                      required
-                      className="w-full rounded-lg border border-paper-deep px-4 py-3 text-sm outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
-                    />
+                    <input name="name" required className={inputClass} />
                   </label>
                   <label className="block">
                     <span className="mb-1.5 block text-sm font-medium">E-mail</span>
-                    <input
-                      type="email"
-                      required
-                      className="w-full rounded-lg border border-paper-deep px-4 py-3 text-sm outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
-                    />
+                    <input type="email" name="email" required className={inputClass} />
                   </label>
                 </div>
                 <label className="block">
+                  <span className="mb-1.5 block text-sm font-medium">Telefon (opcjonalnie)</span>
+                  <input type="tel" name="phone" className={inputClass} />
+                </label>
+                <label className="block">
                   <span className="mb-1.5 block text-sm font-medium">Temat</span>
-                  <select className="w-full rounded-lg border border-paper-deep px-4 py-3 text-sm outline-none focus:border-gold focus:ring-2 focus:ring-gold/20">
+                  <select name="subject" className={inputClass} defaultValue="Rezerwacja rodzinna">
                     <option>Rezerwacja rodzinna</option>
                     <option>Wizyta szkolna</option>
                     <option>Urodziny</option>
+                    <option>Bon podarunkowy</option>
                     <option>Inne</option>
                   </select>
                 </label>
                 <label className="block">
                   <span className="mb-1.5 block text-sm font-medium">Wiadomość</span>
-                  <textarea
-                    required
-                    rows={5}
-                    className="w-full resize-y rounded-lg border border-paper-deep px-4 py-3 text-sm outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
-                  />
+                  <textarea name="message" required rows={5} className={`${inputClass} resize-y`} />
                 </label>
-                <button type="submit" className="btn-primary">
-                  <Send className="h-4 w-4" />
-                  Wyślij
+                {error && (
+                  <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                  </p>
+                )}
+                <button type="submit" className="btn-primary" disabled={pending}>
+                  {pending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Wysyłanie…
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Wyślij
+                    </>
+                  )}
                 </button>
               </form>
             )}

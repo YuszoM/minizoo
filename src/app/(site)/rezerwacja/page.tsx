@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { BookingWizard } from "@/components/booking/BookingWizard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { offers } from "@/data/offers";
@@ -16,6 +17,9 @@ export default async function RezerwacjaPage({
 }) {
   const params = await searchParams;
   const pakiet = params.pakiet;
+  if (pakiet === "voucher" || pakiet === "bon") {
+    redirect("/bon");
+  }
   const initialOfferId =
     pakiet && offers.some((o) => o.id === pakiet) ? pakiet : undefined;
 

@@ -55,7 +55,7 @@ export function GiftVoucherSection() {
                 Można dołączyć osobistą dedykację
               </li>
             </ul>
-            <Link href="/rezerwacja?pakiet=voucher" className="btn-primary mt-8 inline-flex">
+            <Link href="/bon" className="btn-primary mt-8 inline-flex">
               Kup bon podarunkowy
             </Link>
           </Reveal>
