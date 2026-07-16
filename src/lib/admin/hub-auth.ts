@@ -28,7 +28,8 @@ export async function loginAdminPanelForm(
     identifier: `admin-login:${ip}`,
     max: 5,
     windowSeconds: 900,
-    failClosed: true,
+    // failClosed dopiero po ustawieniu UPSTASH_* na Vercel
+    failClosed: false,
   });
   if (!rl.ok) {
     return { error: "Zbyt wiele prób logowania. Spróbuj za kilka minut." };

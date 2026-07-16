@@ -15,7 +15,8 @@ export async function submitBookingAction(
     identifier: `booking:ip:${ip}`,
     max: 8,
     windowSeconds: 3600,
-    failClosed: true,
+    // failClosed dopiero po ustawieniu UPSTASH_* na Vercel
+    failClosed: false,
   });
   if (!ipRl.ok) {
     return { ok: false, error: "Zbyt wiele rezerwacji z tego adresu. Spróbuj później." };
@@ -25,7 +26,7 @@ export async function submitBookingAction(
     identifier: `booking:email:${emailKey}`,
     max: 5,
     windowSeconds: 3600,
-    failClosed: true,
+    failClosed: false,
   });
   if (!emailRl.ok) {
     return { ok: false, error: "Zbyt wiele rezerwacji na ten adres e-mail. Spróbuj później." };
