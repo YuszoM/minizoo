@@ -27,11 +27,6 @@ export default async function AdminPanelPage() {
           description="Leady z formularza kontaktowego — e-mail, telefon, treść."
           href="/admin/leady"
         />
-        <DashboardCard
-          title="Strona rezerwacji"
-          description="Publiczny formularz, który widzą klienci."
-          href="/rezerwacja"
-        />
       </div>
     </div>
   );
