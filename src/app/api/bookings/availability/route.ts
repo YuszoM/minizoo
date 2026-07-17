@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
+import {
+  isDateBookable,
+  parseIsoDate,
+  toIsoDate,
+} from "@/lib/booking/availability-rules";
 import { getDayAvailability } from "@/lib/booking/capacity";
-import { getBlockedDatesInRange } from "@/lib/booking/day-overrides";
+import { getDayFlagsMap } from "@/lib/booking/day-overrides";
+import { getBookingSettings } from "@/lib/booking/settings";
 import { getClientIpFromRequest } from "@/lib/rate-limit/client-ip";
 import { rateLimitHit } from "@/lib/rate-limit/upstash";
 
@@ -17,7 +23,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const date = searchParams.get("date");
-  const month = searchParams.get("month"); // YYYY-MM — lista zablokowanych dni
+  const month = searchParams.get("month"); // YYYY-MM
 
   if (month) {
     if (!/^\d{4}-\d{2}$/.test(month)) {
@@ -27,9 +33,32 @@ export async function GET(request: Request) {
     const fromIso = `${month}-01`;
     const lastDay = new Date(y!, m!, 0).getDate();
     const toIso = `${month}-${String(lastDay).padStart(2, "0")}`;
-    const blockedDates = await getBlockedDatesInRange(fromIso, toIso);
+
+    const [settings, flagsMap] = await Promise.all([
+      getBookingSettings(),
+      getDayFlagsMap(fromIso, toIso),
+    ]);
+
+    const unavailableDates: string[] = [];
+    for (let day = 1; day <= lastDay; day++) {
+      const d = new Date(y!, m! - 1, day);
+      const iso = toIsoDate(d);
+      const flags = flagsMap.get(iso) ?? { blocked: false, unlocked: false };
+      if (!isDateBookable(d, settings, flags)) {
+        unavailableDates.push(iso);
+      }
+    }
+
     return NextResponse.json(
-      { month, blockedDates },
+      {
+        month,
+        unavailableDates,
+        /** legacy alias */
+        blockedDates: unavailableDates,
+        bookingMode: settings.bookingMode,
+        maxDaysAhead: settings.maxDaysAhead,
+        timeSlots: settings.timeSlots,
+      },
       { headers: { "Cache-Control": "private, max-age=30" } },
     );
   }
@@ -38,9 +67,30 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Nieprawidłowa data." }, { status: 400 });
   }
 
-  const day = await getDayAvailability(date);
+  const visitDate = parseIsoDate(date);
+  if (!visitDate) {
+    return NextResponse.json({ error: "Nieprawidłowa data." }, { status: 400 });
+  }
+
+  const [settings, day] = await Promise.all([
+    getBookingSettings(),
+    getDayAvailability(date),
+  ]);
+
+  const bookable = isDateBookable(visitDate, settings, {
+    blocked: day.blocked,
+    unlocked: day.unlocked,
+  });
+
   return NextResponse.json(
-    { date: day.date, blocked: day.blocked, slots: day.slots },
+    {
+      date: day.date,
+      blocked: day.blocked || !bookable,
+      unlocked: day.unlocked,
+      bookable,
+      slots: bookable ? day.slots : day.slots.map((s) => ({ ...s, remaining: 0, full: true })),
+      timeSlots: settings.timeSlots,
+    },
     {
       headers: {
         "Cache-Control": "private, max-age=30",

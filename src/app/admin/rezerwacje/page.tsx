@@ -1,9 +1,8 @@
 import Link from "next/link";
+import { BookingAccessSettings } from "@/components/admin/booking-access-settings";
 import { BookingsSchedule } from "@/components/admin/bookings-schedule";
 import { DayOverrideSettings } from "@/components/admin/day-override-settings";
-import { MaxGuestsSettings } from "@/components/admin/max-guests-settings";
 import { PanelHeader } from "@/components/admin/panel-header";
-import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
 import { requireAdminHub } from "@/lib/admin/hub-auth";
 import { getDayAvailability } from "@/lib/booking/capacity";
 import { getDayOverride } from "@/lib/booking/day-overrides";
@@ -50,7 +49,7 @@ export default async function AdminRezerwacjePage({
   const dateObj = new Date(y!, m! - 1, d!);
   const dateLabel = formatDatePL(dateObj);
 
-  const slots = BOOKING_TIME_SLOTS.map((time) => ({
+  const slots = settings.timeSlots.map((time) => ({
     time,
     bookings: bookings.filter((b) => b.visit_time === time),
     capacity: dayAvailability.slots.find((a) => a.time === time),
@@ -60,16 +59,13 @@ export default async function AdminRezerwacjePage({
     <div className="container-site max-w-3xl py-10">
       <PanelHeader />
 
-      <MaxGuestsSettings
-        currentMax={settings.maxGuestsPerSlot}
-        updatedAt={settings.updatedAt}
-      />
+      <BookingAccessSettings settings={settings} />
 
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="font-display text-xl text-forest">Harmonogram wizyt</h2>
           <p className="mt-1 text-sm text-ink-muted">
-            Wybierz datę, ustaw limity / wykreśl dzień, potem przeglądaj gości.
+            Wybierz datę — zobaczysz listę gości, limity i odblokowanie dnia.
           </p>
         </div>
         <Link
@@ -102,12 +98,20 @@ export default async function AdminRezerwacjePage({
         dateIso={dateIso}
         dateLabel={dateLabel}
         globalMax={settings.maxGuestsPerSlot}
+        timeSlots={settings.timeSlots}
+        bookingMode={settings.bookingMode}
         override={override}
       />
 
       {dayAvailability.blocked ? (
         <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
           Dzień wykreślony — klienci nie mogą rezerwować tej daty.
+        </p>
+      ) : null}
+
+      {settings.bookingMode === "manual" && !dayAvailability.unlocked ? (
+        <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Tryb ręczny: ten dzień nie jest odblokowany — nie widać go w kalendarzu klienta.
         </p>
       ) : null}
 

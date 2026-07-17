@@ -11,7 +11,7 @@ export function getUpcomingSlots(count = 3) {
     month: "short",
   });
 
-  const times = ["10:00", "12:00", "14:00", "16:00"];
+  const times = ["10:00", "12:00", "14:00", "16:00", "18:00"];
   let day = new Date(todayStart);
 
   while (slots.length < count) {

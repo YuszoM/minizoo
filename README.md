@@ -8,11 +8,13 @@ Strona mini zoo z rezerwacjami, biletami i formularzem kontaktowym.
 
 1. **Rezerwacja** `/rezerwacja` — pakiet, termin, bilety (10 cyfr), płatność na miejscu.
 2. **Kontakt** `/kontakt` — leady w Supabase + panel `/admin/leady` (mail do admina po Resend).
-3. **Admin** `/admin/panel/login` — rezerwacje, limity globalne i per dzień, wykreślanie dni, leady.
+3. **Admin** `/admin/panel/login` — rezerwacje, godziny, limity, horyzont/odblokowanie dni, leady.
 
 ## Konfiguracja
 
-1. W Supabase SQL Editor uruchom **`supabase/full-schema.sql`** (lub samo `supabase/day-overrides.sql` jeśli reszta już jest).
+1. W Supabase SQL Editor uruchom **`supabase/full-schema.sql`** (nowa instalacja) albo migracje:
+   - `supabase/day-overrides.sql`
+   - `supabase/booking-access.sql` (horyzont, tryb ręczny, godziny w tym 18:00)
 2. Zmienne z **`.env.example`** na Vercel (lub `npm run env:vercel`):
    - Supabase: `NEXT_PUBLIC_SUPABASE_*`, `SUPABASE_SERVICE_ROLE_KEY`
    - Admin: `ADMIN_PANEL_PASSWORD`, `ADMIN_SESSION_SECRET`

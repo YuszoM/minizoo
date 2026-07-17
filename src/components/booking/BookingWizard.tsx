@@ -15,7 +15,7 @@ import { offers } from "@/data/offers";
 import { isValidPhone, sanitizePhoneInput } from "@/lib/phone";
 import { cn, formatDatePL, formatPrice } from "@/lib/utils";
 
-const TIME_SLOTS = ["10:00", "12:00", "14:00", "16:00"] as const;
+const TIME_SLOTS = ["10:00", "12:00", "14:00", "16:00", "18:00"] as const;
 
 const STEPS = [
   { id: 1, label: "Oferta" },
@@ -99,8 +99,10 @@ export function BookingWizard({
   const [orderNumber, setOrderNumber] = useState("");
   const [ticketCodes, setTicketCodes] = useState<string[]>([]);
   const [slotAvailability, setSlotAvailability] = useState<SlotAvailability[]>([]);
+  const [timeSlots, setTimeSlots] = useState<string[]>([...TIME_SLOTS]);
   const [loadingSlots, setLoadingSlots] = useState(false);
-  const [blockedDates, setBlockedDates] = useState<Set<string>>(() => new Set());
+  const [unavailableDates, setUnavailableDates] = useState<Set<string>>(() => new Set());
+  const [maxDaysAhead, setMaxDaysAhead] = useState<number | null>(null);
 
   const offer = offers.find((o) => o.id === selectedOffer) ?? offers[0];
   const baseLimits = guestLimits(offer.id);
@@ -120,12 +122,22 @@ export function BookingWizard({
 
     fetch(`/api/bookings/availability?month=${y}-${m}`)
       .then((res) => res.json())
-      .then((data: { blockedDates?: string[] }) => {
-        if (cancelled) return;
-        setBlockedDates(new Set(data.blockedDates ?? []));
-      })
+      .then(
+        (data: {
+          unavailableDates?: string[];
+          blockedDates?: string[];
+          timeSlots?: string[];
+          maxDaysAhead?: number;
+        }) => {
+          if (cancelled) return;
+          const list = data.unavailableDates ?? data.blockedDates ?? [];
+          setUnavailableDates(new Set(list));
+          if (data.timeSlots?.length) setTimeSlots(data.timeSlots);
+          if (typeof data.maxDaysAhead === "number") setMaxDaysAhead(data.maxDaysAhead);
+        },
+      )
       .catch(() => {
-        if (!cancelled) setBlockedDates(new Set());
+        if (!cancelled) setUnavailableDates(new Set());
       });
 
     return () => {
@@ -144,15 +156,23 @@ export function BookingWizard({
 
     fetch(`/api/bookings/availability?date=${toIsoDate(selectedDay)}`)
       .then((res) => res.json())
-      .then((data: { slots?: SlotAvailability[]; blocked?: boolean }) => {
-        if (cancelled) return;
-        if (data.blocked) {
-          setSlotAvailability([]);
-          setSelectedTime(null);
-          return;
-        }
-        setSlotAvailability(data.slots ?? []);
-      })
+      .then(
+        (data: {
+          slots?: SlotAvailability[];
+          blocked?: boolean;
+          bookable?: boolean;
+          timeSlots?: string[];
+        }) => {
+          if (cancelled) return;
+          if (data.timeSlots?.length) setTimeSlots(data.timeSlots);
+          if (data.blocked || data.bookable === false) {
+            setSlotAvailability([]);
+            setSelectedTime(null);
+            return;
+          }
+          setSlotAvailability(data.slots ?? []);
+        },
+      )
       .catch(() => {
         if (!cancelled) setSlotAvailability([]);
       })
@@ -403,7 +423,7 @@ export function BookingWizard({
                     const date = new Date(year, month, day);
                     const iso = toIsoDate(date);
                     const unavailable =
-                      isUnavailable(date) || blockedDates.has(iso);
+                      isUnavailable(date) || unavailableDates.has(iso);
                     const selected =
                       selectedDay?.toDateString() === date.toDateString();
 
@@ -430,7 +450,10 @@ export function BookingWizard({
                   })}
                 </div>
                 <p className="mt-3 text-xs text-ink-muted">
-                  Poniedziałki i dni wykreślone przez organizatora są niedostępne
+                  Poniedziałki zamknięte
+                  {maxDaysAhead != null
+                    ? ` · zapisy max ${maxDaysAhead} dni do przodu (lub dni odblokowane przez organizatora)`
+                    : ""}
                 </p>
               </div>
 
@@ -443,7 +466,7 @@ export function BookingWizard({
                     <p className="text-sm text-ink-muted">Sprawdzam wolne miejsca…</p>
                   ) : (
                     <div className="flex flex-wrap gap-2">
-                      {TIME_SLOTS.map((time) => {
+                      {timeSlots.map((time) => {
                         const slot = slotAvailability.find((s) => s.time === time);
                         const full = slot?.full ?? false;
                         const remaining = slot?.remaining;

@@ -41,6 +41,12 @@ create table if not exists public.booking_settings (
   id int primary key default 1 check (id = 1),
   max_guests_per_slot int not null default 24
     check (max_guests_per_slot between 1 and 200),
+  booking_mode text not null default 'horizon'
+    check (booking_mode in ('horizon', 'manual')),
+  max_days_ahead int not null default 14
+    check (max_days_ahead between 1 and 365),
+  time_slots text[] not null
+    default array['10:00','12:00','14:00','16:00','18:00'],
   updated_at timestamptz not null default now()
 );
 
@@ -48,10 +54,11 @@ insert into public.booking_settings (id, max_guests_per_slot)
 values (1, 24)
 on conflict (id) do nothing;
 
--- Nadpisania dnia: blokada + limity slotów
+-- Nadpisania dnia: blokada / odblokowanie + limity slotów
 create table if not exists public.booking_day_overrides (
   visit_date date primary key,
   blocked boolean not null default false,
+  unlocked boolean not null default false,
   note text,
   updated_at timestamptz not null default now()
 );
@@ -68,6 +75,10 @@ create table if not exists public.booking_slot_limits (
 create index if not exists booking_day_overrides_blocked_idx
   on public.booking_day_overrides (visit_date)
   where blocked = true;
+
+create index if not exists booking_day_overrides_unlocked_idx
+  on public.booking_day_overrides (visit_date)
+  where unlocked = true;
 
 -- Bony usunięte z produktu — sprzątanie po starej tabeli
 drop table if exists public.vouchers;

@@ -1,37 +1,18 @@
 import { offers } from "@/data/offers";
+import {
+  isDateBookable,
+  parseIsoDate,
+  toIsoDate,
+  whyDateUnavailable,
+} from "@/lib/booking/availability-rules";
 import { checkSlotCapacity } from "@/lib/booking/capacity";
-import { isDayBlocked } from "@/lib/booking/day-overrides";
+import { getDayOverride } from "@/lib/booking/day-overrides";
+import { getBookingSettings } from "@/lib/booking/settings";
 import { generateNumericTicketCode, generateOrderNumber } from "@/lib/booking/ticket-code";
 import type { CreateBookingInput, CreateBookingResult } from "@/lib/booking/types";
 import { sendBookingEmails } from "@/lib/email/send-booking-emails";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
-import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
 import { isValidPhone } from "@/lib/phone";
-
-function isMonday(date: Date) {
-  return date.getDay() === 1;
-}
-
-function isPast(date: Date) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date < today;
-}
-
-function parseVisitDate(iso: string): Date | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-  if (!match) return null;
-  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-  if (Number.isNaN(date.getTime())) return null;
-  return date;
-}
-
-function toIsoDate(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
 
 function validateGuestCount(offerId: string, guestCount: number): string | null {
   if (offerId === "rodzinna" && (guestCount < 2 || guestCount > 6)) {
@@ -91,21 +72,30 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
     return { ok: false, error: "Nieprawidłowy pakiet." };
   }
 
-  const visitDate = parseVisitDate(input.visitDate);
+  const visitDate = parseIsoDate(input.visitDate);
   if (!visitDate) {
     return { ok: false, error: "Nieprawidłowa data wizyty." };
   }
 
-  if (isPast(visitDate) || isMonday(visitDate)) {
-    return { ok: false, error: "Wybrany termin jest niedostępny." };
-  }
-
   const visitDateIso = toIsoDate(visitDate);
-  if (await isDayBlocked(visitDateIso)) {
-    return { ok: false, error: "Wybrany dzień jest zamknięty dla rezerwacji." };
+  const [settings, override] = await Promise.all([
+    getBookingSettings(),
+    getDayOverride(visitDateIso),
+  ]);
+
+  const flags = {
+    blocked: Boolean(override?.blocked),
+    unlocked: Boolean(override?.unlocked),
+  };
+
+  if (!isDateBookable(visitDate, settings, flags)) {
+    return {
+      ok: false,
+      error: whyDateUnavailable(visitDate, settings, flags) ?? "Wybrany termin jest niedostępny.",
+    };
   }
 
-  if (!(BOOKING_TIME_SLOTS as readonly string[]).includes(input.visitTime)) {
+  if (!settings.timeSlots.includes(input.visitTime)) {
     return { ok: false, error: "Nieprawidłowa godzina wizyty." };
   }
 
@@ -215,4 +205,4 @@ export async function fetchBookingsForDate(dateIso: string) {
   }));
 }
 
-export { toIsoDate };
+export { toIsoDate } from "@/lib/booking/availability-rules";

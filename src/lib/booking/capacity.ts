@@ -1,4 +1,3 @@
-import { BOOKING_TIME_SLOTS } from "@/lib/admin/hub-constants";
 import { getDayOverride } from "@/lib/booking/day-overrides";
 import { getBookingSettings } from "@/lib/booking/settings";
 import { createServiceRoleClient } from "@/lib/supabase/clients";
@@ -14,16 +13,20 @@ export type SlotAvailability = {
 export type DayAvailability = {
   date: string;
   blocked: boolean;
+  unlocked: boolean;
   slots: SlotAvailability[];
 };
 
-export async function getOccupancyForDate(dateIso: string): Promise<Record<string, number>> {
-  const supabase = createServiceRoleClient();
+export async function getOccupancyForDate(
+  dateIso: string,
+  timeSlots: string[],
+): Promise<Record<string, number>> {
   const occupancy: Record<string, number> = {};
-  for (const time of BOOKING_TIME_SLOTS) {
+  for (const time of timeSlots) {
     occupancy[time] = 0;
   }
 
+  const supabase = createServiceRoleClient();
   if (!supabase) return occupancy;
 
   const { data, error } = await supabase
@@ -44,18 +47,21 @@ export async function getOccupancyForDate(dateIso: string): Promise<Record<strin
 }
 
 export async function getDayAvailability(dateIso: string): Promise<DayAvailability> {
-  const [{ maxGuestsPerSlot }, override, occupancy] = await Promise.all([
+  const [settings, override] = await Promise.all([
     getBookingSettings(),
     getDayOverride(dateIso),
-    getOccupancyForDate(dateIso),
   ]);
+  const occupancy = await getOccupancyForDate(dateIso, settings.timeSlots);
 
   const blocked = Boolean(override?.blocked);
+  const unlocked = Boolean(override?.unlocked);
 
-  const slots = BOOKING_TIME_SLOTS.map((time) => {
+  const slots = settings.timeSlots.map((time) => {
     const booked = occupancy[time] ?? 0;
     const max =
-      override?.slotLimits[time] != null ? override.slotLimits[time]! : maxGuestsPerSlot;
+      override?.slotLimits[time] != null
+        ? override.slotLimits[time]!
+        : settings.maxGuestsPerSlot;
     const remaining = blocked ? 0 : Math.max(0, max - booked);
     return {
       time,
@@ -66,10 +72,9 @@ export async function getDayAvailability(dateIso: string): Promise<DayAvailabili
     };
   });
 
-  return { date: dateIso, blocked, slots };
+  return { date: dateIso, blocked, unlocked, slots };
 }
 
-/** @deprecated use getDayAvailability — retained for callers expecting only slots */
 export async function getSlotAvailability(dateIso: string): Promise<SlotAvailability[]> {
   const day = await getDayAvailability(dateIso);
   return day.slots;
