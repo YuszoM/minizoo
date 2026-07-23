@@ -19,9 +19,7 @@ import { site } from "@/data/site";
 import {
   ANIMAL_VARIANTS,
   OFFER_VARIANTS,
-  TRUST_VARIANTS,
 } from "@/lib/motion/variants";
-import { trustStats } from "@/data/trust";
 import { getUpcomingSlots } from "@/lib/next-slots";
 import { formatPrice } from "@/lib/utils";
 
@@ -113,23 +111,6 @@ export function HeroSection() {
             </Link>
           </div>
         </HeroBookingCard>
-      </div>
-    </section>
-  );
-}
-
-export function TrustStrip() {
-  return (
-    <section className="border-y border-paper-deep bg-white" aria-label="Liczby zaufania">
-      <div className="container-site grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-4">
-        {trustStats.map((stat, i) => (
-          <Reveal key={stat.label} delay={i as 0 | 1 | 2 | 3} variant={TRUST_VARIANTS[i] ?? "pop"}>
-            <div className="text-center lg:text-left">
-              <p className="font-display text-3xl text-gold md:text-4xl">{stat.value}</p>
-              <p className="mt-1 text-sm font-medium text-forest">{stat.label}</p>
-            </div>
-          </Reveal>
-        ))}
       </div>
     </section>
   );
