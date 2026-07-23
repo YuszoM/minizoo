@@ -40,8 +40,8 @@ export const animals: Animal[] = [
       "Niewielki krokodyl z Afryki — bezpieczne, edukacyjne spotkanie z opiekunem. Dowiesz się o adaptacjach do życia w wodzie i na lądzie oraz o ochronie gatunku.",
     funFact:
       "Krokodyl krótkopyski to jeden z najmniejszych krokodyli świata — dorosłe osobniki rzadko przekraczają 1,5 metra.",
-    image: "/images/animal-crocodile.png",
-    illustration: "/images/illustrations/animal-caiman.jpg",
+    image: "/images/illustrations/animal-krokodyl.jpg",
+    illustration: "/images/illustrations/animal-krokodyl.jpg",
     habitat: "Afryka",
   },
   {
@@ -51,9 +51,8 @@ export const animals: Animal[] = [
     description:
       "Spokojne, ciekawskie zwierzęta z Ameryki Południowej. Idealne na pierwsze spotkanie — dzieci uczą się delikatnego kontaktu i obserwacji z bliska.",
     funFact: "Alpaki komunikują się przez delikatne mruczenie i pozycję uszu — każde ma swój charakter.",
-    /** Zdjęcie docelowe klientka dośle — na razie placeholder demo */
-    image: "/images/animal-goat.png",
-    illustration: "/images/illustrations/animal-goat.jpg",
+    image: "/images/illustrations/animal-alpaca.jpg",
+    illustration: "/images/illustrations/animal-alpaca.jpg",
     habitat: "Andy (udomowiona)",
   },
   {

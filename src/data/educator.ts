@@ -12,7 +12,7 @@ export const educators: Educator[] = [
     name: "Filip Wójcik",
     role: "Przewodnik",
     experience: "20+ lat z gadami",
-    bio: "Podczas spotkań dzieli się wiedzą i ciekawostkami o gadach — to jego pasja od dzieciństwa. Urlop? Chętnie, ale zamiast plaży wybiera ekspedycje herpetologiczne i poszukiwania gadów.",
+    bio: "Podczas spotkań dzieli się swoją wiedzą i fascynującymi ciekawostkami o gadach, które są jego pasją od dzieciństwa. Urlop? Chętnie, ale zamiast plaży wybiera ekspedycje herpetologiczne i poszukiwania gadów.",
     highlights: [
       "Specjalizacja: gady i herpetologia",
       "Opowieści z wypraw terenowych",

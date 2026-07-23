@@ -38,15 +38,15 @@ export function BeforeVisitSection() {
               <div className="relative min-h-[220px] bg-forest-light/40 md:min-h-full">
                 {/* Placeholder — docelowa grafika zaproszeń od klientki */}
                 <Image
-                  src="/images/illustrations/diploma-template.jpg"
+                  src="/images/illustrations/birthday-invitation.jpg"
                   alt="Zaproszenie na urodziny w mini zoo — podgląd"
                   fill
-                  className="object-cover object-top opacity-90"
+                  className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, 240px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent md:bg-gradient-to-r" />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-forest/40" />
                 <p className="absolute bottom-3 left-3 rounded bg-black/35 px-2 py-1 text-[10px] font-semibold tracking-wide text-paper/90 uppercase backdrop-blur-sm">
-                  Grafika do wymiany
+                  Wzorzec zaproszenia
                 </p>
               </div>
               <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
@@ -55,12 +55,12 @@ export function BeforeVisitSection() {
                   Zaproszenia na urodziny
                 </h3>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-paper/85">
-                  Przed imprezą warto zaprosić gości — dlatego przygotowaliśmy zaproszenia.
+                  Przed imprezą warto zaprosić gości, dlatego przygotowaliśmy zaproszenia.
                   Pobierz, uzupełnij datę i godzinę, wyślij rodzicom.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
-                    href="/images/illustrations/diploma-template.jpg"
+                    href="/images/illustrations/birthday-invitation.jpg"
                     download
                     className="btn-gold inline-flex text-sm"
                   >
