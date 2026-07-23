@@ -50,11 +50,11 @@ export const faqItems = [
       "Zewnętrzny teren jest płaski i główna ścieżka jest dostępna dla wózków, ale w budynku znajdują się schody. Dodatkowa część wystawy na parterze będzie otwarta wkrótce.",
   },
   {
-    question: "Czy mogę wejść z psem?",
-    answer: "Nie. Psy nie są akceptowane na terenie obiektu.",
-  },
-  {
     question: "Czy jest parking?",
     answer: "Tak — miejsca parkingowe przy wejściu, bez dodatkowych opłat.",
+  },
+  {
+    question: "Czy mogę wejść z psem?",
+    answer: "Nie. Psy nie są akceptowane na terenie obiektu.",
   },
 ];
