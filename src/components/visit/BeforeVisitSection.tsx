@@ -33,21 +33,18 @@ function SouvenirCard({
 }) {
   return (
     <Reveal delay={delay} variant="scale">
-      <div className="overflow-hidden rounded-2xl border border-paper-deep bg-white shadow-[0_8px_32px_rgba(47,58,38,0.06)]">
-        <div className="grid items-stretch md:grid-cols-[minmax(0,220px)_1fr]">
-          <div className="relative min-h-[240px] bg-paper md:min-h-full">
+      <div className="overflow-hidden rounded-2xl border border-paper-deep/80 bg-[#f3ebe0] shadow-[0_8px_32px_rgba(47,58,38,0.06)]">
+        <div className="grid items-stretch md:grid-cols-[minmax(0,240px)_1fr]">
+          <div className="relative min-h-[260px] bg-paper md:min-h-full">
             <Image
               src={imageSrc}
               alt={imageAlt}
               fill
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, 220px"
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 240px"
             />
-            <p className="absolute bottom-3 left-3 rounded bg-forest/85 px-2 py-1 text-[10px] font-semibold tracking-wide text-paper uppercase">
-              {imageLabel}
-            </p>
           </div>
-          <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+          <div className="flex flex-col justify-center p-6 md:p-8 lg:px-10 lg:py-9">
             {eyebrow ? (
               <p className="text-sm font-semibold text-gold">{eyebrow}</p>
             ) : null}
@@ -64,7 +61,7 @@ function SouvenirCard({
               {secondaryHref && secondaryLabel ? (
                 <Link
                   href={secondaryHref}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-5 text-sm font-semibold text-forest transition hover:bg-paper"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-5 text-sm font-semibold text-forest transition hover:bg-white/60"
                 >
                   {secondaryLabel}
                 </Link>
@@ -107,9 +104,9 @@ export function BeforeVisitSection() {
           <SouvenirCard
             title="Dyplom Małego Odkrywcy"
             description="Po wizycie każde dziecko dostaje pamiątkowy dyplom – jak po prawdziwej wyprawie przyrodniczej. Rodzice chętnie wrzucają go na Facebooka – a my się z tego cieszymy."
-            imageSrc="/images/illustrations/diploma-malego-odkrywcy.jpg"
-            imageAlt="Dyplom Małego Odkrywcy — podgląd"
-            imageLabel="Dyplom"
+            imageSrc="/images/illustrations/explorer-kids.jpg"
+            imageAlt="Małe odkrywcy — dzieci w klimacie wyprawy przyrodniczej"
+            imageLabel="Mały odkrywca"
             downloadHref="/images/illustrations/diploma-malego-odkrywcy.jpg"
             downloadLabel="Pobierz podgląd dyplomu"
             delay={1}
