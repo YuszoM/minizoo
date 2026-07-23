@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { DemoPhotoLabel } from "@/components/ui/DemoPhotoLabel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { animals } from "@/data/animals";
 

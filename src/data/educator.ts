@@ -18,7 +18,7 @@ export const educators: Educator[] = [
       "Opowieści z wypraw terenowych",
       "Spokojne prowadzenie grup rodzinnych i szkolnych",
     ],
-    image: "/images/educator-portrait.png",
+    image: "/images/educator-filip.jpg",
   },
   {
     name: "Patrycja Wójcik",
@@ -30,7 +30,7 @@ export const educators: Educator[] = [
       "Historie i charaktery podopiecznych",
       "Kontakt z dziećmi przy karmieniu i obserwacji",
     ],
-    image: "/images/educator-portrait.png",
+    image: "/images/educator-patrycja.jpg",
   },
 ];
 

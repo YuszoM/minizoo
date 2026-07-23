@@ -12,7 +12,7 @@ export const reviews = [
     name: "Szkoła Podstawowa nr 4",
     role: "Klasa 3b — 24 uczniów",
     rating: 5,
-    text: "Żywa lekcja biologii na najwyższym poziomie. Dzieci dotknęły węża, nakarmiły kozy i wypełniły karty pracy. Nauczycielka poleca!",
+    text: "Żywa lekcja biologii na najwyższym poziomie. Dzieci dotknęły węża, nakarmiły alpaki i wypełniły karty pracy. Nauczycielka poleca!",
     date: "maj 2026",
   },
   {
