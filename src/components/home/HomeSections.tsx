@@ -212,8 +212,8 @@ export function OfferPreviewSection() {
 export function AnimalsBentoSection() {
   const featured = [
     animals.find((a) => a.id === "karakal")!,
+    animals.find((a) => a.id === "lemur")!,
     animals.find((a) => a.id === "krokodyl")!,
-    animals.find((a) => a.id === "alpaka")!,
   ];
 
   return (
