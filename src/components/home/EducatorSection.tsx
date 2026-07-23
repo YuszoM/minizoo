@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { educators } from "@/data/educator";
@@ -25,20 +24,9 @@ export function EducatorSection() {
               variant={index === 0 ? "tilt-right" : "tilt-left"}
             >
               <article>
-                <p className="text-sm font-semibold text-gold">{person.role}</p>
-                <h3 className="mt-1 font-display text-2xl text-forest md:text-3xl">
-                  {person.name}
-                </h3>
-                <p className="mt-1 text-sm text-ink-muted">{person.experience}</p>
+                <h3 className="font-display text-2xl text-forest md:text-3xl">{person.name}</h3>
+                <p className="mt-1 text-sm font-semibold text-gold">{person.subtitle}</p>
                 <p className="mt-4 leading-relaxed text-ink-soft">{person.bio}</p>
-                <ul className="mt-5 space-y-2">
-                  {person.highlights.map((item) => (
-                    <li key={item} className="flex gap-2 text-sm text-ink">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
               </article>
             </Reveal>
           ))}
