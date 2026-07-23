@@ -8,8 +8,8 @@ export type FunFact = {
 export const funFacts: FunFact[] = [
   {
     id: "groups",
-    value: "max 8",
-    label: "osób w jednej grupie",
+    value: "max 6",
+    label: "osób w grupie — bez tłumów",
     icon: "/images/illustrations/fact-touch.jpg",
   },
   {

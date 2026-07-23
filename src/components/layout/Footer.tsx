@@ -111,10 +111,12 @@ export function Footer() {
             ))}
           </div>
         </div>
-        <p className="container-site border-t border-white/5 pb-6 text-center text-[11px] leading-relaxed text-paper/40">
-          Zdjęcia na stronie są wygenerowane AI (demo) — przed publikacją podmień na autentyczne
-          fotografie zwierząt i miejsca.
-        </p>
+        {site.photosAreDemo ? (
+          <p className="container-site border-t border-white/5 pb-6 text-center text-[11px] leading-relaxed text-paper/40">
+            Zdjęcia na stronie są wygenerowane AI (demo) — przed publikacją podmień na autentyczne
+            fotografie zwierząt i miejsca.
+          </p>
+        ) : null}
       </div>
     </footer>
   );

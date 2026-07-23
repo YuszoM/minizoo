@@ -27,7 +27,7 @@ export const offers: OfferPackage[] = [
       "Przekąska dla dzieci",
     ],
     popular: true,
-    image: "/images/hero-encounter.png",
+    image: "/images/hero-encounter.jpg",
     icon: "/images/illustrations/offer-family.jpg",
   },
   {

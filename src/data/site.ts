@@ -6,7 +6,7 @@ export const site = {
   email: "kontakt@egzooturystyka.pl",
   phone: "600 123 456",
   startingPrice: 249,
-  photosAreDemo: true,
+  photosAreDemo: false,
   address: {
     street: "Sadków 20B",
     city: "Sadków",

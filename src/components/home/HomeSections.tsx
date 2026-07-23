@@ -44,7 +44,7 @@ export function HeroSection() {
         </div>
         <div className="hero-ken-burns absolute inset-0 hidden md:block">
           <Image
-            src="/images/hero-encounter.png"
+            src="/images/hero-encounter.jpg"
             alt="Dzieci podczas spotkania ze zwierzętami"
             fill
             className="object-cover object-[center_30%]"
@@ -302,7 +302,14 @@ export function AnimalsBentoSection() {
 }
 
 export function FaqPreviewSection() {
-  const preview = faqItems.slice(0, 3);
+  const previewQuestions = [
+    "Jak wygląda płatność?",
+    "Czy pogoda ma wpływ na zwiedzanie?",
+    "Czy mogę wejść z psem?",
+  ];
+  const preview = previewQuestions
+    .map((q) => faqItems.find((item) => item.question === q))
+    .filter((item): item is (typeof faqItems)[number] => Boolean(item));
 
   return (
     <section className="section-y bg-paper-deep/40">
@@ -310,7 +317,7 @@ export function FaqPreviewSection() {
         <Reveal variant="blur-up">
           <SectionHeading
             title="Najczęstsze pytania"
-            description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
+            description="Płatność na miejscu, pogoda i zasady wizyty — reszta na stronie FAQ."
             align="center"
             className="mx-auto"
           />
