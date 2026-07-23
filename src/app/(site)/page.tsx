@@ -6,7 +6,6 @@ import {
   HeroSection,
   OfferPreviewSection,
   ReviewsSection,
-  TrustStrip,
 } from "@/components/home/HomeSections";
 import { EducatorSection } from "@/components/home/EducatorSection";
 import { FunFactsStrip } from "@/components/home/FunFactsStrip";
@@ -16,7 +15,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <TrustStrip />
       <FunFactsStrip />
       <OfferPreviewSection />
       <AnimalsBentoSection />
