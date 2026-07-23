@@ -35,7 +35,7 @@ const STYLE_JOURNAL = `Match EXACTLY the visual language of the attached referen
 
 const ASSETS = [
   {
-    id: "birthday-invitation",
+    id: "zaproszenie-urodzinowe",
     outDir: ILLUSTRATIONS,
     useRefs: true,
     aspect_ratio: "3:4",

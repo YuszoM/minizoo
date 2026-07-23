@@ -12,7 +12,6 @@ function SouvenirCard({
   description,
   imageSrc,
   imageAlt,
-  imageLabel,
   downloadHref,
   downloadLabel,
   secondaryHref,
@@ -24,7 +23,6 @@ function SouvenirCard({
   description: string;
   imageSrc: string;
   imageAlt: string;
-  imageLabel: string;
   downloadHref: string;
   downloadLabel: string;
   secondaryHref?: string;
@@ -106,8 +104,7 @@ export function BeforeVisitSection() {
             description="Po wizycie każde dziecko dostaje pamiątkowy dyplom – jak po prawdziwej wyprawie przyrodniczej. Rodzice chętnie wrzucają go na Facebooka – a my się z tego cieszymy."
             imageSrc="/images/illustrations/explorer-kids.jpg"
             imageAlt="Małe odkrywcy — dzieci w klimacie wyprawy przyrodniczej"
-            imageLabel="Mały odkrywca"
-            downloadHref="/images/illustrations/diploma-malego-odkrywcy.jpg"
+            downloadHref="/images/illustrations/dyplom-malego-odkrywcy.jpg"
             downloadLabel="Pobierz podgląd dyplomu"
             delay={1}
           />
@@ -116,10 +113,9 @@ export function BeforeVisitSection() {
             eyebrow="Urodziny"
             title="Zaproszenia na urodziny"
             description="Przed imprezą warto zaprosić gości, dlatego przygotowaliśmy zaproszenia."
-            imageSrc="/images/illustrations/birthday-invitation.jpg"
+            imageSrc="/images/illustrations/zaproszenie-urodzinowe.jpg"
             imageAlt="Zaproszenie na urodziny — podgląd"
-            imageLabel="Zaproszenie"
-            downloadHref="/images/illustrations/birthday-invitation.jpg"
+            downloadHref="/images/illustrations/zaproszenie-urodzinowe.jpg"
             downloadLabel="Pobierz zaproszenie"
             secondaryHref="/rezerwacja?pakiet=urodziny"
             secondaryLabel="Zarezerwuj przyjęcie"

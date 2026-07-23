@@ -63,7 +63,7 @@ This is NOT a spectacled caiman and NOT a Nile crocodile — short snout, compac
 Composition: centered inside identical framed border. Educational, non-threatening presentation.`,
   },
   {
-    id: "birthday-invitation",
+    id: "zaproszenie-urodzinowe",
     useRefs: true,
     aspect_ratio: "3:4",
     image_size: "2K",
