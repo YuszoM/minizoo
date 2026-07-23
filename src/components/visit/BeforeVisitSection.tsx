@@ -6,6 +6,77 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { beforeVisitTips } from "@/data/visit-info";
 import { TIP_VARIANTS } from "@/lib/motion/variants";
 
+function SouvenirCard({
+  eyebrow,
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+  imageLabel,
+  downloadHref,
+  downloadLabel,
+  secondaryHref,
+  secondaryLabel,
+  delay = 1,
+}: {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  imageLabel: string;
+  downloadHref: string;
+  downloadLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  delay?: 0 | 1 | 2 | 3;
+}) {
+  return (
+    <Reveal delay={delay} variant="scale">
+      <div className="overflow-hidden rounded-2xl border border-paper-deep bg-white shadow-[0_8px_32px_rgba(47,58,38,0.06)]">
+        <div className="grid items-stretch md:grid-cols-[minmax(0,220px)_1fr]">
+          <div className="relative min-h-[240px] bg-paper md:min-h-full">
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 220px"
+            />
+            <p className="absolute bottom-3 left-3 rounded bg-forest/85 px-2 py-1 text-[10px] font-semibold tracking-wide text-paper uppercase">
+              {imageLabel}
+            </p>
+          </div>
+          <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+            {eyebrow ? (
+              <p className="text-sm font-semibold text-gold">{eyebrow}</p>
+            ) : null}
+            <h3
+              className={`font-display text-2xl text-forest md:text-3xl ${eyebrow ? "mt-2" : ""}`}
+            >
+              {title}
+            </h3>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">{description}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href={downloadHref} download className="btn-primary inline-flex text-sm">
+                {downloadLabel}
+              </a>
+              {secondaryHref && secondaryLabel ? (
+                <Link
+                  href={secondaryHref}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-5 text-sm font-semibold text-forest transition hover:bg-paper"
+                >
+                  {secondaryLabel}
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 export function BeforeVisitSection() {
   return (
     <section className="section-y bg-paper-deep/50">
@@ -32,47 +103,32 @@ export function BeforeVisitSection() {
           })}
         </RevealStagger>
 
-        <Reveal delay={1} variant="scale">
-          <div className="mt-12 overflow-hidden rounded-2xl border border-forest/15 bg-forest text-paper shadow-[0_16px_48px_rgba(47,58,38,0.12)]">
-            <div className="grid items-stretch md:grid-cols-[minmax(0,240px)_1fr]">
-              <div className="relative min-h-[220px] bg-forest-light/40 md:min-h-full">
-                <Image
-                  src="/images/illustrations/birthday-invitation.jpg"
-                  alt="Zaproszenie na urodziny w mini zoo — podgląd"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 768px) 100vw, 240px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/70 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-forest/40" />
-                <p className="absolute bottom-3 left-3 rounded bg-black/35 px-2 py-1 text-[10px] font-semibold tracking-wide text-paper/90 uppercase backdrop-blur-sm">
-                  Wzorzec zaproszenia
-                </p>
-              </div>
-              <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
-                <p className="text-sm font-semibold text-gold-bright">Urodziny</p>
-                <h3 className="mt-2 font-display text-2xl text-paper md:text-3xl">
-                  Zaproszenia na urodziny
-                </h3>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-paper/85">
-                  Przed imprezą warto zaprosić gości, dlatego przygotowaliśmy zaproszenia.
-                  Pobierz, uzupełnij datę i godzinę, wyślij rodzicom.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a
-                    href="/images/illustrations/birthday-invitation.jpg"
-                    download
-                    className="btn-gold inline-flex text-sm"
-                  >
-                    Pobierz zaproszenie
-                  </a>
-                  <Link href="/rezerwacja?pakiet=urodziny" className="btn-ghost inline-flex text-sm">
-                    Zarezerwuj przyjęcie
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
+        <div className="mt-12 space-y-6">
+          <SouvenirCard
+            title="Dyplom Małego Odkrywcy"
+            description="Po wizycie każde dziecko dostaje pamiątkowy dyplom – jak po prawdziwej wyprawie przyrodniczej. Rodzice chętnie wrzucają go na Facebooka – a my się z tego cieszymy."
+            imageSrc="/images/illustrations/diploma-malego-odkrywcy.jpg"
+            imageAlt="Dyplom Małego Odkrywcy — podgląd"
+            imageLabel="Dyplom"
+            downloadHref="/images/illustrations/diploma-malego-odkrywcy.jpg"
+            downloadLabel="Pobierz podgląd dyplomu"
+            delay={1}
+          />
+
+          <SouvenirCard
+            eyebrow="Urodziny"
+            title="Zaproszenia na urodziny"
+            description="Przed imprezą warto zaprosić gości, dlatego przygotowaliśmy zaproszenia."
+            imageSrc="/images/illustrations/birthday-invitation.jpg"
+            imageAlt="Zaproszenie na urodziny — podgląd"
+            imageLabel="Zaproszenie"
+            downloadHref="/images/illustrations/birthday-invitation.jpg"
+            downloadLabel="Pobierz zaproszenie"
+            secondaryHref="/rezerwacja?pakiet=urodziny"
+            secondaryLabel="Zarezerwuj przyjęcie"
+            delay={2}
+          />
+        </div>
 
         <p className="mt-8 text-center text-sm text-ink-muted">
           Szczegóły dotyku zwierząt i rezygnacji — w{" "}
