@@ -285,6 +285,8 @@ export function AnimalsBentoSection() {
 }
 
 export function FaqPreviewSection() {
+  const preview = faqItems.slice(0, 3);
+
   return (
     <section className="section-y bg-paper-deep/40">
       <div className="container-site max-w-3xl">
@@ -298,7 +300,7 @@ export function FaqPreviewSection() {
         </Reveal>
 
         <div className="mt-8 space-y-3">
-          {faqItems.map((item, i) => (
+          {preview.map((item, i) => (
             <Reveal
               key={item.question}
               delay={(i as 0 | 1 | 2) || 0}
