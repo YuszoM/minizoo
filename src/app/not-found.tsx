@@ -14,7 +14,7 @@ export default function NotFound() {
       <div className="container-site mx-auto max-w-lg text-center">
         <div className="relative mx-auto mb-8 h-48 w-48">
           <Image
-            src="/images/illustrations/mascot-lemur.jpg"
+            src="/images/illustrations/animal-lemur.jpg"
             alt="Lemur przewodnik egZOOturystyka"
             fill
             className="object-contain"

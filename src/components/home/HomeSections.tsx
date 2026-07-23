@@ -6,7 +6,6 @@ import { BookingWizard } from "@/components/booking/BookingWizard";
 import { FaqMotionCard } from "@/components/motion/FaqMotionCard";
 import {
   HeroBookingCard,
-  HeroMascot,
   HeroStaggerGroup,
 } from "@/components/motion/HeroAnimated";
 import { Reveal } from "@/components/ui/Reveal";
@@ -58,18 +57,6 @@ export function HeroSection() {
         <div className="grain absolute inset-0 opacity-50" />
         <div className="hero-glow pointer-events-none absolute -top-24 right-0 h-80 w-80 rounded-full bg-gold/20 blur-3xl" />
         <div className="hero-float pointer-events-none absolute bottom-[28%] left-[6%] h-14 w-14 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm md:h-20 md:w-20" />
-        <div className="pointer-events-none absolute right-2 bottom-28 w-28 opacity-90 sm:right-4 sm:bottom-32 sm:w-32 md:right-0 md:bottom-0 md:w-48 lg:w-56">
-          <HeroMascot>
-            <Image
-              src="/images/illustrations/mascot-lemur.jpg"
-              alt=""
-              width={512}
-              height={512}
-              className="h-auto w-full drop-shadow-lg"
-              priority
-            />
-          </HeroMascot>
-        </div>
         <DemoPhotoLabel className="right-4 bottom-4 md:right-8 md:bottom-8" />
       </div>
 
@@ -242,7 +229,11 @@ export function OfferPreviewSection() {
 }
 
 export function AnimalsBentoSection() {
-  const featured = animals.slice(0, 3);
+  const featured = [
+    animals.find((a) => a.id === "karakal")!,
+    animals.find((a) => a.id === "krokodyl")!,
+    animals.find((a) => a.id === "alpaka")!,
+  ];
 
   return (
     <section className="section-y bg-paper-deep/60">
@@ -317,23 +308,12 @@ export function FaqPreviewSection() {
     <section className="section-y bg-paper-deep/40">
       <div className="container-site max-w-3xl">
         <Reveal variant="blur-up">
-          <div className="relative">
-            <SectionHeading
-              title="Najczęstsze pytania"
-              description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
-              align="center"
-              className="mx-auto"
-            />
-            <div className="mx-auto mt-6 flex justify-center md:pointer-events-none md:absolute md:-top-4 md:right-0 md:mt-0 md:overflow-hidden md:rounded-2xl md:border md:border-gold/25 md:bg-gradient-to-br md:from-[#ebe3d0] md:to-[#e2d4bc] md:p-1.5 md:shadow-sm">
-              <Image
-                src="/images/illustrations/mascot-lemur.jpg"
-                alt=""
-                width={80}
-                height={80}
-                className="h-16 w-16 rotate-6 rounded-xl object-cover md:h-16 md:w-16"
-              />
-            </div>
-          </div>
+          <SectionHeading
+            title="Najczęstsze pytania"
+            description="Krótko o rezerwacji, wieku dzieci i dotyku zwierząt — reszta na stronie FAQ."
+            align="center"
+            className="mx-auto"
+          />
         </Reveal>
 
         <div className="mt-8 space-y-3">

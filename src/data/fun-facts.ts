@@ -8,26 +8,20 @@ export type FunFact = {
 export const funFacts: FunFact[] = [
   {
     id: "groups",
-    value: "max 6",
-    label: "osób w grupie — bez tłumów",
+    value: "max 8",
+    label: "osób w jednej grupie",
     icon: "/images/illustrations/fact-touch.jpg",
   },
   {
     id: "species",
-    value: "12+",
-    label: "gatunków — karakal, krokodyl i inni",
+    value: "20+",
+    label: "gatunków do poznania z bliska",
     icon: "/images/illustrations/fact-magnifier.jpg",
   },
   {
     id: "educator",
-    value: "2",
-    label: "przewodnicy — Filip i Patrycja",
+    value: "1",
+    label: "stały edukator przy każdej wizycie",
     icon: "/images/illustrations/fact-journal.jpg",
-  },
-  {
-    id: "booking",
-    value: "3 min",
-    label: "rezerwacja online · płatność na miejscu",
-    icon: "/images/illustrations/fact-butterfly.jpg",
   },
 ];
