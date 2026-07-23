@@ -65,7 +65,7 @@ export function HeroSection() {
           <HeroStaggerGroup>
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 text-sm text-paper backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-gold-bright" />
-              Mini zoo · {site.address.city}
+              egZOOturystyka · {site.address.city}
             </p>
             <h1 className="display-xl font-semibold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
               Poznaj świat zwierząt —{" "}
@@ -73,7 +73,7 @@ export function HeroSection() {
             </h1>
             <p className="lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
               Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
-              Wybierz termin online — płatność na miejscu, gotowe w 3 minuty.
+              Wybierz termin online — płatność na miejscu.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/rezerwacja" className="btn-gold">
