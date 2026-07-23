@@ -49,7 +49,6 @@ async function main() {
     ["04-animals", "text=Mieszkańcy, których poznasz"],
     ["05-educators", "text=Poznaj swojego przewodnika"],
     ["06-before-visit", "text=Przed wizytą"],
-    ["07-feeding-schedule", "text=Spis karmienia"],
     ["08-birthday-invite", "text=Zaproszenia na urodziny"],
     ["09-faq", "text=Najczęstsze pytania"],
   ];

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Nano Banana 2 Pro — grafiki z luk audytu PDF:
- * spis karmienia, czytelne zaproszenie, ikona oferty (alpaka), portrety edukatorów.
+ * czytelne zaproszenie, ikona oferty (alpaka), portrety edukatorów.
  *
  * Usage:
  *   GEMINI_API_KEY=... node scripts/generate-audit-gap-assets.mjs
@@ -34,36 +34,6 @@ const STYLE_JOURNAL = `Match EXACTLY the visual language of the attached referen
 - hand-painted organic feel, NOT photorealistic UI chrome, NOT digital flat design`;
 
 const ASSETS = [
-  {
-    id: "feeding-schedule",
-    outDir: ILLUSTRATIONS,
-    useRefs: true,
-    aspect_ratio: "3:4",
-    image_size: "2K",
-    prompt: `${STYLE_JOURNAL}
-
-Create a printable children's CERTIFICATE / FEEDING CHECKLIST card for a Polish mini zoo visit (egZOOturystyka).
-
-Portrait 3:4 layout. Sharp, highly readable Polish typography in dark ink on cream — premium hand-lettered serif for the title, clean readable body text.
-
-TOP title (exact): "SPIS KARMIENIA"
-Subtitle (exact): "Mały odkrywca · egZOOturystyka"
-
-Center: spacious checklist with checkboxes and ruled lines, generous margins, not crowded. Exact Polish lines:
-"□ Karakal — poranna porcja"
-"□ Lemur katta — owoce"
-"□ Krokodyl krótkopyski — pod nadzorem opiekuna"
-"□ Alpaka — siano / smakołyk"
-"□ Królik — warzywa"
-"□ Wąż królewski — tylko z edukatorem"
-
-Bottom fields:
-"Imię odkrywcy: ____________________"
-"Data: __________"
-
-Small gold wax seal at bottom-center WITHOUT letters.
-Tiny peeking corner animals only: lemur, alpaca, rabbit — NO goat, NO detective costume, NO hats on animals, NO watermark, NO English text.`,
-  },
   {
     id: "birthday-invitation",
     outDir: ILLUSTRATIONS,
