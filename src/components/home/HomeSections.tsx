@@ -247,19 +247,22 @@ export function AnimalsBentoSection() {
 
         <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2 md:gap-5">
           <Reveal className="md:col-span-7 md:row-span-2" variant="blur-up">
-            <article className="card-hover group relative min-h-[360px] overflow-hidden rounded-xl bg-paper">
-              <Image
-                src={featured[0].illustration}
-                alt={featured[0].name}
-                fill
-                className="object-contain p-4"
-                sizes="(max-width: 768px) 100vw, 60vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
-              <div className="absolute right-0 bottom-0 left-0 p-6 text-paper">
+            <article className="card-hover group flex h-full min-h-[360px] flex-col overflow-hidden rounded-xl bg-forest text-paper shadow-[0_4px_24px_rgba(47,58,38,0.08)]">
+              <div className="relative min-h-[240px] flex-1 bg-paper md:min-h-0">
+                <Image
+                  src={featured[0].illustration}
+                  alt={featured[0].name}
+                  fill
+                  className="object-contain p-4"
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                />
+              </div>
+              <div className="shrink-0 border-t border-white/10 bg-forest px-6 py-5">
                 <p className="text-sm italic text-gold-bright">{featured[0].latin}</p>
-                <h3 className="mt-1 font-display text-3xl">{featured[0].name}</h3>
-                <p className="mt-2 max-w-lg text-sm text-paper/85">{featured[0].funFact}</p>
+                <h3 className="mt-1 font-display text-3xl text-white">{featured[0].name}</h3>
+                <p className="mt-2 max-w-lg text-sm leading-relaxed text-paper/90">
+                  {featured[0].funFact}
+                </p>
               </div>
             </article>
           </Reveal>
@@ -270,21 +273,20 @@ export function AnimalsBentoSection() {
               className="md:col-span-5"
               variant={ANIMAL_VARIANTS[i + 1] ?? "tilt-left"}
             >
-              <article className="card-hover group relative min-h-[220px] overflow-hidden rounded-xl bg-paper">
-                <Image
-                  src={animal.illustration}
-                  alt={animal.name}
-                  fill
-                  className="object-contain p-3"
-                  sizes="40vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent" />
-                <div className="absolute right-0 bottom-0 left-0 p-5 text-paper">
-                  <h3 className="font-display text-xl">{animal.name}</h3>
-                  <p className="mt-1 text-xs text-paper/80">{animal.habitat}</p>
-                  <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-paper/90">
-                    {animal.funFact}
-                  </p>
+              <article className="card-hover group flex h-full min-h-[220px] flex-col overflow-hidden rounded-xl bg-forest text-paper shadow-[0_4px_24px_rgba(47,58,38,0.08)]">
+                <div className="relative min-h-[140px] flex-1 bg-paper">
+                  <Image
+                    src={animal.illustration}
+                    alt={animal.name}
+                    fill
+                    className="object-contain p-3"
+                    sizes="40vw"
+                  />
+                </div>
+                <div className="shrink-0 border-t border-white/10 bg-forest px-5 py-4">
+                  <h3 className="font-display text-xl text-white">{animal.name}</h3>
+                  <p className="mt-1 text-xs text-gold-bright/90">{animal.habitat}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-paper/90">{animal.funFact}</p>
                 </div>
               </article>
             </Reveal>
