@@ -285,29 +285,20 @@ export function AnimalsBentoSection() {
 }
 
 export function FaqPreviewSection() {
-  const previewQuestions = [
-    "Jak wygląda płatność?",
-    "Czy pogoda ma wpływ na zwiedzanie?",
-    "Czy mogę wejść z psem?",
-  ];
-  const preview = previewQuestions
-    .map((q) => faqItems.find((item) => item.question === q))
-    .filter((item): item is (typeof faqItems)[number] => Boolean(item));
-
   return (
     <section className="section-y bg-paper-deep/40">
       <div className="container-site max-w-3xl">
         <Reveal variant="blur-up">
           <SectionHeading
             title="Najczęstsze pytania"
-            description="Płatność na miejscu, pogoda i zasady wizyty — reszta na stronie FAQ."
+            description="Rezerwacja, pogoda i kontakt ze zwierzętami — reszta na stronie FAQ."
             align="center"
             className="mx-auto"
           />
         </Reveal>
 
         <div className="mt-8 space-y-3">
-          {preview.map((item, i) => (
+          {faqItems.map((item, i) => (
             <Reveal
               key={item.question}
               delay={(i as 0 | 1 | 2) || 0}
