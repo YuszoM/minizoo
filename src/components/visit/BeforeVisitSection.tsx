@@ -13,7 +13,7 @@ export function BeforeVisitSection() {
         <Reveal variant="rise">
           <SectionHeading
             title="Przed wizytą — krótko i praktycznie"
-            description="Tak jak u najlepszych atrakcji edukacyjnych: wiesz, czego się spodziewać, zanim przyjedziesz."
+            description="Wiesz, czego się spodziewać, zanim przyjedziesz."
           />
         </Reveal>
 
@@ -33,30 +33,44 @@ export function BeforeVisitSection() {
         </RevealStagger>
 
         <Reveal delay={1} variant="scale">
-          <div className="surface-parchment mt-12 grid items-center gap-6 p-5 md:grid-cols-[minmax(0,220px)_1fr] md:gap-8 md:p-6">
-            <div className="relative mx-auto w-full max-w-[220px] overflow-hidden rounded-lg shadow-md">
-              <Image
-                src="/images/illustrations/diploma-template.jpg"
-                alt="Dyplom Małego Odkrywcy — szablon"
-                width={3584}
-                height={4800}
-                className="h-auto w-full"
-                sizes="220px"
-              />
-            </div>
-            <div>
-              <h3 className="font-display text-2xl text-forest">Dyplom Małego Odkrywcy</h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                Po wizycie każde dziecko dostaje pamiątkowy dyplom — jak po prawdziwej wyprawie
-                przyrodniczej. Rodzice chętnie wrzucają go na Facebooka — a my się z tego cieszymy.
-              </p>
-              <a
-                href="/images/illustrations/diploma-template.jpg"
-                download
-                className="btn-primary mt-6 inline-flex text-sm"
-              >
-                Pobierz podgląd dyplomu
-              </a>
+          <div className="mt-12 overflow-hidden rounded-2xl border border-forest/15 bg-forest text-paper shadow-[0_16px_48px_rgba(47,58,38,0.12)]">
+            <div className="grid items-stretch md:grid-cols-[minmax(0,240px)_1fr]">
+              <div className="relative min-h-[220px] bg-forest-light/40 md:min-h-full">
+                {/* Placeholder — docelowa grafika zaproszeń od klientki */}
+                <Image
+                  src="/images/illustrations/diploma-template.jpg"
+                  alt="Zaproszenie na urodziny w mini zoo — podgląd"
+                  fill
+                  className="object-cover object-top opacity-90"
+                  sizes="(max-width: 768px) 100vw, 240px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent md:bg-gradient-to-r" />
+                <p className="absolute bottom-3 left-3 rounded bg-black/35 px-2 py-1 text-[10px] font-semibold tracking-wide text-paper/90 uppercase backdrop-blur-sm">
+                  Grafika do wymiany
+                </p>
+              </div>
+              <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+                <p className="text-sm font-semibold text-gold-bright">Urodziny</p>
+                <h3 className="mt-2 font-display text-2xl text-paper md:text-3xl">
+                  Zaproszenia na urodziny
+                </h3>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-paper/85">
+                  Przed imprezą warto zaprosić gości — dlatego przygotowaliśmy zaproszenia.
+                  Pobierz, uzupełnij datę i godzinę, wyślij rodzicom.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <a
+                    href="/images/illustrations/diploma-template.jpg"
+                    download
+                    className="btn-gold inline-flex text-sm"
+                  >
+                    Pobierz zaproszenie
+                  </a>
+                  <Link href="/rezerwacja?pakiet=urodziny" className="btn-ghost inline-flex text-sm">
+                    Zarezerwuj przyjęcie
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </Reveal>

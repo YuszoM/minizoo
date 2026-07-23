@@ -18,8 +18,8 @@ function validateGuestCount(offerId: string, guestCount: number): string | null 
   if (offerId === "rodzinna" && (guestCount < 2 || guestCount > 6)) {
     return "Spotkanie rodzinne: wybierz od 2 do 6 osób.";
   }
-  if (offerId === "urodziny" && (guestCount < 1 || guestCount > 10)) {
-    return "Urodziny: maksymalnie 10 dzieci w pakiecie.";
+  if (offerId === "urodziny" && (guestCount < 1 || guestCount > 6)) {
+    return "Urodziny: maksymalnie 6 dzieci w pakiecie.";
   }
   if (offerId === "szkola" && (guestCount < 15 || guestCount > 30)) {
     return "Lekcja szkolna: od 15 do 30 uczniów.";

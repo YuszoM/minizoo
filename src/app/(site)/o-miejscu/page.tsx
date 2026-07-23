@@ -17,7 +17,7 @@ const features = [
   {
     icon: TreePine,
     title: "Blisko natury",
-    text: "Sadków 20B, gmina Dobroszyce — ok. 40 minut od centrum Wrocławia. Spokojne, zielone otoczenie.",
+    text: "Sadków 20B, gmina Dobroszyce — ok. 45 minut od centrum Wrocławia, 20 minut od Oleśnicy i Trzebnicy. Spokojne, zielone otoczenie.",
   },
   {
     icon: Shield,

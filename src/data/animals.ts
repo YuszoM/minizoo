@@ -33,26 +33,28 @@ export const animals: Animal[] = [
     habitat: "Madagaskar",
   },
   {
-    id: "kajman",
-    name: "Kajman",
-    latin: "Caiman crocodilus",
+    id: "krokodyl",
+    name: "Krokodyl krótkopyski",
+    latin: "Osteolaemus tetraspis",
     description:
-      "Reptyl z Ameryki Południowej — bezpieczne, edukacyjne spotkanie z opiekunem. Dowiesz się o adaptacjach do życia w wodzie i na lądzie.",
-    funFact: "Kajmany potrafią zanurzyć się pod wodą i pozostać niewidoczne przez ponad godzinę.",
+      "Niewielki krokodyl z Afryki — bezpieczne, edukacyjne spotkanie z opiekunem. Dowiesz się o adaptacjach do życia w wodzie i na lądzie oraz o ochronie gatunku.",
+    funFact:
+      "Krokodyl krótkopyski to jeden z najmniejszych krokodyli świata — dorosłe osobniki rzadko przekraczają 1,5 metra.",
     image: "/images/animal-crocodile.png",
     illustration: "/images/illustrations/animal-caiman.jpg",
-    habitat: "Ameryka Południowa",
+    habitat: "Afryka",
   },
   {
-    id: "koza",
-    name: "Koza domowa",
-    latin: "Capra hircus",
+    id: "alpaka",
+    name: "Alpaka",
+    latin: "Vicugna pacos",
     description:
-      "Przyjazne zwierzęta, które uwielbiają kontakt z dziećmi. Idealne na pierwsze spotkanie ze zwierzętami gospodarskimi.",
-    funFact: "Kozy mają prostokątne źrenice — widzą prawie dookoła głowy.",
+      "Spokojne, ciekawskie zwierzęta z Ameryki Południowej. Idealne na pierwsze spotkanie — dzieci uczą się delikatnego kontaktu i obserwacji z bliska.",
+    funFact: "Alpaki komunikują się przez delikatne mruczenie i pozycję uszu — każde ma swój charakter.",
+    /** Zdjęcie docelowe klientka dośle — na razie placeholder demo */
     image: "/images/animal-goat.png",
     illustration: "/images/illustrations/animal-goat.jpg",
-    habitat: "Cały świat",
+    habitat: "Andy (udomowiona)",
   },
   {
     id: "krolik",

@@ -3,7 +3,7 @@ import { Clock, Footprints, ParkingCircle, Shield, Shirt } from "lucide-react";
 export const beforeVisitTips = [
   {
     icon: Clock,
-    title: "Przyjedź 10 minut wcześniej",
+    title: "Przyjedź 5 minut wcześniej",
     text: "Krótkie powitanie, omówienie zasad i spokojne rozpoczęcie spotkania.",
   },
   {
@@ -14,7 +14,7 @@ export const beforeVisitTips = [
   {
     icon: Footprints,
     title: "Wygodne obuwie",
-    text: "Część programu odbywa się na świeżym powietrzu i w strefie zwierząt gospodarskich.",
+    text: "Część programu odbywa się na świeżym powietrzu i w strefie zwierząt.",
   },
   {
     icon: Shirt,

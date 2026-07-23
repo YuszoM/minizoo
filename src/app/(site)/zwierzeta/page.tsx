@@ -17,7 +17,7 @@ export default function ZwierzetaPage() {
         <SectionHeading
           as="h1"
           title="Nasi podopieczni"
-          description="Każde zwierzę ma swoją historię — opiekun opowiada o gatunku, środowisku i ochronie przyrody."
+          description="Karakal, krokodyl i wiele innych. Każde spotkanie to opowieść o przyrodzie, a nie zwykły pokaz za szybą."
         />
 
         <div className="space-y-8">

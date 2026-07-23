@@ -86,7 +86,7 @@ export function HeroSection() {
             </h1>
             <p className="lead mt-6 text-paper/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.3)]">
               Kameralne spotkania dla rodzin i żywe lekcje biologii dla szkół.
-              Wybierz termin online — płatność przy wejściu, gotowe w 3 minuty.
+              Wybierz termin online — płatność na miejscu, gotowe w 3 minuty.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/rezerwacja" className="btn-gold">
@@ -155,7 +155,7 @@ export function OfferPreviewSection() {
         <Reveal variant="blur-up">
           <SectionHeading
             title="Trzy sposoby na spotkanie ze zwierzętami"
-            description="Prosto i bez przeładowania — wybierz to, czego potrzebujesz. Resztą zajmiemy się na miejscu."
+            description="Prosto i kameralnie — wybierz to, czego potrzebujesz. Resztą zajmiemy się na miejscu."
           />
         </Reveal>
 
@@ -250,7 +250,7 @@ export function AnimalsBentoSection() {
         <Reveal>
           <SectionHeading
             title="Mieszkańcy, których poznasz z bliska"
-            description="Karakal, lemur, kajman — i wiele innych. Każde spotkanie to opowieść o przyrodzie, nie pokaz za szybą."
+            description="Karakal, krokodyl — i wiele innych. Każde spotkanie to opowieść o przyrodzie, a nie zwykły pokaz za szybą."
           />
         </Reveal>
 

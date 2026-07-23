@@ -54,13 +54,13 @@ function toIsoDate(date: Date) {
 
 function defaultGuests(offerId: string) {
   if (offerId === "szkola") return 15;
-  if (offerId === "urodziny") return 8;
+  if (offerId === "urodziny") return 6;
   return 4;
 }
 
 function guestLimits(offerId: string) {
   if (offerId === "szkola") return { min: 15, max: 30, label: "Liczba uczniów" };
-  if (offerId === "urodziny") return { min: 1, max: 10, label: "Liczba dzieci" };
+  if (offerId === "urodziny") return { min: 1, max: 6, label: "Liczba dzieci" };
   return { min: 2, max: 6, label: "Liczba osób" };
 }
 
@@ -582,7 +582,7 @@ export function BookingWizard({
                     <p className="font-semibold text-forest">Płatność na miejscu</p>
                     <p className="text-sm text-ink-muted">
                       Rezerwacja online jest bezpłatna. Kwotę {formatPrice(totalPrice)} uregulujesz
-                      przy wejściu (gotówka lub karta). Bilety wyślemy na e-mail po potwierdzeniu.
+                      przy wejściu (gotówka lub BLIK). Bilety wyślemy na e-mail po potwierdzeniu.
                     </p>
                   </div>
                 </div>

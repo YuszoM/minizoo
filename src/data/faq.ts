@@ -17,17 +17,31 @@ export const faqItems = [
   {
     question: "Jak wygląda płatność?",
     answer:
-      "Rezerwacja online jest bezpłatna — potwierdzasz termin i dostajesz bilety mailem. Opłatę za wizytę uregulujesz na miejscu przy wejściu (gotówka lub karta).",
+      "Rezerwacja online jest bezpłatna — potwierdzasz termin i dostajesz bilety mailem. Opłatę za wizytę uregulujesz na miejscu przy wejściu (gotówka lub BLIK).",
+  },
+  {
+    question: "Czy pogoda ma wpływ na zwiedzanie?",
+    answer:
+      "Nie wymagamy przedpłaty, więc nie musisz się martwić o utratę pieniędzy. W razie wątpliwości zachęcamy do kontaktu — chętnie poinformujemy, czy warunki pozwalają na komfortowe zwiedzanie.",
   },
   {
     question: "Czy organizujecie wizyty szkolne poza sezonem?",
     answer:
-      "Tak — lekcje biologii realizujemy przez cały rok szkolny, również jesienią i wiosną. Przy większych grupach możliwy jest transport autokarem — zapytaj w formularzu kontaktowym.",
+      "Tak — lekcje realizujemy przez cały rok szkolny, również jesienią, zimą i wiosną. Tematy zajęć zmieniają się wraz z sezonem.",
+  },
+  {
+    question: "Czy obiekt jest przystosowany dla wózków inwalidzkich i dziecięcych?",
+    answer:
+      "Zewnętrzny teren jest płaski, a główna ścieżka dostępna dla wózków. W budynku są schody. Dodatkowa część wystawy na parterze będzie otwarta wkrótce.",
+  },
+  {
+    question: "Czy mogę wejść z psem?",
+    answer: "Nie. Psy nie są akceptowane na terenie obiektu.",
   },
   {
     question: "Czy alergia na sierść dyskwalifikuje z wizyty?",
     answer:
-      "Nie zawsze — część spotkań odbywa się bez kontaktu z futrzakami. Daj znać przy rezerwacji, dopasujemy program (np. więcej gadów i ptaków, mniej ssaków).",
+      "Nie zawsze — część spotkań odbywa się bez kontaktu z futrzakami. Daj znać przy rezerwacji, dopasujemy program (np. więcej gadów, mniej ssaków).",
   },
   {
     question: "Jak głaskać zwierzę, żeby było bezpiecznie?",

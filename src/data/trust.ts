@@ -1,6 +1,6 @@
 export const trustStats = [
-  { value: "12+", label: "gatunków zwierząt" },
-  { value: "4,9/5", label: "średnia ocen" },
-  { value: "27", label: "opinii gości" },
-  { value: "40 min", label: "od Wrocławia" },
+  { value: "max 6", label: "osób w grupie rodzinnej" },
+  { value: "45 min", label: "od Wrocławia" },
+  { value: "20 min", label: "od Oleśnicy" },
+  { value: "20 min", label: "od Trzebnicy" },
 ] as const;

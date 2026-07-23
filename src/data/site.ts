@@ -2,7 +2,7 @@ export const site = {
   name: "egZOOturystyka",
   tagline: "Poznaj świat zwierząt",
   description:
-    "Mini zoo na Dolnym Śląsku — indywidualne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół, ok. 40 minut od Wrocławia.",
+    "Mini zoo na Dolnym Śląsku — indywidualne spotkania ze zwierzętami dla rodzin oraz żywe lekcje biologii dla szkół. Ok. 45 minut od Wrocławia, 20 minut od Oleśnicy i Trzebnicy.",
   email: "kontakt@egzooturystyka.pl",
   phone: "600 123 456",
   startingPrice: 249,
@@ -19,6 +19,11 @@ export const site = {
     lng: 17.3146,
   },
   hours: "Wt–Nd: 10:00–18:00 (poniedziałek zamknięte)",
+  travel: {
+    wroclaw: "45 min",
+    olesnica: "20 min",
+    trzebnica: "20 min",
+  },
   googleReviews: {
     rating: "4,9",
     reviewCount: 27,
