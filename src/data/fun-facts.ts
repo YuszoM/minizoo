@@ -24,4 +24,10 @@ export const funFacts: FunFact[] = [
     label: "stały edukator przy każdej wizycie",
     icon: "/images/illustrations/fact-journal.jpg",
   },
+  {
+    id: "travel",
+    value: "45 min",
+    label: "od Wrocławia\n20 min od Oleśnicy\n20 min od Trzebnicy",
+    icon: "/images/illustrations/fact-map.jpg",
+  },
 ];
